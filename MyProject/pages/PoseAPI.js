@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import {
     View,
     Text,
+    TouchableOpacity
 } from 'react-native';
 import TmpImage from '../assets/image.png';
 
 const Pose = () => {
     const [info, setInfo] = useState(null);
+    const [score, setScore] = useState(0);
 
     const getPoseAnalyzing = async () => {
         try {
@@ -29,7 +31,10 @@ const Pose = () => {
             }).then((res) => res.json())
                 .then(async (response) => {
                     console.log(response[0])
-                    setInfo(response[0]);
+                    if(response) {
+                        setInfo(response[0]);
+                        setScore(response[0].score);
+                    }
                 })
                 .catch((err) => {
                     console.error(err);
@@ -40,14 +45,10 @@ const Pose = () => {
         }
     };
 
-    useEffect(() => {
-        getPoseAnalyzing();
-    }, []);
-
     return (
         <View>
-            <Text>hi!</Text>
-            <Text>{info.score}</Text>
+            <TouchableOpacity onPress={getPoseAnalyzing}><Text>hi!</Text></TouchableOpacity>
+            <Text>{score}</Text>
         </View>
     );
 };
