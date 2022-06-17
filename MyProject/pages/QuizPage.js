@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from 'react';
+import React, { Fragment, useState } from 'react';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import {
   SafeAreaView,
@@ -8,82 +8,51 @@ import {
   StatusBar,
   Image,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  PermissionsAndroid,
 } from 'react-native';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { poseApi } from '../api';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const Quiz = () => {
+  const [filePath, setFilePath] = useState({ uri: '' });
+  const [fileUri, setFileUri] = useState('');
+  const [originImage, setOriginImage] = useState({
+    uri: '../assets/dummy.png',
+    req: require('../assets/dummy.png'),
+  });
 
-const options = {
-  title: 'Select Avatar',
-  customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
-  storageOptions: {
-    skipBackup: true,
-    path: 'images',
-  },
-};
-export default class Quiz extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      filepath: {
-        data: '',
-        uri: ''
-      },
-      fileData: '',
-      fileUri: ''
-    }
-  }
-
-  chooseImage = () => {
-    let options = {
-      title: 'Select Image',
-      customButtons: [
-        { name: 'customOptionKey', title: 'Choose Photo from Custom Option' },
-      ],
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
-    ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
-
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-        alert(response.customButton);
+  const requestCameraPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: "App Camera Permission",
+          message:"App needs access to your camera ",
+          buttonNeutral: "Ask Me Later",
+          buttonNegative: "Cancel",
+          buttonPositive: "OK"
+        }
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log("Camera permission given");
+        lCamera();
       } else {
-        const source = { uri: response.uri };
-
-        // You can also display the image using data:
-        // const source = { uri: 'data:image/jpeg;base64,' + response.data };
-        // alert(JSON.stringify(response));s
-        console.log('response', JSON.stringify(response));
-        this.setState({
-          filePath: response,
-          fileData: response.data,
-          fileUri: response.uri
-        });
+        console.log("Camera permission denied");
       }
-    });
-  }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
 
-  lCamera = () => {
+  const lCamera = () => {
     let options = {
       storageOptions: {
         skipBackup: true,
         path: 'images',
       },
     };
+
     launchCamera(options, (response) => {
       console.log('Response = ', response);
 
@@ -95,19 +64,15 @@ export default class Quiz extends Component {
         console.log('User tapped custom button: ', response.customButton);
         alert(response.customButton);
       } else {
-        const source = { uri: response.uri };
-        console.log('response', JSON.stringify(response));
-        this.setState({
-          filePath: response,
-          fileData: response.data,
-          fileUri: response.uri
-        });
+        console.log(response)
+        const res = response.assets[0];
+        setFilePath(res);
+        setFileUri(res.uri);
       }
     });
-
   }
 
-  lImageLibrary = () => {
+  const lImageLibrary = () => {
     let options = {
       storageOptions: {
         skipBackup: true,
@@ -125,34 +90,27 @@ export default class Quiz extends Component {
         console.log('User tapped custom button: ', response.customButton);
         alert(response.customButton);
       } else {
-        const source = { uri: response.uri };
-        console.log('response', JSON.stringify(response));
-        this.setState({
-          filePath: response,
-          fileData: response.data,
-          fileUri: response.uri
-        });
+        const res = response.assets[0];
+        console.log(response)
+        setFilePath(res);
+        setFileUri(res.uri);
       }
     });
 
   }
 
-  renderFileData() {
-    if (this.state.fileData) {
-      return <Image source={{ uri: 'data:image/jpeg;base64,' + this.state.fileData }}
-        style={styles.images}
-      />
-    } else {
-      return <Image source={require('../assets/dummy.png')}
-        style={styles.images}
-      />
-    }
+  const renderOriginImg = () => {
+    //포즈 데모 api 들어오면 바꿀 예정
+    return <Image source={originImage.req}
+      style={styles.images}
+    />
   }
 
-  renderFileUri() {
-    if (this.state.fileUri) {
+  const renderFileUri = () => {
+    if (fileUri) {
       return <Image
-        source={{ uri: this.state.fileUri }}
+        nativeID='dataImage'
+        source={{ uri: fileUri }}
         style={styles.images}
       />
     } else {
@@ -162,41 +120,53 @@ export default class Quiz extends Component {
       />
     }
   }
-  render() {
-    return (
-      <Fragment>
-        <StatusBar barStyle="dark-content" />
-        <SafeAreaView>
-          <View style={styles.body}>
-            <Text style={{textAlign:'center',fontSize:20,paddingBottom:10}} >Pick Images from Camera and Gallery</Text>
-            <View style={styles.ImageSections}>
-              <View>
-                {this.renderFileData()}
-                <Text  style={{textAlign:'center'}}>Base 64 String</Text>
-              </View>
-              <View>
-                {this.renderFileUri()}
-                <Text style={{textAlign:'center'}}>File Uri</Text>
-              </View>
-            </View>
 
-            <View style={styles.btnParentSection}>
-              <TouchableOpacity onPress={this.lCamera} style={styles.btnSection}  >
-                <Text style={styles.btnText}>Directly Launch Camera</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={this.lImageLibrary} style={styles.btnSection}  >
-                <Text style={styles.btnText}>Directly Launch Image Library</Text>
-              </TouchableOpacity>
-            </View>
-
-          </View>
-        </SafeAreaView>
-      </Fragment>
+  const compareImages = async () => {
+    await poseApi(
+      fileUri
     );
   }
+
+  return (
+    <Fragment>
+      <StatusBar barStyle="dark-content" />
+      <SafeAreaView>
+        <View style={{ marginTop: 50 }}>
+          <Text style={{textAlign:'center',fontSize:20,paddingBottom:10}} >깜짝 퀴즈!</Text>
+          <Text style={{textAlign:'center',fontSize:20}} >주어진 사진과 같은 포즈를 잡아보세요</Text>
+        </View>
+        <View style={styles.body}>
+          <View style={styles.ImageSections}>
+            <View>
+              {renderOriginImg()}
+            </View>
+            <View>
+              {renderFileUri()}
+            </View>
+          </View>
+
+          <View style={styles.btnParentSection}>
+            <TouchableOpacity onPress={requestCameraPermission} style={styles.btnSection}  >
+              <Text style={styles.btnText}>사진 찍기</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={lImageLibrary} style={styles.btnSection}  >
+              <Text style={styles.btnText}>사진 가져오기</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.btnParentSection}>
+            <TouchableOpacity onPress={compareImages} style={styles.btnSection} disabled={fileUri ? false : true}>
+                <Text style={styles.btnText}>준비 완료!</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </SafeAreaView>
+    </Fragment>
+  );
 };
 
+export default Quiz;
 const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: Colors.lighter,
@@ -205,16 +175,14 @@ const styles = StyleSheet.create({
   body: {
     backgroundColor: Colors.white,
     justifyContent: 'center',
-    borderColor: 'black',
-    borderWidth: 1,
-    height: Dimensions.get('screen').height - 20,
+    height: Dimensions.get('screen').height - 250,
     width: Dimensions.get('screen').width
   },
   ImageSections: {
     display: 'flex',
     flexDirection: 'row',
     paddingHorizontal: 8,
-    paddingVertical: 8,
+    paddingVertical: 50,
     justifyContent: 'center'
   },
   images: {
@@ -222,11 +190,11 @@ const styles = StyleSheet.create({
     height: 150,
     borderColor: 'black',
     borderWidth: 1,
-    marginHorizontal: 3
+    marginHorizontal: 1.5
   },
   btnParentSection: {
     alignItems: 'center',
-    marginTop:10
+    marginTop: 10
   },
   btnSection: {
     width: 225,

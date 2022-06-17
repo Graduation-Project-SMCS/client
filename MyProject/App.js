@@ -7,7 +7,7 @@ import {
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
-import { Pose, Quiz } from './pages';
+import { Quiz } from './pages';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -18,7 +18,6 @@ const App = () => {
 
   return (
     <SafeAreaView style={backgroundStyle}>
-      <Pose />
       <Quiz />
     </SafeAreaView>
   );
