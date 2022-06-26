@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import ImageCropPicker from 'react-native-image-crop-picker';
 import {
   SafeAreaView,
   StyleSheet,
@@ -21,6 +22,7 @@ const Quiz = () => {
     uri: '../assets/dummy.png',
     req: require('../assets/dummy.png'),
   });
+  const [imgUrl, setImgUrl] = useState();
 
   const requestCameraPermission = async () => {
     try {
@@ -64,10 +66,19 @@ const Quiz = () => {
         console.log('User tapped custom button: ', response.customButton);
         alert(response.customButton);
       } else {
-        console.log(response)
         const res = response.assets[0];
-        setFilePath(res);
-        setFileUri(res.uri);
+        console.log(response)
+        ImageCropPicker.openCropper({
+          path: res.uri,
+          width: 450,
+          height: 800
+        }).then(image => {
+          console.log(image.path)
+          setImgUrl(image.path);
+          setFilePath(image);
+          setFileUri(image.path);
+          getImg();
+        });
       }
     });
   }
@@ -92,11 +103,19 @@ const Quiz = () => {
       } else {
         const res = response.assets[0];
         console.log(response)
-        setFilePath(res);
-        setFileUri(res.uri);
+        ImageCropPicker.openCropper({
+          path: res.uri,
+          width: 450,
+          height: 800
+        }).then(image => {
+          console.log(image.path)
+          setImgUrl(image.path);
+          setFilePath(image);
+          setFileUri(image.path);
+          getImg();
+        });
       }
     });
-
   }
 
   const renderOriginImg = () => {
@@ -121,9 +140,22 @@ const Quiz = () => {
     }
   }
 
+  const getImg = async () => {
+    const response = await fetch(fileUri);
+    const imageBlob = await response.blob();
+    console.log(imageBlob)
+    const reader = new FileReader();
+    reader.readAsDataURL(imageBlob);
+    reader.onloadend = () => {
+      const base64data = reader.result;
+      setImgUrl(base64data);
+    };
+  };
+
   const compareImages = async () => {
+    // console.log(imgUrl)
     await poseApi(
-      fileUri
+      imgUrl
     );
   }
 

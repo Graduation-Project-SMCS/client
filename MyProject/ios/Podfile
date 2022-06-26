@@ -18,6 +18,8 @@ target 'MyProject' do
 
   pod 'RNFS', :path => '../node_modules/react-native-fs'
 
+  pod 'RNImageCropPicker', :path => '../node_modules/react-native-image-crop-picker'
+
   target 'MyProjectTests' do
     inherit! :complete
     # Pods for testing
