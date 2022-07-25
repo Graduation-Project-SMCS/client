@@ -19,8 +19,8 @@ const Quiz = () => {
   const [filePath, setFilePath] = useState({ uri: '' });
   const [fileUri, setFileUri] = useState('');
   const [originImage, setOriginImage] = useState({
-    uri: '../assets/dummy.png',
-    req: require('../assets/dummy.png'),
+    uri: '../assets/images/dummy.png',
+    req: require('../assets/images/dummy.png'),
   });
   const [imgUrl, setImgUrl] = useState();
 
@@ -134,7 +134,7 @@ const Quiz = () => {
       />
     } else {
       return <Image
-        source={require('../assets/galleryImages.png')}
+        source={require('../assets/images/galleryImages.png')}
         style={styles.images}
       />
     }
@@ -162,7 +162,7 @@ const Quiz = () => {
   return (
     <Fragment>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
+      <SafeAreaView style={{flex: 1}}>
         <View style={{ marginTop: 50 }}>
           <Text style={{textAlign:'center',fontSize:20,paddingBottom:10}} >깜짝 퀴즈!</Text>
           <Text style={{textAlign:'center',fontSize:20}} >주어진 사진과 같은 포즈를 잡아보세요</Text>
