@@ -12,6 +12,14 @@ target 'MyProject' do
     :hermes_enabled => false
   )
 
+  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
+
+  pod 'react-native-image-base64', :path => '../node_modules/react-native-image-base64'
+
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+
+  pod 'RNImageCropPicker', :path => '../node_modules/react-native-image-crop-picker'
+
   target 'MyProjectTests' do
     inherit! :complete
     # Pods for testing
