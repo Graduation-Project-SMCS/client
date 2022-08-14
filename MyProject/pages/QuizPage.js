@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { poseApi } from '../api';
+import ScreenContainer from '../components/ScreenContainer';
 
 const Quiz = () => {
   const [filePath, setFilePath] = useState({ uri: '' });
@@ -160,41 +161,38 @@ const Quiz = () => {
   }
 
   return (
-    <Fragment>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={{flex: 1}}>
-        <View style={{ marginTop: 50 }}>
-          <Text style={{textAlign:'center',fontSize:20,paddingBottom:10}} >깜짝 퀴즈!</Text>
-          <Text style={{textAlign:'center',fontSize:20}} >주어진 사진과 같은 포즈를 잡아보세요</Text>
-        </View>
-        <View style={styles.body}>
-          <View style={styles.ImageSections}>
-            <View>
-              {renderOriginImg()}
-            </View>
-            <View>
-              {renderFileUri()}
-            </View>
+    <ScreenContainer>
+      <View style={{ marginTop: 25 }}>
+        <Text style={{textAlign:'center',fontSize:20,paddingBottom:10}} >깜짝 퀴즈!</Text>
+        <Text style={{textAlign:'center',fontSize:20}} >주어진 사진과 같은 포즈를 잡아보세요</Text>
+      </View>
+      <View>
+        <View style={styles.ImageSections}>
+          <View>
+            {renderOriginImg()}
           </View>
-
-          <View style={styles.btnParentSection}>
-            <TouchableOpacity onPress={requestCameraPermission} style={styles.btnSection}  >
-              <Text style={styles.btnText}>사진 찍기</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={lImageLibrary} style={styles.btnSection}  >
-              <Text style={styles.btnText}>사진 가져오기</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.btnParentSection}>
-            <TouchableOpacity onPress={compareImages} style={styles.btnSection} disabled={fileUri ? false : true}>
-                <Text style={styles.btnText}>준비 완료!</Text>
-            </TouchableOpacity>
+          <View>
+            {renderFileUri()}
           </View>
         </View>
-      </SafeAreaView>
-    </Fragment>
+
+        <View style={styles.btnParentSection}>
+          <TouchableOpacity onPress={requestCameraPermission} style={styles.btnSection}  >
+            <Text style={styles.btnText}>사진 찍기</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={lImageLibrary} style={styles.btnSection}  >
+            <Text style={styles.btnText}>사진 가져오기</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.btnParentSection}>
+          <TouchableOpacity onPress={compareImages} style={styles.btnSection} disabled={fileUri ? false : true}>
+              <Text style={styles.btnText}>준비 완료!</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </ScreenContainer>
   );
 };
 
@@ -202,13 +200,6 @@ export default Quiz;
 const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: Colors.lighter,
-  },
-
-  body: {
-    backgroundColor: Colors.white,
-    justifyContent: 'center',
-    height: Dimensions.get('screen').height - 250,
-    width: Dimensions.get('screen').width
   },
   ImageSections: {
     display: 'flex',

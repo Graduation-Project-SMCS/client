@@ -13,8 +13,8 @@ import ComponentDivideLine from '../components/ComponentDivideLine';
 
 const MyPage = () => {
   return (
-    <ScreenContainer style={{ alignContent: 'center', marginTop: 15 }}>
-      <View nativeID='user-profile' style={{ alignSelf: 'center' }}>
+    <ScreenContainer style={{ alignContent: 'center' }}>
+      <View nativeID='user-profile' style={{ alignSelf: 'center', marginTop: 15 }}>
         <Image
           source={require('../assets/images/dummy.png')}
           style={{width: 125, height: 125, borderRadius: 50, resizeMode: 'contain', marginBottom: 15 }}

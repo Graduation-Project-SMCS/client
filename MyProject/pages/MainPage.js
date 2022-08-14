@@ -48,7 +48,7 @@ const MainPage = ({ navigation }) => {
           </View>
 
           {/* family info api 들어오면 다시 */}
-          <View style={{ justifyContent: 'space-between', flexDirection: 'row', flexWrap: 'wrap', height: 100 }}>
+          <View style={{ justifyContent: 'space-between', flexDirection: 'row', flexWrap: 'wrap', height: 90 }}>
           {
             familyInfo.length > 0 ?
               familyInfo.map((info, idx) => {
@@ -74,20 +74,21 @@ const MainPage = ({ navigation }) => {
             >
             <Image
               source={require('../assets/images/galleryImages.png')}
-              style={{ width: '80%', resizeMode: 'center', alignSelf: 'center', marginBottom: 50 }}
+              style={{ width: '80%', resizeMode: 'center', alignSelf: 'center', marginBottom: 20 }}
             ></Image>
           </View>
 
           <Pressable
             nativeID='questionBtn'
-            style={{ position: 'absolute', bottom: 30, alignSelf: 'center', width: '65%' }}
+            style={{ position: 'absolute', bottom: 30, alignSelf: 'center', width: '85%' }}
             onPress={() => setModalVisible(true)}
           >
-            <View style={{ width: '100%', backgroundColor: 'green', borderRadius: 15}}>
-              <Text style={{ fontSize: 14, padding: 10, color: 'white', textAlign: 'center'}}>질문</Text>
+            <View style={{ backgroundColor: 'green' }}>
+              <Text style={{ fontSize: 18, padding: 20, color: 'white', textAlign: 'center'}}>오늘 내가 먹은 아침은?</Text>
             </View>
           </Pressable>
       </ScreenContainer>
+
       <Modal
       animationType='slide'
       transparent={true}
@@ -103,8 +104,8 @@ const MainPage = ({ navigation }) => {
             </Pressable>
 
             <Text style={{ color: 'brown', fontSize: 25}}>#{1}</Text>
-            <View style={{ backgroundColor: 'lightgray', width: '80%', height: '25%', marginTop: 25, justifyContent: 'center', marginHorizontal: 25 }}>
-              <Text style={{ fontSize: 25, textAlign: 'center', marginVertical: 25 }}>
+            <View style={{ backgroundColor: 'lightgray', width: '80%', marginTop: 25, justifyContent: 'center', marginHorizontal: 25 }}>
+              <Text style={{ fontSize: 25, textAlign: 'center', paddingVertical: 50 }}>
                 오늘의 질문
               </Text>
             </View>
