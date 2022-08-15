@@ -8,10 +8,12 @@ import {
     Modal,
   } from 'react-native';
 import ScreenContainer from '../components/ScreenContainer';
+import TodayQuestNavigator from '../navigation/TodayQuestNavigator';
 
 const MainPage = ({ navigation }) => {
   const [familyInfo, setFamilyInfo] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [init, setInit] = useState('');
 
   useEffect(() => {
     setFamilyInfo([
@@ -81,14 +83,17 @@ const MainPage = ({ navigation }) => {
           <Pressable
             nativeID='questionBtn'
             style={{ position: 'absolute', bottom: 30, alignSelf: 'center', width: '85%' }}
-            onPress={() => setModalVisible(true)}
+            onPress={() => {
+              setModalVisible(true)
+              console.log(modalVisible)
+            }}
           >
             <View style={{ backgroundColor: 'green' }}>
               <Text style={{ fontSize: 18, padding: 20, color: 'white', textAlign: 'center'}}>오늘 내가 먹은 아침은?</Text>
+              <Text style={{ fontSize: 18, padding: 20, color: 'white', textAlign: 'center'}}>{init}</Text>
             </View>
           </Pressable>
       </ScreenContainer>
-
       <Modal
       animationType='slide'
       transparent={true}
@@ -109,7 +114,7 @@ const MainPage = ({ navigation }) => {
                 오늘의 질문
               </Text>
             </View>
-
+            <TodayQuestNavigator navigation={navigation} />
           </View>
         </View>
       </Modal>

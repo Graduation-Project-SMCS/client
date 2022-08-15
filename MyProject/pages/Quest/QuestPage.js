@@ -1,15 +1,17 @@
 import React from 'react';
-import { Button } from 'react-native';
+import { Text, Pressable } from 'react-native';
 
 const Quest = ({ navigation }) => {
     return (
       <>
-      <Button
-        title="Go to minsun's profile"
-        onPress={() =>
-          navigation.navigate('Profile', { name: 'Jane' })
-        }
-      />
+        <Pressable
+          onPress={() =>{
+            console.log('hi')
+            navigation.navigate('Answer');
+          }}
+        >
+          <Text>Go ot profile</Text>
+        </Pressable>
       </>
     );
 };

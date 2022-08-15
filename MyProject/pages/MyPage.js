@@ -14,6 +14,9 @@ import ComponentDivideLine from '../components/ComponentDivideLine';
 const MyPage = () => {
   return (
     <ScreenContainer style={{ alignContent: 'center' }}>
+      <View>
+        <Text style={{ textAlign: 'right' }}>Logout</Text>
+      </View>
       <View nativeID='user-profile' style={{ alignSelf: 'center', marginTop: 15 }}>
         <Image
           source={require('../assets/images/dummy.png')}
