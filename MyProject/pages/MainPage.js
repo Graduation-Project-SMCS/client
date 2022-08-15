@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import {
-    StyleSheet,
     View,
     Text,
     Image,
     Pressable,
-    Modal,
   } from 'react-native';
 import ScreenContainer from '../components/ScreenContainer';
-import TodayQuestNavigator from '../navigation/TodayQuestNavigator';
 
 const MainPage = ({ navigation }) => {
   const [familyInfo, setFamilyInfo] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [init, setInit] = useState('');
 
   useEffect(() => {
     setFamilyInfo([
@@ -84,80 +79,16 @@ const MainPage = ({ navigation }) => {
             nativeID='questionBtn'
             style={{ position: 'absolute', bottom: 30, alignSelf: 'center', width: '85%' }}
             onPress={() => {
-              setModalVisible(true)
-              console.log(modalVisible)
+              navigation.navigate('QuestComponent')
             }}
           >
             <View style={{ backgroundColor: 'green' }}>
               <Text style={{ fontSize: 18, padding: 20, color: 'white', textAlign: 'center'}}>오늘 내가 먹은 아침은?</Text>
-              <Text style={{ fontSize: 18, padding: 20, color: 'white', textAlign: 'center'}}>{init}</Text>
             </View>
           </Pressable>
       </ScreenContainer>
-      <Modal
-      animationType='slide'
-      transparent={true}
-      visible={modalVisible}
-    >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Pressable
-              style={styles.button}
-              onPress={() => setModalVisible(!modalVisible)}
-            >
-              <Text style={styles.textStyle}>X</Text>
-            </Pressable>
-
-            <Text style={{ color: 'brown', fontSize: 25}}>#{1}</Text>
-            <View style={{ backgroundColor: 'lightgray', width: '80%', marginTop: 25, justifyContent: 'center', marginHorizontal: 25 }}>
-              <Text style={{ fontSize: 25, textAlign: 'center', paddingVertical: 50 }}>
-                오늘의 질문
-              </Text>
-            </View>
-            <TodayQuestNavigator navigation={navigation} />
-          </View>
-        </View>
-      </Modal>
     </>
   );
 };
 
 export default MainPage;
-
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  },
-  modalView: {
-    marginVertical: 20,
-    marginHorizontal: 30,
-    backgroundColor: "white",
-    borderRadius: 20,
-
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    width: '100%',
-    height: '100%',
-  },
-  button: {
-    borderRadius: 20,
-    paddingHorizontal: 35,
-    paddingTop: 35,
-    alignSelf: 'flex-end',
-  },
-  textStyle: {
-    color: 'black',
-    fontWeight: '900',
-    fontSize: 24,
-  },
-});

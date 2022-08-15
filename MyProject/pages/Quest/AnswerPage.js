@@ -1,10 +1,10 @@
 import React from 'react';
 import { Text } from 'react-native';
 
-const Answer = ({ navigation, route }) => {
+const Answer = ({ navigation }) => {
     return (
         <>
-            <Text>This is {route.params.name}'s profile</Text>
+            <Text>This is  profile</Text>
         </>
     );
 };

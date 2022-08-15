@@ -33,7 +33,6 @@ export default function HomeNavigator({navigation}) {
             <Tab.Screen name="Calendar" component={CalendarScreen} />
             <Tab.Screen name="Mission" component={MissionScreen} />
             <Tab.Screen name="My" component={MyPageScreen} />
-        
         </Tab.Navigator>
     );
 };

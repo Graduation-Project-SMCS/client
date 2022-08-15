@@ -5,7 +5,7 @@ const Stack = createNativeStackNavigator();
 
 const TodayQuestNavigator = ({navigation}) => {
     return (
-        <Stack.Navigator initialRouteName='Quest' screenOptions={{headerShown: false}}>
+        <Stack.Navigator initialRouteName='Quest' screenOptions={{headerShown: false, animation: 'none'}}>
             <Stack.Screen name="Quest"
                 children={() => <QuestScreen navigation={navigation}/>}
             />
