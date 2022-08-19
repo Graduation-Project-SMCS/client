@@ -4,8 +4,7 @@ import {SafeAreaView} from "react-native";
 
 const ScreenContainer = props => {
     const { colors } = useTheme();
-    console.log(props.style)
-
+    
     return (
         <SafeAreaView style={{
             flex: 1,

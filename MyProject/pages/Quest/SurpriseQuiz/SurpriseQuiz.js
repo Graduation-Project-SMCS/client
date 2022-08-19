@@ -13,15 +13,15 @@ import {
   PermissionsAndroid,
 } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { poseApi } from '../api';
-import ScreenContainer from '../components/ScreenContainer';
+import { poseApi } from '../../../api';
+import ScreenContainer from '../../../components/ScreenContainer';
 
-const Quiz = () => {
+const SurpriseQuiz = () => {
   const [filePath, setFilePath] = useState({ uri: '' });
   const [fileUri, setFileUri] = useState('');
   const [originImage, setOriginImage] = useState({
-    uri: '../assets/images/dummy.png',
-    req: require('../assets/images/dummy.png'),
+    uri: '../../assets/images/dummy.png',
+    req: require('../../assets/images/dummy.png'),
   });
   const [imgUrl, setImgUrl] = useState();
 
@@ -135,7 +135,7 @@ const Quiz = () => {
       />
     } else {
       return <Image
-        source={require('../assets/images/galleryImages.png')}
+        source={require('../../assets/images/galleryImages.png')}
         style={styles.images}
       />
     }
@@ -162,9 +162,9 @@ const Quiz = () => {
 
   return (
     <ScreenContainer>
-      <View style={{ marginTop: 25 }}>
-        <Text style={{textAlign:'center',fontSize:20,paddingBottom:10}} >깜짝 퀴즈!</Text>
-        <Text style={{textAlign:'center',fontSize:20}} >주어진 사진과 같은 포즈를 잡아보세요</Text>
+      <View>
+        <Text style={{textAlign:'center',fontSize: 18, paddingBottom:10}} >깜짝 퀴즈!</Text>
+        <Text style={{textAlign:'center',fontSize: 18}} >주어진 사진과 같은 포즈를 잡아보세요</Text>
       </View>
       <View>
         <View style={styles.ImageSections}>
@@ -184,9 +184,7 @@ const Quiz = () => {
           <TouchableOpacity onPress={lImageLibrary} style={styles.btnSection}  >
             <Text style={styles.btnText}>사진 가져오기</Text>
           </TouchableOpacity>
-        </View>
 
-        <View style={styles.btnParentSection}>
           <TouchableOpacity onPress={compareImages} style={styles.btnSection} disabled={fileUri ? false : true}>
               <Text style={styles.btnText}>준비 완료!</Text>
           </TouchableOpacity>
@@ -196,7 +194,7 @@ const Quiz = () => {
   );
 };
 
-export default Quiz;
+export default SurpriseQuiz;
 const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: Colors.lighter,
@@ -204,8 +202,8 @@ const styles = StyleSheet.create({
   ImageSections: {
     display: 'flex',
     flexDirection: 'row',
-    paddingHorizontal: 8,
-    paddingVertical: 50,
+    paddingHorizontal: 10,
+    paddingVertical: 40,
     justifyContent: 'center'
   },
   images: {
@@ -213,11 +211,10 @@ const styles = StyleSheet.create({
     height: 150,
     borderColor: 'black',
     borderWidth: 1,
-    marginHorizontal: 1.5
+    marginHorizontal: 5
   },
   btnParentSection: {
     alignItems: 'center',
-    marginTop: 10
   },
   btnSection: {
     width: 225,

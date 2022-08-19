@@ -1,6 +1,6 @@
 export { default as HomeScreen } from "./MainPage";
 export { default as CalendarScreen } from "./CalendarPage";
-export { default as MissionScreen } from "./QuizPage";
+export { default as MissionScreen } from "./MissionPage";
 export { default as MyPageScreen } from "./MyPage";
 export { default as QuestComponent } from "./Quest/QuestComponent";
 export { default as QuestScreen } from "./Quest/QuestPage";
