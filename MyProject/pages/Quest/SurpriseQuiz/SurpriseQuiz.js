@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import {
@@ -20,8 +20,8 @@ const SurpriseQuiz = () => {
   const [filePath, setFilePath] = useState({ uri: '' });
   const [fileUri, setFileUri] = useState('');
   const [originImage, setOriginImage] = useState({
-    uri: '../../assets/images/dummy.png',
-    req: require('../../assets/images/dummy.png'),
+    uri: '../../../assets/images/dummy.png',
+    req: require('../../../assets/images/dummy.png'),
   });
   const [imgUrl, setImgUrl] = useState();
 
@@ -68,17 +68,14 @@ const SurpriseQuiz = () => {
         alert(response.customButton);
       } else {
         const res = response.assets[0];
-        console.log(response)
         ImageCropPicker.openCropper({
           path: res.uri,
           width: 450,
-          height: 800
+          height: 800,
         }).then(image => {
-          console.log(image.path)
           setImgUrl(image.path);
           setFilePath(image);
           setFileUri(image.path);
-          getImg();
         });
       }
     });
@@ -103,17 +100,14 @@ const SurpriseQuiz = () => {
         alert(response.customButton);
       } else {
         const res = response.assets[0];
-        console.log(response)
         ImageCropPicker.openCropper({
           path: res.uri,
           width: 450,
           height: 800
         }).then(image => {
-          console.log(image.path)
           setImgUrl(image.path);
           setFilePath(image);
           setFileUri(image.path);
-          getImg();
         });
       }
     });
@@ -135,23 +129,36 @@ const SurpriseQuiz = () => {
       />
     } else {
       return <Image
-        source={require('../../assets/images/galleryImages.png')}
+        source={require('../../../assets/images/galleryImages.png')}
         style={styles.images}
       />
     }
   }
 
-  const getImg = async () => {
-    const response = await fetch(fileUri);
-    const imageBlob = await response.blob();
-    console.log(imageBlob)
-    const reader = new FileReader();
-    reader.readAsDataURL(imageBlob);
-    reader.onloadend = () => {
-      const base64data = reader.result;
-      setImgUrl(base64data);
+  // const getImg = async () => {
+  //   const response = await fetch(fileUri);
+  //   const imageBlob = await response.blob();
+  //   console.log(imageBlob)
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(imageBlob);
+  //   reader.onloadend = () => {
+  //     const base64data = reader.result;
+  //     setImgUrl(base64data);
+  //   };
+  // };
+  function toDataUrl(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+        var reader = new FileReader();
+        reader.onloadend = function() {
+            callback(reader.result);
+        }
+        reader.readAsDataURL(xhr.response);
     };
-  };
+    xhr.open('GET', url);
+    xhr.responseType = 'blob';
+    xhr.send();
+}
 
   const compareImages = async () => {
     // console.log(imgUrl)
