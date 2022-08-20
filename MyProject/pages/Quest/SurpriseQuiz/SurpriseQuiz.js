@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import {
@@ -135,33 +135,7 @@ const SurpriseQuiz = () => {
     }
   }
 
-  // const getImg = async () => {
-  //   const response = await fetch(fileUri);
-  //   const imageBlob = await response.blob();
-  //   console.log(imageBlob)
-  //   const reader = new FileReader();
-  //   reader.readAsDataURL(imageBlob);
-  //   reader.onloadend = () => {
-  //     const base64data = reader.result;
-  //     setImgUrl(base64data);
-  //   };
-  // };
-  function toDataUrl(url, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.onload = function() {
-        var reader = new FileReader();
-        reader.onloadend = function() {
-            callback(reader.result);
-        }
-        reader.readAsDataURL(xhr.response);
-    };
-    xhr.open('GET', url);
-    xhr.responseType = 'blob';
-    xhr.send();
-}
-
   const compareImages = async () => {
-    // console.log(imgUrl)
     await poseApi(
       imgUrl
     );
