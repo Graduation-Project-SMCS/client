@@ -18,7 +18,7 @@ const HeaderNavigation = props => {
         }}>
             <View style={{position: 'absolute', left: 10}}>
                 <TouchableOpacity
-                    onPress={() => props.navigation.goBack()}
+                    onPress={() => props.navigation.popToTop()}
                     activeOpacity={0.8}
                     style={{ flexDirection: 'row', alignItems: 'center' }}
                 >

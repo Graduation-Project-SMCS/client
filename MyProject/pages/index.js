@@ -5,5 +5,8 @@ export { default as MyPageScreen } from "./MyPage";
 export { default as QuestComponent } from "./Quest/QuestComponent";
 export { default as QuestScreen } from "./Quest/QuestPage";
 export { default as AnswerScreen } from "./Quest/AnswerPage";
+export { default as MissionAnalyzeScreen } from "./Quest/SurpriseQuiz/AnalyzePage";
+export { default as SurpriseMissionScreen } from "./Quest/SurpriseQuiz/SurpriseQuiz";
+export { default as MissionDetailScreen } from "./Quest/SurpriseQuiz/DetailPage";
 export { default as AuthScreen } from "./Auth/AuthPage";
 export { default as FamilyCodeScreen } from "./Auth/FamilyCodePage";

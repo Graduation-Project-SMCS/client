@@ -1,7 +1,7 @@
 import React from 'react';
 import { Platform } from 'react-native';
 
-const poseApi = async (img) => {
+const poseAPI = async (img) => {
   const data = new FormData();
   data.append('file',  Platform.OS === "android"
   ? img
@@ -28,4 +28,4 @@ const poseApi = async (img) => {
       });
 };
 
-export default poseApi;
+export default poseAPI;

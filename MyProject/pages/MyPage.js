@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import {
     SafeAreaView,
     StyleSheet,
@@ -10,8 +10,29 @@ import {
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import ScreenContainer from '../components/ScreenContainer';
 import ComponentDivideLine from '../components/ComponentDivideLine';
+import { getAPI } from '../api';
 
 const MyPage = () => {
+  useEffect(() => {
+    const getUserProfile = async () => {
+      // if(authContext.state.userSeq) {
+          await getAPI(
+              {
+              },
+              "/familycode", //바꿔야함
+              "",
+          )
+          .then(({ data, status }) => {
+            console.log(data, status);
+          })
+          .catch((e) => {
+              console.log(e);
+          });
+      // }
+    };
+    getUserProfile();
+  }, []);
+
   return (
     <ScreenContainer style={{ alignContent: 'center' }}>
       <View>

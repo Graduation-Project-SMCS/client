@@ -13,7 +13,7 @@ import {
   PermissionsAndroid,
 } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { poseApi } from '../../../api';
+import { poseAPI } from '../../../api';
 import ScreenContainer from '../../../components/ScreenContainer';
 
 const SurpriseQuiz = () => {
@@ -136,7 +136,7 @@ const SurpriseQuiz = () => {
   }
 
   const compareImages = async () => {
-    await poseApi(
+    await poseAPI(
       imgUrl
     );
   }

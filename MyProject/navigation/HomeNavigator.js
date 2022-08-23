@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import { HomeScreen, CalendarScreen, MissionScreen, MyPageScreen } from '../pages';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import MissionNavigator from './MissionNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -31,7 +32,7 @@ export default function HomeNavigator({navigation}) {
             >
             <Tab.Screen name="Home" children={() => <HomeScreen navigation={navigation}/>} />
             <Tab.Screen name="Calendar" component={CalendarScreen} />
-            <Tab.Screen name="Mission" component={MissionScreen} />
+            <Tab.Screen name="Mission" children={() => <MissionNavigator navigation={navigation}/>} />
             <Tab.Screen name="My" component={MyPageScreen} />
         </Tab.Navigator>
     );
