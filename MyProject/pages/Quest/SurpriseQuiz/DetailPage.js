@@ -1,11 +1,44 @@
-import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import CommentForm from '../../../components/CommentForm';
 import ComponentDivideLine from '../../../components/ComponentDivideLine';
 import HeaderNavigation from '../../../components/HeaderNavigation';
 import ScreenContainer from '../../../components/ScreenContainer';
 
 const MissionDetail = ({ route, navigation }) => {
     const { idx, originImg, curImg } = route.params;
+    const [commentInfo, setCommentInfo] = useState([]);
+
+    useEffect(() => {
+        setCommentInfo([
+            {
+                id: 1,
+                answer: 'nice!',
+                image: require('../../../assets/images/icon/my_filled.png'),
+                name: 'minsun',
+            }, {
+                id: 2,
+                answer: 'cool!',
+                image: require('../../../assets/images/icon/my.png'),
+                name: 'minsun',
+            }, {
+                id: 3,
+                answer: 'awesome!',
+                image: require('../../../assets/images/icon/my_filled.png'),
+                name: 'minseok',
+            }, {
+                id: 4,
+                answer: 'great!',
+                image: require('../../../assets/images/icon/my.png'),
+                name: 'eunha',
+            }, {
+                id: 5,
+                answer: 'dope!',
+                image: require('../../../assets/images/icon/my_filled.png'),
+                name: 'minseok',
+            },
+        ]);
+    }, []);
 
     return (
         <>
@@ -53,9 +86,20 @@ const MissionDetail = ({ route, navigation }) => {
 
                 <ComponentDivideLine />
 
-                <View nativeID='commentSection'>
-                    <Text style={{...styles.infoText, ...styles.commentsTitle}}>Comments</Text>
-                </View>
+                <Text style={{...styles.infoText, ...styles.commentsTitle}}>Comments</Text>
+                <SafeAreaView flex={1} style={{...styles.commentsList}}>
+                    <ScrollView nativeID='commentScroll' showsVerticalScrollIndicator={false} >
+                    {
+                        commentInfo.length > 0 ?
+                        commentInfo.map((e, idx) => {
+                            return (
+                                <CommentForm e={e} idx={idx} />
+                            )
+                        }) :
+                        <></>
+                    }
+                    </ScrollView>
+                </SafeAreaView>
             </ScreenContainer>
         </>
     );
@@ -92,5 +136,9 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '500',
         marginLeft: 15,
+    },
+    commentsList: {
+        marginHorizontal: 15,
+        marginTop: 15,
     }
 });

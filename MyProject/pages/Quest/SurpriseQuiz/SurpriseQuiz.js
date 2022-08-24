@@ -15,6 +15,7 @@ import {
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { poseAPI } from '../../../api';
 import ScreenContainer from '../../../components/ScreenContainer';
+import { useNavigation } from '@react-navigation/native';
 
 const SurpriseQuiz = () => {
   const [filePath, setFilePath] = useState({ uri: '' });
@@ -24,6 +25,7 @@ const SurpriseQuiz = () => {
     req: require('../../../assets/images/dummy.png'),
   });
   const [imgUrl, setImgUrl] = useState();
+  const navigation = useNavigation();
 
   const requestCameraPermission = async () => {
     try {
@@ -135,12 +137,6 @@ const SurpriseQuiz = () => {
     }
   }
 
-  const compareImages = async () => {
-    await poseAPI(
-      imgUrl
-    );
-  }
-
   return (
     <ScreenContainer>
       <View>
@@ -166,7 +162,11 @@ const SurpriseQuiz = () => {
             <Text style={styles.btnText}>사진 가져오기</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={compareImages} style={styles.btnSection} disabled={fileUri ? false : true}>
+          <TouchableOpacity
+            onPress={()=>navigation.navigate('Analyze', { image: imgUrl })}
+            style={styles.btnSection}
+            disabled={imgUrl ? false : true}
+          >
               <Text style={styles.btnText}>준비 완료!</Text>
           </TouchableOpacity>
         </View>

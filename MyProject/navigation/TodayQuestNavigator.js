@@ -5,11 +5,15 @@ const Stack = createNativeStackNavigator();
 
 const TodayQuestNavigator = ({navigation}) => {
     return (
-        <Stack.Navigator initialRouteName='Quest' screenOptions={{headerShown: false, animation: 'none'}}>
+        <Stack.Navigator initialRouteName='Quest'
+            screenOptions={{headerShown: false, animation: 'none', contentStyle: {
+                backgroundColor: 'white',
+            }}}
+        >
             <Stack.Screen name="Quest"
                 children={() => <QuestScreen navigation={navigation}/>}
             />
-            <Stack.Screen name="Answer" children={() => <AnswerScreen navigation={navigation}/>} />
+            <Stack.Screen name="Answer" component={AnswerScreen} />
         </Stack.Navigator>
     );
 };

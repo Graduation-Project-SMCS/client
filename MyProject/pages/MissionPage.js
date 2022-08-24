@@ -1,20 +1,16 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
   View,
   Text,
-  StatusBar,
   Image,
-  Dimensions,
-  TouchableOpacity,
-  PermissionsAndroid,
-  ScrollView,
   FlatList,
   Pressable,
   Modal,
 } from 'react-native';
 import ScreenContainer from '../components/ScreenContainer';
+import MissionModalComponent from './Quest/SurpriseQuiz/MissionModalComponent';
 import SurpriseQuiz from './Quest/SurpriseQuiz/SurpriseQuiz';
 
 const Mission = ({navigation}) => {
@@ -113,56 +109,17 @@ const Mission = ({navigation}) => {
           showsVerticalScrollIndicator={false}
         />
       </SafeAreaView>
-      
-      <Modal
-        animationType="none"
-        transparent={true}
-        visible={surpriseQuizModalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setSurpriseQuizModalVisible(!surpriseQuizModalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <ScreenContainer style={{ ...styles.modalView }}>
-            <Pressable
-              onPress={()=>setSurpriseQuizModalVisible(!surpriseQuizModalVisible)}
-            >
-              <Text style={styles.modalX}>X</Text>
-            </Pressable>
-            <SurpriseQuiz />
-          </ScreenContainer>
-        </View>
-      </Modal>
+
+      {
+        surpriseQuizModalVisible &&
+        <MissionModalComponent
+          modalVisible={surpriseQuizModalVisible}
+          setModalVisible={setSurpriseQuizModalVisible}
+          navigation={navigation}
+        />
+      }
     </ScreenContainer>
   );
 };
 
 export default Mission;
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    margin: 30
-  },
-  modalView: {
-    backgroundColor: "white",
-    borderRadius: 20,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  modalX: {
-    color: 'gray',
-    fontWeight: '800',
-    textAlign: 'center',
-    alignSelf: 'flex-end',
-    fontSize: 20,
-  }
-});

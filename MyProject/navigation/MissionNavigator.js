@@ -1,6 +1,7 @@
 import React from 'react';
 import { MissionScreen, SurpriseMissionScreen, MissionAnalyzeScreen, MissionDetailScreen } from '../pages';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import MissionModalNavigator from './MissionModalNavigator';
 const Stack = createNativeStackNavigator();
 
 const MissionNavigator = ({navigation}) => {
@@ -10,8 +11,7 @@ const MissionNavigator = ({navigation}) => {
                 children={() => <MissionScreen navigation={navigation}/>}
             />
             <Stack.Screen name="Detail" component={MissionDetailScreen} />
-            <Stack.Screen name="Analyze" children={() => <MissionAnalyzeScreen navigation={navigation}/>} />
-            <Stack.Screen name="Mission-Surprise" children={() => <SurpriseMissionScreen navigation={navigation}/>} />
+            <Stack.Screen name="MissionNavigator" children={() => <MissionModalNavigator navigation={navigation}/>} />
         </Stack.Navigator>
     );
 };
