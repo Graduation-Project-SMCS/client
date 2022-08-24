@@ -3,6 +3,8 @@ import React from 'react';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import AppNavigator from './navigation/AppNavigator';
 import { Platform, StatusBar } from 'react-native';
+import { enableScreens } from 'react-native-screens';
+enableScreens(false);
 
 const App = () => {
   const ColorTheme = {
