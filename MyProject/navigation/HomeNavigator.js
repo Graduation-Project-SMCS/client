@@ -6,10 +6,13 @@ import {
 import { HomeScreen, CalendarScreen, MissionScreen, MyPageScreen } from '../pages';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MissionNavigator from './MissionNavigator';
+import { useTheme } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
 export default function HomeNavigator({navigation}) {
+  const {colors} = useTheme();
+
   return (
         <Tab.Navigator initialRouteName='Home'
             screenOptions={({ route }) => ({
@@ -27,7 +30,7 @@ export default function HomeNavigator({navigation}) {
 
                 return <Image source={iconName} style={{width: 25, height: 25}} />;
             },
-            tabBarActiveTintColor: 'green', tabBarInactiveTintColor: 'grey', tabBarStyle: [{display: 'flex'}], headerShown: false
+            tabBarActiveTintColor: colors.green[1], tabBarInactiveTintColor: colors.defaultDarkColor, tabBarStyle: [{display: 'flex'}], headerShown: false
             })}
             >
             <Tab.Screen name="Home" children={() => <HomeScreen navigation={navigation}/>} />

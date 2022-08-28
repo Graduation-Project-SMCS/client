@@ -1,18 +1,21 @@
+import { useTheme } from '@react-navigation/native';
 import React from 'react';
 import { Image, Text, View, StyleSheet, Pressable } from 'react-native';
 import ScreenContainer from '../../components/ScreenContainer';
 
 const AuthPage = ({navigation}) => {
+    const {colors} = useTheme();
     return (
         <>
             <ScreenContainer>
                 <View nativeID='title' style={{ marginTop: 20 }}>
-                    <Text style={{ textAlign: 'center', fontSize: 32, color: 'green', fontWeight: '800' }}>
-                        Wuga!
-                    </Text>
-                    <View style={{ marginVertical: 60 }}>
+                    <Image
+                    source={require('../../assets/images/wuga.png')}
+                    style={{ width: 250, height: 100, justifyContent: 'center', alignSelf: 'center', resizeMode: 'contain' }}
+                    />
+                    <View style={{ marginVertical: 40 }}>
                         <Image
-                            source={require('../../assets/images/galleryImages.png')}
+                            source={require('../../assets/images/sylvanian/mainpage.png')}
                             style={{ width: '90%', height: 200, resizeMode: 'cover', alignSelf: 'center' }}
                         />
                     </View>

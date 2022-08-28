@@ -1,3 +1,4 @@
+import { useTheme } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView,
@@ -16,6 +17,7 @@ import SurpriseQuiz from './Quest/SurpriseQuiz/SurpriseQuiz';
 const Mission = ({navigation}) => {
   const [missions, setMissions] = useState([]);
   const [surpriseQuizModalVisible, setSurpriseQuizModalVisible] = useState(false);
+  const {colors} = useTheme();
 
   useEffect(() => {
     setMissions([
@@ -73,30 +75,31 @@ const Mission = ({navigation}) => {
 
   const missionGrid = ({ item, index }) => {
     return (
-      <View style={{ width: '33%', alignSelf: 'center', borderWidth: 1, borderColor: 'gray' }}>
-        <Pressable
-          onPress={()=>navigation.navigate('Detail', { idx: missions.length-index, originImg: item.originImage, curImg: item.image })}
-        >
-          <View style={{ paddingHorizontal: 15, paddingVertical: 5, backgroundColor: 'lightgray' }}>
-            <Text style={{ textAlign: 'left', marginTop: 15, color: 'gray', fontWeight: '700', fontSize: 16 }}>#{item.id}</Text>
-            <Image source={item.image} style={{ width: '100%', height: 125, resizeMode: 'contain' }}/>
-          </View>
-        </Pressable>
-      </View> 
+      <Pressable
+        onPress={()=>navigation.navigate('Detail', { idx: missions.length-index, originImg: item.originImage, curImg: item.image })}
+        style={{ width: '31%', margin: 5, alignSelf: 'center', borderWidth: 0.5, borderColor: colors.blue[1], }}
+      >
+        <Image
+          style={{ width: '100%', height: 150, resizeMode: 'contain' }}
+          source={item.image} />
+          
+        <View style={{ paddingHorizontal: 15, position: 'absolute' }}>
+          <Text style={{ textAlign: 'left', marginTop: 15, color: colors.defaultDarkColor, fontWeight: '800', fontSize: 14 }}>#{item.id}</Text>
+        </View>
+      </Pressable>
     )
   };
 
   return (
     <ScreenContainer>
-      <View style={{ flexDirection: 'row', marginVertical: 30, justifyContent: 'center' }}>
-        <Text style={{ fontSize: 32, color: 'green', fontWeight: '800', textAlign: 'center', alignSelf: 'center' }}>Missions</Text>
+      <View style={{ flexDirection: 'row', marginBottom: 45, justifyContent: 'center' }}>
         <Pressable
           onPress={()=>setSurpriseQuizModalVisible(true)}
-          style={{ position: 'absolute', right: 20 }}
+          style={{ position: 'absolute', right: 15 }}
         >
           <Image
             source={require('../assets/images/icon/help.png')}
-            style={{ width: 25, height: 25 }}
+            style={{ width: 25, height: 25, tintColor: colors.defaultDarkColor }}
           /> 
         </Pressable>
       </View>

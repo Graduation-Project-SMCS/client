@@ -2,22 +2,18 @@ import React, { useState } from 'react';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import {
-  SafeAreaView,
   StyleSheet,
   View,
   Text,
-  StatusBar,
   Image,
-  Dimensions,
   TouchableOpacity,
   PermissionsAndroid,
 } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { poseAPI } from '../../../api';
 import ScreenContainer from '../../../components/ScreenContainer';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 
 const SurpriseQuiz = () => {
+  const {colors} = useTheme();
   const [filePath, setFilePath] = useState({ uri: '' });
   const [fileUri, setFileUri] = useState('');
   const [originImage, setOriginImage] = useState({
@@ -138,10 +134,11 @@ const SurpriseQuiz = () => {
   }
 
   return (
-    <ScreenContainer>
+    <View style={{ backgroundColor: colors.backgroundColor, flex: 1, alignItems: 'center' }}>
       <View>
-        <Text style={{textAlign:'center',fontSize: 18, paddingBottom:10}} >깜짝 퀴즈!</Text>
-        <Text style={{textAlign:'center',fontSize: 18}} >주어진 사진과 같은 포즈를 잡아보세요</Text>
+        <Text
+          style={{textAlign:'center',fontSize: 16, paddingBottom:10, lineHeight: 34, color: colors.defaultDarkColor, fontWeight: '700'}}
+        >깜짝 퀴즈!{'\n'}주어진 사진과 같은 포즈를 잡아보세요</Text>
       </View>
       <View>
         <View style={styles.ImageSections}>
@@ -152,64 +149,59 @@ const SurpriseQuiz = () => {
             {renderFileUri()}
           </View>
         </View>
-
-        <View style={styles.btnParentSection}>
-          <TouchableOpacity onPress={requestCameraPermission} style={styles.btnSection}  >
-            <Text style={styles.btnText}>사진 찍기</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={lImageLibrary} style={styles.btnSection}  >
-            <Text style={styles.btnText}>사진 가져오기</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={()=>navigation.navigate('Analyze', { image: imgUrl })}
-            style={styles.btnSection}
-            disabled={imgUrl ? false : true}
-          >
-              <Text style={styles.btnText}>준비 완료!</Text>
-          </TouchableOpacity>
-        </View>
       </View>
-    </ScreenContainer>
+
+      <View style={styles.btnParentSection}>
+        <TouchableOpacity onPress={requestCameraPermission} style={{...styles.btnSection, backgroundColor: colors.green[3]}}>
+          <Text style={{...styles.btnText, color: colors.defaultDarkColor }}>사진 찍기</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={lImageLibrary} style={{...styles.btnSection, backgroundColor: colors.green[3]}}>
+          <Text style={{...styles.btnText, color: colors.defaultDarkColor }}>사진 가져오기</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={()=>navigation.navigate('Analyze', { image: imgUrl })}
+          style={{...styles.btnSection, backgroundColor: colors.green[3]}}
+          disabled={imgUrl ? false : true}
+        >
+            <Text style={{...styles.btnText, color: colors.defaultDarkColor }}>준비 완료!</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 
 export default SurpriseQuiz;
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
   ImageSections: {
     display: 'flex',
     flexDirection: 'row',
     paddingHorizontal: 10,
-    paddingVertical: 40,
     justifyContent: 'center'
   },
   images: {
     width: 150,
-    height: 150,
-    borderColor: 'black',
-    borderWidth: 1,
-    marginHorizontal: 5
+    height: 200,
+    marginHorizontal: 10,
+    resizeMode: 'contain'
   },
   btnParentSection: {
     alignItems: 'center',
+    position: 'absolute',
+    bottom: 25
   },
   btnSection: {
     width: 225,
     height: 50,
-    backgroundColor: '#DCDCDC',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 3,
-    marginBottom:10
+    borderRadius: 5,
+    marginBottom: 20
   },
   btnText: {
     textAlign: 'center',
-    color: 'gray',
     fontSize: 14,
-    fontWeight:'bold'
+    fontWeight: '800'
   }
 });

@@ -1,16 +1,18 @@
+import { useTheme } from '@react-navigation/native';
 import React from 'react';
 import { View, Pressable, StyleSheet, Text } from 'react-native';
 import ScreenContainer from '../../../components/ScreenContainer';
 import MissionModalNavigator from '../../../navigation/MissionModalNavigator';
-import SurpriseQuiz from './SurpriseQuiz';
 
 const MissionModalComponent = ({ modalVisible, setModalVisible, navigation }) => {
+    const {colors} = useTheme();
+
     return (
         <ScreenContainer style={{ ...styles.modalView }}>
             <Pressable
                 onPress={()=>setModalVisible(!modalVisible)}
             >
-                <Text style={styles.modalX}>X</Text>
+                <Text style={{...styles.modalX, color: colors.defaultDarkColor}}>X</Text>
             </Pressable>
             <MissionModalNavigator navigation={navigation}/>
         </ScreenContainer>
@@ -21,7 +23,6 @@ export default MissionModalComponent;
 
 const styles = StyleSheet.create({
     modalView: {
-        backgroundColor: "white",
         borderRadius: 20,
         shadowColor: "#000",
         shadowOffset: {
@@ -38,7 +39,6 @@ const styles = StyleSheet.create({
         left: 20
     },
     modalX: {
-        color: 'gray',
         fontWeight: '800',
         textAlign: 'center',
         alignSelf: 'flex-end',

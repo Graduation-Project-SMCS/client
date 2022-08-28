@@ -1,9 +1,12 @@
+import { useTheme } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { Text, StyleSheet, Image, View, ActivityIndicator, Pressable } from 'react-native';
 import { poseAPI } from '../../../api';
+import BackBtn from '../../../components/BackBtn';
 import ScreenContainer from '../../../components/ScreenContainer';
 
 const QuestAnalyze = ({ route, navigation }) => {
+    const {colors} = useTheme();
     const { image } = route.params;
     const [analyzeRes, setAnalyzeRes] = useState('실패!');
     const [isAnalyzeFinished, setIsAnalyzeFinished] = useState(false);
@@ -36,7 +39,7 @@ const QuestAnalyze = ({ route, navigation }) => {
             <View style={{ justifyContent: 'center', alignItems: 'center', height: '50%' }}>
                 { isAnalyzeFinished ?
                     <></> :
-                    <Text style={{ fontSize: 16, color: 'green', fontWeight: '700' }}>
+                    <Text style={{ fontSize: 16, color: colors.defaultDarkColor, fontWeight: '700' }}>
                         미션 분석 중...
                     </Text>
                 }
@@ -45,23 +48,16 @@ const QuestAnalyze = ({ route, navigation }) => {
                     source={{ uri: image }}
                     style={styles.images}
                 />
-                { !isAnalyzeFinished && <ActivityIndicator size={"large"} color="olive" /> }
+                { !isAnalyzeFinished && <ActivityIndicator size={"large"} color={colors.green[3]} /> }
             </View>
             
             { isAnalyzeFinished
                 && 
                 <View style={{ justifyContent: 'center', alignItems: 'center'  }}>
-                    <Text style={{...styles.analyzeRes}}>{ analyzeRes }</Text>
+                    <Text style={{...styles.analyzeRes, color: colors.green[2]}}>{ analyzeRes }</Text>
                 </View>
             }
-            <Pressable
-                onPress={()=>navigation.popToTop()}
-                style={{...styles.backBtn}}
-            >
-                <View style={{...styles.backBtn}}>
-                    <Text style={{...styles.backBtnText}}>뒤로</Text>
-                </View>
-            </Pressable>
+            <BackBtn navigation={navigation}/>
         </ScreenContainer>
     );
 };
@@ -70,27 +66,14 @@ export default QuestAnalyze;
 
 const styles = StyleSheet.create({
     images: {
-      width: 175,
-      height: 175,
-      marginVertical: 20
+      width: 200,
+      height: 200,
+      marginVertical: 20,
+      resizeMode: 'contain'
     },
     analyzeRes: {
-        fontSize: 36,
+        fontSize: 32,
         fontWeight: '900',
-        color: 'olive',
         marginTop: 30
     },
-    backBtn: {
-        position: 'absolute',
-        right: 15,
-        bottom: 15,
-        backgroundColor: 'olive',
-        borderRadius: 10
-    },
-    backBtnText: {
-        fontSize: 12,
-        color: 'white',
-        paddingHorizontal: 10,
-        paddingVertical: 7.5
-    }
   });

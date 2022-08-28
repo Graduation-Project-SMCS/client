@@ -4,6 +4,7 @@ import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import AppNavigator from './navigation/AppNavigator';
 import { Platform, StatusBar } from 'react-native';
 import { enableScreens } from 'react-native-screens';
+
 enableScreens(false);
 
 const App = () => {
@@ -12,8 +13,17 @@ const App = () => {
     colors: {
       ...DefaultTheme.colors,
       defaultColor: '#FFFFFF',
-      defaultDarkColor: '#000000',
-      backgroundColor: '#FFFFFF',
+      defaultDarkColor: '#575757',
+      backgroundColor: '#F8F8F8',
+      green : {
+        1: '#70743A',
+        2: '#B3B46D',
+        3: '#D8D2C0',
+      },
+      blue: {
+        1: '#CDD3D5',
+        2: '#D4D6E0',
+      },
     }
   };
 

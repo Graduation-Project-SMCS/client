@@ -1,3 +1,4 @@
+import { useTheme } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
     View,
@@ -9,6 +10,7 @@ import ScreenContainer from '../components/ScreenContainer';
 
 const MainPage = ({ navigation }) => {
   const [familyInfo, setFamilyInfo] = useState([]);
+  const {colors} = useTheme();
 
   useEffect(() => {
     setFamilyInfo([
@@ -30,18 +32,23 @@ const MainPage = ({ navigation }) => {
       },
     ])
   }, []);
+
+  const style = {
+    fontColor: { color: colors.defaultDarkColor }
+  };
   
 
   return (
     <>
-      <ScreenContainer style={{ flexDirection: 'column'}}>
+      <ScreenContainer style={{ flexDirection: 'column' }}>
           <View
             nativeID='topInfo'
-            style={{ justifyContent: 'space-between', flexDirection: 'row', marginBottom: 20 }}
+            style={{ justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}
           >
-            {/* point 정보 들어오면 바꾸기 */}
-            <Text style={{ fontSize: 20 }}>{0} Points</Text> 
-            {/* shop 아이콘은 일단 넣지 않겠음 */}
+            <Image
+              source={require('../assets/images/wuga.png')}
+              style={{ width: 75, height: 50, justifyContent: 'flex-start', resizeMode: 'contain' }}
+            />
           </View>
 
           {/* family info api 들어오면 다시 */}
@@ -56,8 +63,8 @@ const MainPage = ({ navigation }) => {
                       style={{width: 25, height: 25, borderRadius: 50, resizeMode: 'contain'}}
                     ></Image>
                     <View>
-                      <Text>{info.name}</Text>
-                      <Text>{info.role}</Text>
+                      <Text style={{...style.fontColor}}>{info.name}</Text>
+                      <Text style={{...style.fontColor}}>{info.role}</Text>
                     </View>
                   </View>
                 )
@@ -70,20 +77,20 @@ const MainPage = ({ navigation }) => {
               style={{flex: 2, justifyContent: 'center'}}
             >
             <Image
-              source={require('../assets/images/galleryImages.png')}
+              source={require('../assets/images/sylvanian/mainpage.png')}
               style={{ width: '80%', resizeMode: 'center', alignSelf: 'center', marginBottom: 20 }}
             ></Image>
           </View>
 
           <Pressable
             nativeID='questionBtn'
-            style={{ position: 'absolute', bottom: 30, alignSelf: 'center', width: '85%' }}
+            style={{ position: 'absolute', bottom: 50, alignSelf: 'center', width: '85%' }}
             onPress={() => {
               navigation.navigate('QuestComponent')
             }}
           >
-            <View style={{ backgroundColor: 'green' }}>
-              <Text style={{ fontSize: 18, padding: 20, color: 'white', textAlign: 'center'}}>오늘 내가 먹은 아침은?</Text>
+            <View style={{ backgroundColor: colors.green[1] }}>
+              <Text style={{ fontSize: 16, padding: 15, color: colors.defaultColor, textAlign: 'center'}}>오늘 내가 먹은 아침은?</Text>
             </View>
           </Pressable>
       </ScreenContainer>
