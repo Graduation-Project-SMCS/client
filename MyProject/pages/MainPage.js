@@ -7,6 +7,7 @@ import {
     Pressable,
   } from 'react-native';
 import ScreenContainer from '../components/ScreenContainer';
+import StyleText from '../components/StyleText';
 
 const MainPage = ({ navigation }) => {
   const [familyInfo, setFamilyInfo] = useState([]);
@@ -57,14 +58,14 @@ const MainPage = ({ navigation }) => {
             familyInfo.length > 0 ?
               familyInfo.map((info, idx) => {
                 return (
-                  <View key={idx} style={{flexDirection: 'row', width: '50%', marginVertical: 5}}>
+                  <View key={idx} style={{flexDirection: 'row', width: '50%', marginVertical: 5, alignItems: 'center'}}>
                     <Image
-                      source={require('../assets/images/dummy.png')}
-                      style={{width: 25, height: 25, borderRadius: 50, resizeMode: 'contain'}}
+                      source={require('../assets/images/sylvanian/basic1.png')}
+                      style={{width: 30, height: 45, borderRadius: 50, resizeMode: 'contain', marginRight: 5}}
                     ></Image>
                     <View>
-                      <Text style={{...style.fontColor}}>{info.name}</Text>
-                      <Text style={{...style.fontColor}}>{info.role}</Text>
+                      <StyleText style={{...style.fontColor}}>{info.name}</StyleText>
+                      <StyleText style={{...style.fontColor}}>{info.role}</StyleText>
                     </View>
                   </View>
                 )
@@ -90,7 +91,7 @@ const MainPage = ({ navigation }) => {
             }}
           >
             <View style={{ backgroundColor: colors.green[1] }}>
-              <Text style={{ fontSize: 16, padding: 15, color: colors.defaultColor, textAlign: 'center'}}>오늘 내가 먹은 아침은?</Text>
+              <StyleText style={{ fontSize: 16, padding: 15, color: colors.defaultColor, textAlign: 'center'}}>오늘 내가 먹은 아침은?</StyleText>
             </View>
           </Pressable>
       </ScreenContainer>

@@ -2,6 +2,7 @@ import { useTheme } from '@react-navigation/native';
 import React from 'react';
 import { View, Pressable, StyleSheet, Text } from 'react-native';
 import ScreenContainer from '../../../components/ScreenContainer';
+import StyleText from '../../../components/StyleText';
 import MissionModalNavigator from '../../../navigation/MissionModalNavigator';
 
 const MissionModalComponent = ({ modalVisible, setModalVisible, navigation }) => {
@@ -12,7 +13,7 @@ const MissionModalComponent = ({ modalVisible, setModalVisible, navigation }) =>
             <Pressable
                 onPress={()=>setModalVisible(!modalVisible)}
             >
-                <Text style={{...styles.modalX, color: colors.defaultDarkColor}}>X</Text>
+                <StyleText style={{...styles.modalX, color: colors.defaultDarkColor}}>X</StyleText>
             </Pressable>
             <MissionModalNavigator navigation={navigation}/>
         </ScreenContainer>

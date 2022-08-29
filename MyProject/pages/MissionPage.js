@@ -11,6 +11,7 @@ import {
   Modal,
 } from 'react-native';
 import ScreenContainer from '../components/ScreenContainer';
+import StyleText from '../components/StyleText';
 import MissionModalComponent from './Quest/SurpriseQuiz/MissionModalComponent';
 import SurpriseQuiz from './Quest/SurpriseQuiz/SurpriseQuiz';
 
@@ -23,52 +24,52 @@ const Mission = ({navigation}) => {
     setMissions([
       {
         id: 1,
-        image: require('../assets/images/icon/home_filled.png'),
-        originImage: require('../assets/images/icon/home_filled.png'),
+        image: require('../assets/images/sylvanian/children.png'),
+        originImage: require('../assets/images/sylvanian/mainpage.png'),
       }, {
         id: 2,
-        image: require('../assets/images/icon/my.png'),
-        originImage: require('../assets/images/icon/my.png'),
+        image: require('../assets/images/sylvanian/children.png'),
+        originImage: require('../assets/images/sylvanian/mainpage.png'),
       }, {
         id: 3,
-        image: require('../assets/images/icon/mission_filled.png'),
-        originImage: require('../assets/images/icon/mission_filled.png'),
+        image: require('../assets/images/sylvanian/children.png'),
+        originImage: require('../assets/images/sylvanian/mainpage.png'),
       }, {
         id: 4,
-        image: require('../assets/images/icon/mission_filled.png'),
-        originImage: require('../assets/images/dummy.png'),
+        image: require('../assets/images/sylvanian/children.png'),
+        originImage: require('../assets/images/sylvanian/mainpage.png'),
       }, {
         id: 5,
-        image: require('../assets/images/icon/mission_filled.png'),
-        originImage: require('../assets/images/galleryImages.png'),
+        image: require('../assets/images/sylvanian/children.png'),
+        originImage: require('../assets/images/sylvanian/mainpage.png'),
       }, {
         id: 6,
-        image: require('../assets/images/icon/mission_filled.png'),
-        originImage: require('../assets/images/icon/home_filled.png'),
+        image: require('../assets/images/sylvanian/children.png'),
+        originImage: require('../assets/images/sylvanian/mainpage.png'),
       }, {
         id: 7,
-        image: require('../assets/images/icon/mission_filled.png'),
-        originImage: require('../assets/images/icon/home_filled.png'),
+        image: require('../assets/images/sylvanian/children.png'),
+        originImage: require('../assets/images/sylvanian/mainpage.png'),
       }, {
         id: 8,
-        image: require('../assets/images/icon/mission_filled.png'),
-        originImage: require('../assets/images/icon/my.png'),
+        image: require('../assets/images/sylvanian/children.png'),
+        originImage: require('../assets/images/sylvanian/mainpage.png'),
       }, {
         id: 9,
-        image: require('../assets/images/icon/mission_filled.png'),
-        originImage: require('../assets/images/icon/mission_filled.png'),
+        image: require('../assets/images/sylvanian/children.png'),
+        originImage: require('../assets/images/sylvanian/mainpage.png'),
       }, {
         id: 10,
-        image: require('../assets/images/icon/mission_filled.png'),
-        originImage: require('../assets/images/dummy.png'),
+        image: require('../assets/images/sylvanian/children.png'),
+        originImage: require('../assets/images/sylvanian/mainpage.png'),
       }, {
         id: 11,
-        image: require('../assets/images/icon/mission_filled.png'),
-        originImage: require('../assets/images/galleryImages.png'),
+        image: require('../assets/images/sylvanian/children.png'),
+        originImage: require('../assets/images/sylvanian/mainpage.png'),
       }, {
         id: 12,
-        image: require('../assets/images/icon/mission_filled.png'),
-        originImage: require('../assets/images/icon/home_filled.png'),
+        image: require('../assets/images/sylvanian/children.png'),
+        originImage: require('../assets/images/sylvanian/mainpage.png'),
       },
     ])
   }, []);
@@ -84,7 +85,7 @@ const Mission = ({navigation}) => {
           source={item.image} />
           
         <View style={{ paddingHorizontal: 15, position: 'absolute' }}>
-          <Text style={{ textAlign: 'left', marginTop: 15, color: colors.defaultDarkColor, fontWeight: '800', fontSize: 14 }}>#{item.id}</Text>
+          <StyleText style={{ textAlign: 'left', marginTop: 15, color: colors.defaultDarkColor, fontWeight: '800', fontSize: 14 }}>#{item.id}</StyleText>
         </View>
       </Pressable>
     )

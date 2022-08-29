@@ -1,6 +1,7 @@
 import { useTheme } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, Pressable, View, Text } from 'react-native';
+import StyleText from './StyleText';
 
 const BackBtn = ({ navigation }) => {
     const {colors} = useTheme();
@@ -10,7 +11,7 @@ const BackBtn = ({ navigation }) => {
             style={{...styles.backBtnSection}}
         >
             <View style={{borderRadius: 10, backgroundColor: colors.green[1]}}>
-                <Text style={{...styles.backBtnText, color: colors.defaultColor}}>뒤로</Text>
+                <StyleText style={{...styles.backBtnText, color: colors.defaultColor}}>뒤로</StyleText>
             </View>
         </Pressable>
     );

@@ -2,6 +2,7 @@ import { useTheme } from '@react-navigation/native';
 import React from 'react';
 import { Image, Text, View, StyleSheet, Pressable } from 'react-native';
 import ScreenContainer from '../../components/ScreenContainer';
+import StyleText from '../../components/StyleText';
 
 const AuthPage = ({navigation}) => {
     const {colors} = useTheme();
@@ -27,9 +28,9 @@ const AuthPage = ({navigation}) => {
             >
                 {/* https://medium.com/@milind.patil/social-login-for-react-native-app-facebook-linkedin-gmail-815c4832f77 */}
                 <View style={{ backgroundColor: 'orange', ...styles.socialLoginBtn }}>
-                    <Text
+                    <StyleText
                         style={styles.socialLoginText}
-                    >Google 로그인</Text>
+                    >Google 로그인</StyleText>
                 </View>
                 <Pressable
                     onPress={() =>
@@ -37,9 +38,9 @@ const AuthPage = ({navigation}) => {
                     }
                 >
                     <View style={{ backgroundColor: 'yellow', ...styles.socialLoginBtn }}>
-                        <Text
+                        <StyleText
                             style={styles.socialLoginText}
-                        >Kakao 로그인 (일단 가족 연결 페이지로 연결)</Text>
+                        >Kakao 로그인 (일단 가족 연결 페이지로 연결)</StyleText>
                     </View>
                 </Pressable>
             </View>

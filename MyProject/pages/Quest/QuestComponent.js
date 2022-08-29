@@ -3,6 +3,7 @@ import React from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 import HeaderNavigation from '../../components/HeaderNavigation';
 import ScreenContainer from '../../components/ScreenContainer';
+import StyleText from '../../components/StyleText';
 import TodayQuestNavigator from '../../navigation/TodayQuestNavigator';
 
 const QuestComponent = ({ navigation }) => {
@@ -12,11 +13,11 @@ const QuestComponent = ({ navigation }) => {
         <>
             <HeaderNavigation navigation={navigation} />
             <ScreenContainer style={{ marginTop: -10 }}>
-                <Text style={{ color: colors.defaultDarkColor, fontSize: 22, textAlign: 'center', fontWeight: '700' }}>#{1}</Text>
+                <StyleText style={{ color: colors.defaultDarkColor, fontSize: 22, textAlign: 'center', fontWeight: '700' }}>#{1}</StyleText>
                 <View style={{...styles.questionBox, backgroundColor: colors.blue[1]}}>
-                    <Text style={{ fontSize: 20, textAlign: 'center', paddingVertical: 45, color: colors.defaultDarkColor }}>
+                    <StyleText style={{ fontSize: 20, textAlign: 'center', paddingVertical: 45, color: colors.defaultDarkColor }}>
                         오늘의 질문
-                    </Text>
+                    </StyleText>
                 </View>
                 <TodayQuestNavigator navigation={navigation}/>
             </ScreenContainer>

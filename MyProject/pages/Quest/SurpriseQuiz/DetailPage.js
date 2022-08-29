@@ -5,6 +5,7 @@ import CommentForm from '../../../components/CommentForm';
 import ComponentDivideLine from '../../../components/ComponentDivideLine';
 import HeaderNavigation from '../../../components/HeaderNavigation';
 import ScreenContainer from '../../../components/ScreenContainer';
+import StyleText from '../../../components/StyleText';
 
 const MissionDetail = ({ route, navigation }) => {
     const { idx, originImg, curImg } = route.params;
@@ -47,7 +48,7 @@ const MissionDetail = ({ route, navigation }) => {
             <HeaderNavigation navigation={navigation}/>
             <ScreenContainer>
                 <View nativeID='title'>
-                    <Text style={{ fontSize: 20, color: colors.defaultDarkColor, fontWeight: '800', textAlign: 'center', alignSelf: 'center' }}>깜짝 미션 #{idx}</Text>
+                    <StyleText style={{ fontSize: 20, color: colors.defaultDarkColor, fontWeight: '800', textAlign: 'center', alignSelf: 'center' }}>깜짝 미션 #{idx}</StyleText>
                 </View>
 
                 <View nativeID='imageInfo'
@@ -56,20 +57,20 @@ const MissionDetail = ({ route, navigation }) => {
                     <View style={{...styles.imageMargin}}>
                         <Image
                             source={originImg}
-                            style={{ width: 60, height: 60, resizeMode: 'contain' }}
+                            style={{ width: 100, height: 100, resizeMode: 'cover' }}
                         />
                     </View>
                     <View style={{...styles.imageMargin}}>
                         <Image
                             source={curImg}
-                            style={{ width: 110, height: 110, resizeMode: 'contain' }}
+                            style={{ width: 200, height: 200, resizeMode: 'cover' }}
                         />
                     </View>
                 </View>
 
                 <View style={{...styles.imageSection, ...styles.imageMargin, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ marginHorizontal: 20 }}>
-                        <Text style={{...styles.infoText, color: colors.defaultDarkColor}}>유사도 {}%</Text>
+                        <StyleText style={{...styles.infoText, color: colors.defaultDarkColor}}>유사도 {}%</StyleText>
                     </View>
                     {/* 이 부분 공감 부분인데 다시 할 필요있음 */}
                     {/* <View style={{...styles.emojiSection}}>
@@ -79,15 +80,15 @@ const MissionDetail = ({ route, navigation }) => {
                             showsVerticalScrollIndicator={false}
                             showsHorizontalScrollIndicator={false}
                         >
-                            <Text style={{...styles.infoText, ...styles.emojiText}}>❤️</Text>
-                            <Text style={{...styles.infoText, ...styles.emojiText}}>👍</Text>
+                            <StyleText style={{...styles.infoText, ...styles.emojiText}}>❤️</StyleText>
+                            <StyleText style={{...styles.infoText, ...styles.emojiText}}>👍</StyleText>
                         </ScrollView>
                     </View> */}
                 </View>
 
                 <ComponentDivideLine />
 
-                <Text style={{...styles.infoText, ...styles.commentsTitle, color: colors.defaultDarkColor}}>Comments</Text>
+                <StyleText style={{...styles.infoText, ...styles.commentsTitle, color: colors.defaultDarkColor}}>Comments</StyleText>
                 <SafeAreaView flex={1} style={{...styles.commentsList}}>
                     <ScrollView nativeID='commentScroll' showsVerticalScrollIndicator={false} >
                     {
@@ -112,10 +113,9 @@ const styles = StyleSheet.create({
     imageSection: {
         justifyContent: 'center',
         flexDirection: 'row',
-        marginTop: 35,
+        marginHorizontal: 10
     },
     imageMargin: {
-        marginHorizontal: 5,
     },
     infoText: {
         fontSize: 18,

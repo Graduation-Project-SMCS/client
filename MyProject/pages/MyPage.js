@@ -13,6 +13,7 @@ import ScreenContainer from '../components/ScreenContainer';
 import ComponentDivideLine from '../components/ComponentDivideLine';
 import { getAPI } from '../api';
 import { useTheme } from '@react-navigation/native';
+import StyleText from '../components/StyleText';
 
 const MyPage = () => {
   const {colors} = useTheme();
@@ -40,25 +41,25 @@ const MyPage = () => {
   return (
     <ScreenContainer style={{ alignContent: 'center' }}>
       <Pressable>
-        <Text style={{ textAlign: 'right', color: colors.defaultDarkColor }}>로그아웃</Text>
+        <StyleText style={{ textAlign: 'right', color: colors.defaultDarkColor }}>로그아웃</StyleText>
       </Pressable>
       <View nativeID='user-profile' style={{ alignSelf: 'center', marginTop: 15 }}>
         <Image
-          source={require('../assets/images/dummy.png')}
-          style={{width: 125, height: 125, borderRadius: 50, resizeMode: 'contain', marginBottom: 15 }}
+          source={require('../assets/images/sylvanian/basic2.png')}
+          style={{width: 150, height: 150, borderRadius: 50, resizeMode: 'contain', marginBottom: 5 }}
         ></Image>
         {/* 이름 다시 */}
-        <Text style={{ textAlign: 'center', fontSize: 20, color: colors.defaultDarkColor}}>{}myname</Text>
+        <StyleText style={{ textAlign: 'center', fontSize: 20, color: colors.defaultDarkColor}}>{}myname</StyleText>
       </View>
 
       <ComponentDivideLine />
 
       <View nativeID='user-family'>
-        <Text style={{ fontSize: 14, color: colors.defaultDarkColor }}>나의 가족들</Text>
+        <StyleText style={{ fontSize: 14, color: colors.defaultDarkColor }}>나의 가족들</StyleText>
         {/* 가족 구성원 api 들어오면 다시 */}
         <View style={{ marginTop: 10, color: colors.defaultDarkColor }}>
-          <Text style={{...styles.familyText, color: colors.defaultDarkColor}}>❤️     가장 가까운 ...    [{}]</Text>
-          <Text style={{...styles.familyText, color: colors.defaultDarkColor}}>🙏     친해지길 바라 ... [{}]    ☎️</Text>
+          <StyleText style={{...styles.familyText, color: colors.defaultDarkColor}}>❤️     가장 가까운 ...    [{}]</StyleText>
+          <StyleText style={{...styles.familyText, color: colors.defaultDarkColor}}>🙏     친해지길 바라 ... [{}]    ☎️</StyleText>
         </View>
       </View>
 
@@ -66,12 +67,12 @@ const MyPage = () => {
       
       <View nativeID='setting'>
         <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginVertical: 10 }}>
-          <Text style={{ fontSize: 14, color: colors.defaultDarkColor }}>내 정보 수정</Text>
-          <Text style={{ fontSize: 22, marginRight: 15, fontWeight: '700', color: colors.defaultDarkColor }}>{'>'}</Text>
+          <StyleText style={{ fontSize: 14, color: colors.defaultDarkColor }}>내 정보 수정</StyleText>
+          <StyleText style={{ fontSize: 22, marginRight: 15, fontWeight: '700', color: colors.defaultDarkColor }}>{'>'}</StyleText>
         </View>
         <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginVertical: 10 }}>
-          <Text style={{ fontSize: 14, color: colors.defaultDarkColor }}>우리 가족 정보 수정</Text>
-          <Text style={{ fontSize: 22, marginRight: 15, fontWeight: '700', color: colors.defaultDarkColor }}>{'>'}</Text>
+          <StyleText style={{ fontSize: 14, color: colors.defaultDarkColor }}>우리 가족 정보 수정</StyleText>
+          <StyleText style={{ fontSize: 22, marginRight: 15, fontWeight: '700', color: colors.defaultDarkColor }}>{'>'}</StyleText>
         </View>
       </View>
     </ScreenContainer>

@@ -4,6 +4,7 @@ import { Text, StyleSheet, Image, View, ActivityIndicator, Pressable } from 'rea
 import { poseAPI } from '../../../api';
 import BackBtn from '../../../components/BackBtn';
 import ScreenContainer from '../../../components/ScreenContainer';
+import StyleText from '../../../components/StyleText';
 
 const QuestAnalyze = ({ route, navigation }) => {
     const {colors} = useTheme();
@@ -39,9 +40,9 @@ const QuestAnalyze = ({ route, navigation }) => {
             <View style={{ justifyContent: 'center', alignItems: 'center', height: '50%' }}>
                 { isAnalyzeFinished ?
                     <></> :
-                    <Text style={{ fontSize: 16, color: colors.defaultDarkColor, fontWeight: '700' }}>
+                    <StyleText style={{ fontSize: 16, color: colors.defaultDarkColor, fontWeight: '700' }}>
                         미션 분석 중...
-                    </Text>
+                    </StyleText>
                 }
                 <Image
                     nativeID='dataImage'
@@ -54,7 +55,7 @@ const QuestAnalyze = ({ route, navigation }) => {
             { isAnalyzeFinished
                 && 
                 <View style={{ justifyContent: 'center', alignItems: 'center'  }}>
-                    <Text style={{...styles.analyzeRes, color: colors.green[2]}}>{ analyzeRes }</Text>
+                    <StyleText style={{...styles.analyzeRes, color: colors.green[2]}}>{ analyzeRes }</StyleText>
                 </View>
             }
             <BackBtn navigation={navigation}/>

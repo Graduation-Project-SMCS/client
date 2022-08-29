@@ -11,14 +11,15 @@ import {
 } from 'react-native';
 import ScreenContainer from '../../../components/ScreenContainer';
 import { useNavigation, useTheme } from '@react-navigation/native';
+import StyleText from '../../../components/StyleText';
 
 const SurpriseQuiz = () => {
   const {colors} = useTheme();
   const [filePath, setFilePath] = useState({ uri: '' });
   const [fileUri, setFileUri] = useState('');
   const [originImage, setOriginImage] = useState({
-    uri: '../../../assets/images/dummy.png',
-    req: require('../../../assets/images/dummy.png'),
+    uri: '../../../assets/images/sylvanian/basic1.png',
+    req: require('../../../assets/images/sylvanian/basic1.png'),
   });
   const [imgUrl, setImgUrl] = useState();
   const navigation = useNavigation();
@@ -126,38 +127,31 @@ const SurpriseQuiz = () => {
         style={styles.images}
       />
     } else {
-      return <Image
-        source={require('../../../assets/images/galleryImages.png')}
-        style={styles.images}
-      />
+      return <View style={{ width: 150, height: 150, alignItems: 'center'}}>
+        <StyleText style={{ color: colors.blue[1], fontSize: 125, fontWeight: '900'}}>?</StyleText>
+      </View>
     }
   }
 
   return (
     <View style={{ backgroundColor: colors.backgroundColor, flex: 1, alignItems: 'center' }}>
       <View>
-        <Text
+        <StyleText
           style={{textAlign:'center',fontSize: 16, paddingBottom:10, lineHeight: 34, color: colors.defaultDarkColor, fontWeight: '700'}}
-        >깜짝 퀴즈!{'\n'}주어진 사진과 같은 포즈를 잡아보세요</Text>
+        >깜짝 퀴즈!{'\n'}주어진 사진과 같은 포즈를 잡아보세요</StyleText>
       </View>
-      <View>
-        <View style={styles.ImageSections}>
-          <View>
-            {renderOriginImg()}
-          </View>
-          <View>
-            {renderFileUri()}
-          </View>
-        </View>
+      <View style={styles.ImageSections}>
+          {renderOriginImg()}
+          {renderFileUri()}
       </View>
 
       <View style={styles.btnParentSection}>
         <TouchableOpacity onPress={requestCameraPermission} style={{...styles.btnSection, backgroundColor: colors.green[3]}}>
-          <Text style={{...styles.btnText, color: colors.defaultDarkColor }}>사진 찍기</Text>
+          <StyleText style={{...styles.btnText, color: colors.defaultDarkColor }}>사진 찍기</StyleText>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={lImageLibrary} style={{...styles.btnSection, backgroundColor: colors.green[3]}}>
-          <Text style={{...styles.btnText, color: colors.defaultDarkColor }}>사진 가져오기</Text>
+          <StyleText style={{...styles.btnText, color: colors.defaultDarkColor }}>사진 가져오기</StyleText>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -165,7 +159,7 @@ const SurpriseQuiz = () => {
           style={{...styles.btnSection, backgroundColor: colors.green[3]}}
           disabled={imgUrl ? false : true}
         >
-            <Text style={{...styles.btnText, color: colors.defaultDarkColor }}>준비 완료!</Text>
+            <StyleText style={{...styles.btnText, color: colors.defaultDarkColor }}>준비 완료!</StyleText>
         </TouchableOpacity>
       </View>
     </View>
@@ -175,16 +169,15 @@ const SurpriseQuiz = () => {
 export default SurpriseQuiz;
 const styles = StyleSheet.create({
   ImageSections: {
-    display: 'flex',
     flexDirection: 'row',
-    paddingHorizontal: 10,
-    justifyContent: 'center'
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   images: {
     width: 150,
-    height: 200,
-    marginHorizontal: 10,
-    resizeMode: 'contain'
+    height: 150,
+    resizeMode: 'contain',
+    alignSelf: 'center',
   },
   btnParentSection: {
     alignItems: 'center',

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {useTheme} from '@react-navigation/native';
+import StyleText from './StyleText';
 
 const HeaderNavigation = props => {
     const {colors} = useTheme();
@@ -20,13 +21,13 @@ const HeaderNavigation = props => {
                     activeOpacity={0.8}
                     style={{ flexDirection: 'row', alignItems: 'center' }}
                 >
-                    <Text style={{ fontSize: 26, color: colors.defaultDarkColor, fontWeight: '900' }}>◀</Text>
-                    <Text style={{ fontSize: 14, color: colors.defaultDarkColor, fontWeight: '700', paddingTop: 4, fontFamily: 'SongMyung-Regular' }}>  뒤로</Text>
+                    <StyleText style={{ fontSize: 26, color: colors.defaultDarkColor, fontWeight: '900' }}>◀</StyleText>
+                    <StyleText style={{ fontSize: 14, color: colors.defaultDarkColor, fontWeight: '700', paddingTop: 4}}>  뒤로</StyleText>
                 </TouchableOpacity>
             </View>
-            <Text style={{color: colors.green[1], fontSize: 16, fontWeight: 'bold'}}>
-                {props.title}
-            </Text>
+            <StyleText style={{color: colors.green[1], fontSize: 16, fontWeight: 'bold'}}
+            >{props.title}
+            </StyleText>
         </View>
     );
 };

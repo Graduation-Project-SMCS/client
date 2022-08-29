@@ -1,6 +1,7 @@
 import { useTheme } from '@react-navigation/native';
 import React from 'react';
 import {View, Image, Text, StyleSheet} from "react-native";
+import StyleText from './StyleText';
 
 const CommentForm = (props) => {
     const {e, idx} = props;
@@ -11,9 +12,9 @@ const CommentForm = (props) => {
             <View style={styles.formSection}>
                 <View style={styles.profileSection}>
                     <Image source={e.image} style={styles.profileImage} />
-                    <Text style={{...styles.profileName, color: colors.defaultDarkColor,}}>{e.name}</Text>
+                    <StyleText style={{...styles.profileName, color: colors.defaultDarkColor,}}>{e.name}</StyleText>
                 </View>
-                <Text style={{ textAlign: 'left', color: colors.defaultDarkColor }}>{e.answer}</Text>
+                <StyleText style={{ textAlign: 'left', color: colors.defaultDarkColor }}>{e.answer}</StyleText>
             </View>
         </View>
     )
