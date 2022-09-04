@@ -1,46 +1,111 @@
 import { useTheme } from '@react-navigation/native';
 import React from 'react';
 import { Image, Text, View, StyleSheet, Pressable } from 'react-native';
+import { getAPI } from '../../api';
 import ScreenContainer from '../../components/ScreenContainer';
 import StyleText from '../../components/StyleText';
 
 const AuthPage = ({navigation}) => {
     const {colors} = useTheme();
+
+    const signInWithGoogle = async () => {
+        await getAPI(
+            {},
+            '/oauth2/authorization/google',
+            "",
+        )
+        .then(({ data, status }) => {
+            console.log(data, status);
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+    };
+
+    const signInWithNaver = async () => {
+        await getAPI(
+            {},
+            '/oauth2/authorization/naver',
+            "",
+        )
+        .then(({ data, status }) => {
+            console.log(data, status);
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+    };
+
     return (
         <>
             <ScreenContainer>
-                <View nativeID='title' style={{ marginTop: 20 }}>
-                    <Image
-                    source={require('../../assets/images/wuga.png')}
-                    style={{ width: 250, height: 100, justifyContent: 'center', alignSelf: 'center', resizeMode: 'contain' }}
-                    />
-                    <View style={{ marginVertical: 40 }}>
-                        <Image
-                            source={require('../../assets/images/sylvanian/mainpage.png')}
-                            style={{ width: '90%', height: 200, resizeMode: 'cover', alignSelf: 'center' }}
-                        />
-                    </View>
-                </View>
+                <Image
+                    source={require('../../assets/images/wuga/main-wuga.png')}
+                    style={{ width: '100%', height: 350, justifyContent: 'center', alignSelf: 'center', resizeMode: 'contain' }}
+                />
             </ScreenContainer>
             <View
                 nativeID='social-login'
-                style={{ position: 'absolute', bottom: 50, width: '100%'}}
+                style={{ position: 'absolute', bottom: 20, width: '100%'}}
             >
-                {/* https://medium.com/@milind.patil/social-login-for-react-native-app-facebook-linkedin-gmail-815c4832f77 */}
-                <View style={{ backgroundColor: 'orange', ...styles.socialLoginBtn }}>
-                    <StyleText
-                        style={styles.socialLoginText}
-                    >Google 로그인</StyleText>
-                </View>
+                <Pressable
+                    onPress={() =>
+                        signInWithGoogle()
+                    }
+                >
+                    <View style={{ backgroundColor: '#FFFFFF', borderWidth: 1, ...styles.socialLoginBtn }}>
+                        <Image
+                            source={require('../../assets/images/icon/google.png')}
+                            style={{ width: 24, height: 24 }}
+                        />
+                        <Text
+                            style={styles.socialLoginText}
+                        >구글로 로그인</Text>
+                    </View>
+                </Pressable>
+                <Pressable
+                    onPress={() =>
+                        signInWithNaver()
+                    }
+                >
+                    <View style={{ backgroundColor: '#2DB400', ...styles.socialLoginBtn }}>
+                        <Image
+                            source={require('../../assets/images/icon/naver.webp')}
+                            style={{ width: 24, height: 24 }}
+                        />
+                        <Text
+                            style={{color: '#F0F0F0', ...styles.socialLoginText}}
+                        >네이버로 로그인</Text>
+                    </View>
+                </Pressable>
                 <Pressable
                     onPress={() =>
                         navigation.navigate('FamilyCode')
                     }
                 >
-                    <View style={{ backgroundColor: 'yellow', ...styles.socialLoginBtn }}>
-                        <StyleText
+                    <View style={{ backgroundColor: '#F9E000', ...styles.socialLoginBtn }}>
+                        <Image
+                            source={require('../../assets/images/icon/kakao.png')}
+                            style={{ width: 24, height: 24 }}
+                        />
+                        <Text
                             style={styles.socialLoginText}
-                        >Kakao 로그인 (일단 가족 연결 페이지로 연결)</StyleText>
+                        >카카오톡으로 로그인</Text>
+                    </View>
+                </Pressable>
+                <Pressable
+                    onPress={() =>
+                        navigation.navigate('FamilyCode')
+                    }
+                >
+                    <View style={{ backgroundColor: '#3B5998', ...styles.socialLoginBtn }}>
+                        <Image
+                            source={require('../../assets/images/icon/facebook.png')}
+                            style={{ width: 24, height: 24 }}
+                        />
+                        <Text
+                            style={{color: '#F0F0F0', ...styles.socialLoginText}}
+                        >페이스북으로 로그인</Text>
                     </View>
                 </Pressable>
             </View>
@@ -54,11 +119,14 @@ const styles = StyleSheet.create({
     socialLoginBtn: {
         width: '80%',
         alignSelf: 'center',
-        marginVertical: 5
+        marginVertical: 5,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 15
     },
     socialLoginText: {
         fontSize: 14,
-        textAlign: 'center',
+        textAlign: 'left',
         padding: 15,
         fontWeight: '700'
     }

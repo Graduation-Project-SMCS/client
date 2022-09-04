@@ -13,16 +13,14 @@ const App = () => {
     colors: {
       ...DefaultTheme.colors,
       defaultColor: '#FFFFFF',
-      defaultDarkColor: '#575757',
+      defaultDarkColor: '#666666',
       backgroundColor: '#FDFDFD',
-      green : {
-        1: '#28b0e0',
-        2: '#88d2f5',
-        3: '#BEDEF3',
-      },
-      blue: {
-        1: '#aeddf7',
-        2: '#d7effb',
+      brown : {
+        1: '#3d2102',
+        2: '#68523a',
+        3: '#ffa35c',
+        4: '#9e9081',
+        5: '#b4a99d',
       },
     }
   };

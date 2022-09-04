@@ -24,52 +24,52 @@ const Mission = ({navigation}) => {
     setMissions([
       {
         id: 1,
-        image: require('../assets/images/sylvanian/children.png'),
-        originImage: require('../assets/images/sylvanian/mainpage.png'),
+        image: require('../assets/images/wuga/characters-wuga.png'),
+        originImage: require('../assets/images/wuga/maincharacter-wuga.png'),
       }, {
         id: 2,
-        image: require('../assets/images/sylvanian/children.png'),
-        originImage: require('../assets/images/sylvanian/mainpage.png'),
+        image: require('../assets/images/wuga/characters-wuga.png'),
+        originImage: require('../assets/images/wuga/maincharacter-wuga.png'),
       }, {
         id: 3,
-        image: require('../assets/images/sylvanian/children.png'),
-        originImage: require('../assets/images/sylvanian/mainpage.png'),
+        image: require('../assets/images/wuga/characters-wuga.png'),
+        originImage: require('../assets/images/wuga/maincharacter-wuga.png'),
       }, {
         id: 4,
-        image: require('../assets/images/sylvanian/children.png'),
-        originImage: require('../assets/images/sylvanian/mainpage.png'),
+        image: require('../assets/images/wuga/characters-wuga.png'),
+        originImage: require('../assets/images/wuga/maincharacter-wuga.png'),
       }, {
         id: 5,
-        image: require('../assets/images/sylvanian/children.png'),
-        originImage: require('../assets/images/sylvanian/mainpage.png'),
+        image: require('../assets/images/wuga/characters-wuga.png'),
+        originImage: require('../assets/images/wuga/maincharacter-wuga.png'),
       }, {
         id: 6,
-        image: require('../assets/images/sylvanian/children.png'),
-        originImage: require('../assets/images/sylvanian/mainpage.png'),
+        image: require('../assets/images/wuga/characters-wuga.png'),
+        originImage: require('../assets/images/wuga/maincharacter-wuga.png'),
       }, {
         id: 7,
-        image: require('../assets/images/sylvanian/children.png'),
-        originImage: require('../assets/images/sylvanian/mainpage.png'),
+        image: require('../assets/images/wuga/characters-wuga.png'),
+        originImage: require('../assets/images/wuga/maincharacter-wuga.png'),
       }, {
         id: 8,
-        image: require('../assets/images/sylvanian/children.png'),
-        originImage: require('../assets/images/sylvanian/mainpage.png'),
+        image: require('../assets/images/wuga/characters-wuga.png'),
+        originImage: require('../assets/images/wuga/maincharacter-wuga.png'),
       }, {
         id: 9,
-        image: require('../assets/images/sylvanian/children.png'),
-        originImage: require('../assets/images/sylvanian/mainpage.png'),
+        image: require('../assets/images/wuga/characters-wuga.png'),
+        originImage: require('../assets/images/wuga/maincharacter-wuga.png'),
       }, {
         id: 10,
-        image: require('../assets/images/sylvanian/children.png'),
-        originImage: require('../assets/images/sylvanian/mainpage.png'),
+        image: require('../assets/images/wuga/characters-wuga.png'),
+        originImage: require('../assets/images/wuga/maincharacter-wuga.png'),
       }, {
         id: 11,
-        image: require('../assets/images/sylvanian/children.png'),
-        originImage: require('../assets/images/sylvanian/mainpage.png'),
+        image: require('../assets/images/wuga/characters-wuga.png'),
+        originImage: require('../assets/images/wuga/maincharacter-wuga.png'),
       }, {
         id: 12,
-        image: require('../assets/images/sylvanian/children.png'),
-        originImage: require('../assets/images/sylvanian/mainpage.png'),
+        image: require('../assets/images/wuga/characters-wuga.png'),
+        originImage: require('../assets/images/wuga/maincharacter-wuga.png'),
       },
     ])
   }, []);
@@ -78,14 +78,14 @@ const Mission = ({navigation}) => {
     return (
       <Pressable
         onPress={()=>navigation.navigate('Detail', { idx: missions.length-index, originImg: item.originImage, curImg: item.image })}
-        style={{ width: '31%', margin: 5, alignSelf: 'center', borderWidth: 0.5, borderColor: colors.blue[1], }}
+        style={{ width: '31%', margin: 5, alignSelf: 'center', borderWidth: 0.5, borderColor: colors.brown[4], }}
       >
         <Image
           style={{ width: '100%', height: 150, resizeMode: 'contain' }}
           source={item.image} />
           
         <View style={{ paddingHorizontal: 15, position: 'absolute' }}>
-          <StyleText style={{ textAlign: 'left', marginTop: 15, color: colors.defaultDarkColor, fontWeight: '800', fontSize: 14 }}>#{item.id}</StyleText>
+          <StyleText style={{ textAlign: 'left', marginTop: 10, color: colors.defaultDarkColor, fontWeight: '800', fontSize: 14 }}>#{item.id}</StyleText>
         </View>
       </Pressable>
     )

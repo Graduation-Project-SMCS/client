@@ -45,7 +45,7 @@ const MyPage = () => {
       </Pressable>
       <View nativeID='user-profile' style={{ alignSelf: 'center', marginTop: 15 }}>
         <Image
-          source={require('../assets/images/sylvanian/basic2.png')}
+          source={require('../assets/images/wuga/character2-wuga.png')}
           style={{width: 150, height: 150, borderRadius: 50, resizeMode: 'contain', marginBottom: 5 }}
         ></Image>
         {/* 이름 다시 */}
@@ -68,11 +68,9 @@ const MyPage = () => {
       <View nativeID='setting'>
         <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginVertical: 10 }}>
           <StyleText style={{ fontSize: 14, color: colors.defaultDarkColor }}>내 정보 수정</StyleText>
-          <StyleText style={{ fontSize: 22, marginRight: 15, fontWeight: '700', color: colors.defaultDarkColor }}>{'>'}</StyleText>
         </View>
         <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginVertical: 10 }}>
           <StyleText style={{ fontSize: 14, color: colors.defaultDarkColor }}>우리 가족 정보 수정</StyleText>
-          <StyleText style={{ fontSize: 22, marginRight: 15, fontWeight: '700', color: colors.defaultDarkColor }}>{'>'}</StyleText>
         </View>
       </View>
     </ScreenContainer>

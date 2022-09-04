@@ -29,25 +29,25 @@ const FamilyCodePage = ({navigation}) => {
                         style={{ marginTop: 30 }}
                     >
                         <Pressable
-                            style={{...styles.inviteBtn, backgroundColor: colors.blue[1]}}
+                            style={{...styles.inviteBtn, backgroundColor: colors.brown[4]}}
                             onPress={()=>{
                                 setCode(makeCode());
                             }}
                         >
                             <StyleText
-                                style={{...styles.inviteText, color: colors.defaultDarkColor}}
+                                style={{...styles.inviteText, color: colors.defaultColor}}
                             >내가 초대하기</StyleText>
                         </Pressable>
 
                         <Pressable
-                            style={{...styles.inviteBtn, backgroundColor: colors.blue[1]}}
+                            style={{...styles.inviteBtn, backgroundColor: colors.brown[4]}}
                             onPress={()=>{
                                 setHasCode(true);
                                 setCode('');
                             }}
                         >
                             <StyleText
-                                style={{...styles.inviteText, color: colors.defaultDarkColor}}
+                                style={{...styles.inviteText, color: colors.defaultColor}}
                             >{hasCode ? '🔽  코드를 입력하세요' : '초대 코드가 있어요!'}</StyleText>
                         </Pressable>
 
@@ -55,10 +55,10 @@ const FamilyCodePage = ({navigation}) => {
                             style={styles.codeConfirm}
                         >
                             <View
-                                style={{ ...styles.codeBtn, backgroundColor: colors.green[2] }}
+                                style={{ ...styles.codeBtn, backgroundColor: colors.brown[2] }}
                             >
                                 <TextInput
-                                    style={{...styles.inviteText, color: colors.defaultDarkColor, fontFamily: 'SongMyung-Regular'}}
+                                    style={{...styles.inviteText, color: colors.defaultColor, fontFamily: 'SongMyung-Regular'}}
                                     maxLength={6}
                                     value={code}
                                     autoFocus={true}
@@ -76,8 +76,8 @@ const FamilyCodePage = ({navigation}) => {
                                 <StyleText
                                     style={
                                         codeConditionConfirmed(code) ? {
-                                            color: colors.defaultDarkColor,
-                                            backgroundColor: colors.blue[2],
+                                            color: colors.defaultColor,
+                                            backgroundColor: colors.brown[5],
                                             ...styles.inviteText,
                                         } : {
                                             color: colors.defaultColor,
@@ -90,20 +90,14 @@ const FamilyCodePage = ({navigation}) => {
                         </View>
                     </View>
                 </View>
-                <View nativeID='family-code-image-zone'>
+                <View nativeID='family-code-image-zone'
+                    style={{ justifyContent: 'center', alignItems: 'center' }}
+                >
                     <Image
-                        source={require('../../assets/images/sylvanian/basic1.png')}
-                        style={{ position: 'absolute', top: 0, left: 15, width: 85, height: 85 }}
-                    />
-                    <Image
-                        source={require('../../assets/images/sylvanian/basic2.png')}
-                        style={{ position: 'absolute', top: 5, right: 25, width: 100, height: 60, resizeMode: 'contain' }}
+                        source={require('../../assets/images/wuga/characters-wuga.png')}
+                        style={{ width: 300, height: 200, resizeMode: 'cover' }}
                     />
                 </View>
-                <Image
-                    source={require('../../assets/images/sylvanian/children.png')}
-                    style={{ position: 'absolute', bottom: 20, left: 20, width: 400, height: 300, resizeMode: 'cover' }}
-                />
             </ScreenContainer>
         </>
     )

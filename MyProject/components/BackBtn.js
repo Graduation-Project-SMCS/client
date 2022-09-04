@@ -3,14 +3,14 @@ import React from 'react';
 import { StyleSheet, Pressable, View, Text } from 'react-native';
 import StyleText from './StyleText';
 
-const BackBtn = ({ navigation }) => {
+const BackBtn = (props, { navigation }) => {
     const {colors} = useTheme();
     return (
         <Pressable
             onPress={()=>navigation.popToTop()}
-            style={{...styles.backBtnSection}}
+            style={{...styles.backBtnSection, ...props.style}}
         >
-            <View style={{borderRadius: 10, backgroundColor: colors.green[1]}}>
+            <View style={{borderRadius: 10, backgroundColor: colors.brown[1]}}>
                 <StyleText style={{...styles.backBtnText, color: colors.defaultColor}}>뒤로</StyleText>
             </View>
         </Pressable>

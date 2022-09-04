@@ -1,6 +1,6 @@
 import { useTheme } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Text, StyleSheet, Image, View, ActivityIndicator, Pressable } from 'react-native';
+import { Text, StyleSheet, Image, View, ActivityIndicator, Pressable, ImageBackground } from 'react-native';
 import { poseAPI } from '../../../api';
 import BackBtn from '../../../components/BackBtn';
 import ScreenContainer from '../../../components/ScreenContainer';
@@ -36,30 +36,38 @@ const QuestAnalyze = ({ route, navigation }) => {
     };
 
     return (
-        <ScreenContainer>
-            <View style={{ justifyContent: 'center', alignItems: 'center', height: '50%' }}>
-                { isAnalyzeFinished ?
-                    <></> :
-                    <StyleText style={{ fontSize: 16, color: colors.defaultDarkColor, fontWeight: '700' }}>
-                        미션 분석 중...
-                    </StyleText>
-                }
-                <Image
-                    nativeID='dataImage'
-                    source={{ uri: image }}
-                    style={styles.images}
-                />
-                { !isAnalyzeFinished && <ActivityIndicator size={"large"} color={colors.green[3]} /> }
-            </View>
-            
-            { isAnalyzeFinished
-                && 
-                <View style={{ justifyContent: 'center', alignItems: 'center'  }}>
-                    <StyleText style={{...styles.analyzeRes, color: colors.green[2]}}>{ analyzeRes }</StyleText>
+        <View style={{ backgroundColor: colors.backgroundColor, flex: 1, alignItems: 'center' }}>
+            <ImageBackground
+                source={require('../../../assets/images/wuga/background-wuga.png')}
+                resizeMode={"contain"}
+                style={{width: '100%', height: '98%'}}
+            >
+                <View style={{ padding: 5 }}>
+                    <View style={{ justifyContent: 'center', alignItems: 'center', height: '50%' }}>
+                        { isAnalyzeFinished ?
+                            <></> :
+                            <StyleText style={{ fontSize: 16, color: colors.defaultDarkColor, fontWeight: '700' }}>
+                                미션 분석 중...
+                            </StyleText>
+                        }
+                        <Image
+                            nativeID='dataImage'
+                            source={{ uri: image }}
+                            style={styles.images}
+                        />
+                        { !isAnalyzeFinished && <ActivityIndicator size={"large"} color={colors.brown[3]} /> }
+                    </View>
+                    
+                    { isAnalyzeFinished
+                        && 
+                        <View style={{ justifyContent: 'center', alignItems: 'center'  }}>
+                            <StyleText style={{...styles.analyzeRes, color: colors.brown[2]}}>{ analyzeRes }</StyleText>
+                        </View>
+                    }
                 </View>
-            }
-            <BackBtn navigation={navigation}/>
-        </ScreenContainer>
+                <BackBtn navigation={navigation} style={{right: 25}}/>
+            </ImageBackground>
+        </View>
     );
 };
 

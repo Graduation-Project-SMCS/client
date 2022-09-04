@@ -8,18 +8,19 @@ import {
   Image,
   TouchableOpacity,
   PermissionsAndroid,
+  ImageBackground,
+  Pressable,
 } from 'react-native';
-import ScreenContainer from '../../../components/ScreenContainer';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import StyleText from '../../../components/StyleText';
 
-const SurpriseQuiz = () => {
+const SurpriseQuiz = ({ modalVisible, setModalVisible }) => {
   const {colors} = useTheme();
   const [filePath, setFilePath] = useState({ uri: '' });
   const [fileUri, setFileUri] = useState('');
   const [originImage, setOriginImage] = useState({
-    uri: '../../../assets/images/sylvanian/basic1.png',
-    req: require('../../../assets/images/sylvanian/basic1.png'),
+    uri: '../../../assets/images/wuga/character1-wuga.png',
+    req: require('../../../assets/images/wuga/character1-wuga.png'),
   });
   const [imgUrl, setImgUrl] = useState();
   const navigation = useNavigation();
@@ -128,40 +129,53 @@ const SurpriseQuiz = () => {
       />
     } else {
       return <View style={{ width: 150, height: 150, alignItems: 'center'}}>
-        <StyleText style={{ color: colors.blue[1], fontSize: 125, fontWeight: '900'}}>?</StyleText>
+        <StyleText style={{ color: colors.brown[4], fontSize: 125, fontWeight: '900'}}>?</StyleText>
       </View>
     }
   }
 
   return (
     <View style={{ backgroundColor: colors.backgroundColor, flex: 1, alignItems: 'center' }}>
-      <View>
-        <StyleText
-          style={{textAlign:'center',fontSize: 16, paddingBottom:10, lineHeight: 34, color: colors.defaultDarkColor, fontWeight: '700'}}
-        >깜짝 퀴즈!{'\n'}주어진 사진과 같은 포즈를 잡아보세요</StyleText>
-      </View>
-      <View style={styles.ImageSections}>
-          {renderOriginImg()}
-          {renderFileUri()}
-      </View>
+      <ImageBackground
+        source={require('../../../assets/images/wuga/background-wuga.png')}
+        resizeMode={"contain"}
+        style={{width: '100%', height: '98%'}}
+      >
+        <View style={{ padding: 30 }}>
+          <Pressable
+              onPress={()=>setModalVisible(!modalVisible)}
+          >
+              <StyleText style={{...styles.modalX, color: colors.defaultDarkColor}}>X</StyleText>
+          </Pressable>
+          <View>
+            <StyleText
+              style={{textAlign:'center',fontSize: 16, paddingBottom:10, lineHeight: 34, color: colors.defaultDarkColor, fontWeight: '700'}}
+            >깜짝 퀴즈!{'\n'}주어진 사진과 같은 포즈를 잡아보세요</StyleText>
+          </View>
+          <View style={styles.ImageSections}>
+              {renderOriginImg()}
+              {renderFileUri()}
+          </View>
 
-      <View style={styles.btnParentSection}>
-        <TouchableOpacity onPress={requestCameraPermission} style={{...styles.btnSection, backgroundColor: colors.green[3]}}>
-          <StyleText style={{...styles.btnText, color: colors.defaultDarkColor }}>사진 찍기</StyleText>
-        </TouchableOpacity>
+          <View style={styles.btnParentSection}>
+            <TouchableOpacity onPress={requestCameraPermission} style={{...styles.btnSection, backgroundColor: colors.brown[3]}}>
+              <StyleText style={{...styles.btnText, color: colors.defaultDarkColor }}>사진 찍기</StyleText>
+            </TouchableOpacity>
 
-        <TouchableOpacity onPress={lImageLibrary} style={{...styles.btnSection, backgroundColor: colors.green[3]}}>
-          <StyleText style={{...styles.btnText, color: colors.defaultDarkColor }}>사진 가져오기</StyleText>
-        </TouchableOpacity>
+            <TouchableOpacity onPress={lImageLibrary} style={{...styles.btnSection, backgroundColor: colors.brown[3]}}>
+              <StyleText style={{...styles.btnText, color: colors.defaultDarkColor }}>사진 가져오기</StyleText>
+            </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={()=>navigation.navigate('Analyze', { image: imgUrl })}
-          style={{...styles.btnSection, backgroundColor: colors.green[3]}}
-          disabled={imgUrl ? false : true}
-        >
-            <StyleText style={{...styles.btnText, color: colors.defaultDarkColor }}>준비 완료!</StyleText>
-        </TouchableOpacity>
-      </View>
+            <TouchableOpacity
+              onPress={()=>navigation.navigate('Analyze', { image: imgUrl })}
+              style={{...styles.btnSection, backgroundColor: colors.brown[3]}}
+              // disabled={imgUrl ? false : true}
+            >
+                <StyleText style={{...styles.btnText, color: colors.defaultDarkColor }}>준비 완료!</StyleText>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ImageBackground>
     </View>
   );
 };
@@ -171,7 +185,8 @@ const styles = StyleSheet.create({
   ImageSections: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginVertical: 15
   },
   images: {
     width: 150,
@@ -181,8 +196,7 @@ const styles = StyleSheet.create({
   },
   btnParentSection: {
     alignItems: 'center',
-    position: 'absolute',
-    bottom: 25
+    justifyContent: 'center',
   },
   btnSection: {
     width: 225,
@@ -196,5 +210,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 14,
     fontWeight: '800'
+  },
+  modalX: {
+      fontWeight: '800',
+      textAlign: 'center',
+      alignSelf: 'flex-end',
+      fontSize: 20,
   }
 });

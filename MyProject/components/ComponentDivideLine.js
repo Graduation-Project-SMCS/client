@@ -8,7 +8,7 @@ const ComponentDivideLine = (props) => {
     return (
         <View style={[{
             height: 1,
-            backgroundColor: colors.blue[1],
+            backgroundColor: colors.brown[4],
         }, props.style && props.style.marginVertical ? {marginVertical: props.style.marginVertical} : {marginVertical: 25}]}></View>
     )
 }

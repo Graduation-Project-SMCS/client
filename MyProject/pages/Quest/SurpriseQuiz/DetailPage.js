@@ -46,29 +46,25 @@ const MissionDetail = ({ route, navigation }) => {
     return (
         <>
             <HeaderNavigation navigation={navigation}/>
-            <ScreenContainer>
+            <ScreenContainer style={{ marginTop: -10 }}>
                 <View nativeID='title'>
                     <StyleText style={{ fontSize: 20, color: colors.defaultDarkColor, fontWeight: '800', textAlign: 'center', alignSelf: 'center' }}>깜짝 미션 #{idx}</StyleText>
                 </View>
 
                 <View nativeID='imageInfo'
-                    style={{...styles.imageSection}}
+                    style={{...styles.imageSection, marginTop: 10}}
                 >
-                    <View style={{...styles.imageMargin}}>
-                        <Image
-                            source={originImg}
-                            style={{ width: 100, height: 100, resizeMode: 'cover' }}
-                        />
-                    </View>
-                    <View style={{...styles.imageMargin}}>
-                        <Image
-                            source={curImg}
-                            style={{ width: 200, height: 200, resizeMode: 'cover' }}
-                        />
-                    </View>
+                    <Image
+                        source={originImg}
+                        style={{ width: 100, height: 100, resizeMode: 'contain' }}
+                    />
+                    <Image
+                        source={curImg}
+                        style={{ width: 200, height: 200, resizeMode: 'contain' }}
+                    />
                 </View>
 
-                <View style={{...styles.imageSection, ...styles.imageMargin, justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{...styles.imageSection, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ marginHorizontal: 20 }}>
                         <StyleText style={{...styles.infoText, color: colors.defaultDarkColor}}>유사도 {}%</StyleText>
                     </View>
@@ -113,9 +109,7 @@ const styles = StyleSheet.create({
     imageSection: {
         justifyContent: 'center',
         flexDirection: 'row',
-        marginHorizontal: 10
-    },
-    imageMargin: {
+        marginHorizontal: 10,
     },
     infoText: {
         fontSize: 18,

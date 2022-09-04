@@ -5,6 +5,7 @@ import {
     Text,
     ScrollView,
     SafeAreaView,
+    ImageBackground,
   } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import ScreenContainer from '../components/ScreenContainer';
@@ -28,23 +29,23 @@ const CalendarPage = () => {
       {
         name: 'minsun',
         answer: 'me',
-        picture: require('../assets/images/sylvanian/basic1.png'),
+        picture: require('../assets/images/wuga/character1-wuga.png'),
       }, {
         name: 'minseok',
         answer: 'bro',
-        picture: require('../assets/images/sylvanian/basic2.png'),
+        picture: require('../assets/images/wuga/character1-wuga.png'),
       }, {
         name: 'eunha',
         answer: 'mom',
-        picture: require('../assets/images/sylvanian/basic1.png'),
+        picture: require('../assets/images/wuga/character1-wuga.png'),
       },      {
         name: 'minsun',
         answer: 'me',
-        picture: require('../assets/images/sylvanian/basic2.png'),
+        picture: require('../assets/images/wuga/character1-wuga.png'),
       }, {
         name: 'minseok',
         answer: 'bro',
-        picture: require('../assets/images/sylvanian/basic1.png'),
+        picture: require('../assets/images/wuga/character1-wuga.png'),
       },
     ])
   }, []);
@@ -58,8 +59,8 @@ const CalendarPage = () => {
             [nowDay]: {
               selected: true,
               disableTouchEvent: true,
-              selectedTextColor: colors.green[1],
-              selectedColor: colors.green[3],
+              selectedTextColor: colors.brown[1],
+              selectedColor: colors.brown[3],
             }
           }}
           minDate={start}
@@ -68,7 +69,7 @@ const CalendarPage = () => {
             let formattedDay = dayjs(day.dateString).format('YYYY-MM-DD');
             setNowDay(formattedDay);
           }}
-          monthFormat={'yyyy MM'}
+          monthFormat={'yyyy.MM'}
           renderArrow={direction => {
             return (
               <StyleText>{ direction === 'left' ? '<' : '>'}</StyleText>
@@ -76,14 +77,18 @@ const CalendarPage = () => {
           }}
         />
 
-        <View nativeID='day-question' style={{ marginTop: 25, height: 220 }}>
-          <View nativeID='quest-num'>
-            <StyleText style={{ fontSize: 14, color: colors.defaultDarkColor }}># {nowDay}</StyleText>
-          </View>
+        <View nativeID='day-question' style={{ marginTop: 5, height: 250 }}>
           <View nativeID='quest-box'
-            style={{ marginVertical: 15, backgroundColor: colors.blue[1], alignItems: 'center', justifyContent: 'center' }}
+            style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
           >
-            <StyleText nativeID='quest' style={{ fontSize: 16, paddingVertical: 12, color: colors.defaultDarkColor }}>{'질문'}</StyleText>
+            <Image
+              source={require('../assets/images/wuga/questbg-wuga.png')}
+              resizeMode={"contain"}
+              style={{height: 100}}
+            /> 
+            <View nativeID='quest-num' style={{position: 'absolute'}}>
+              <StyleText nativeID='quest' style={{ fontSize: 18, color: colors.defaultDarkColor, textAlign: 'center' }}>{'질문'}</StyleText>
+            </View>
           </View>
           <SafeAreaView flex={1}>
             <ScrollView nativeID='family-answers' showsVerticalScrollIndicator={false} >

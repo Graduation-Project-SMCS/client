@@ -30,7 +30,7 @@ export default function HomeNavigator({navigation}) {
 
                 return <Image source={iconName} style={{width: 25, height: 25}} />;
             },
-            tabBarActiveTintColor: colors.green[1], tabBarInactiveTintColor: colors.defaultDarkColor, tabBarStyle: [{display: 'flex'}], headerShown: false
+            tabBarActiveTintColor: colors.brown[1], tabBarInactiveTintColor: colors.defaultDarkColor, tabBarStyle: [{display: 'flex'}], headerShown: false
             })}
             >
             <Tab.Screen name="Home" children={() => <HomeScreen navigation={navigation}/>} />

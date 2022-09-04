@@ -5,6 +5,7 @@ import {
     Text,
     Image,
     Pressable,
+    ImageBackground,
   } from 'react-native';
 import ScreenContainer from '../components/ScreenContainer';
 import StyleText from '../components/StyleText';
@@ -18,18 +19,19 @@ const MainPage = ({ navigation }) => {
       {
         name: 'minsun',
         role: 'me',
+        image: require('../assets/images/wuga/characters/bunny.png'),
       }, {
         name: 'minseok',
         role: 'bro',
+        image: require('../assets/images/wuga/characters/dino.png'),
       }, {
         name: 'eunha',
         role: 'mom',
+        image: require('../assets/images/wuga/characters/ele.png'),
       },      {
-        name: 'minsun',
-        role: 'me',
-      }, {
-        name: 'minseok',
-        role: 'bro',
+        name: 'minsu',
+        role: 'sis',
+        image: require('../assets/images/wuga/characters/icebunny.png'),
       },
     ])
   }, []);
@@ -42,26 +44,30 @@ const MainPage = ({ navigation }) => {
   return (
     <>
       <ScreenContainer style={{ flexDirection: 'column' }}>
-          <View
+        <View
             nativeID='topInfo'
-            style={{ justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}
+            style={{ justifyContent: 'space-between', flexDirection: 'row' }}
           >
             <Image
-              source={require('../assets/images/wuga.png')}
-              style={{ width: 75, height: 50, justifyContent: 'flex-start', resizeMode: 'contain' }}
+              source={require('../assets/images/wuga/logo-wuga.png')}
+              style={{ width: 125, height: 50, justifyContent: 'flex-start', resizeMode: 'contain' }}
             />
-          </View>
-
+        </View>
+        <ImageBackground
+          source={require('../assets/images/wuga/background-wuga.png')}
+          style={{ flex: 1, justifyContent: 'center', backgroundColor: colors.backgroundColor }}
+          resizeMode={"contain"}
+        >
           {/* family info api 들어오면 다시 */}
-          <View style={{ justifyContent: 'space-between', flexDirection: 'row', flexWrap: 'wrap', height: 90 }}>
+          <View style={{ justifyContent: 'space-between', flexDirection: 'row', flexWrap: 'wrap', height: 90, width: '80%', alignSelf: 'center', alignItems: 'center', marginTop: 35 }}>
           {
             familyInfo.length > 0 ?
               familyInfo.map((info, idx) => {
                 return (
                   <View key={idx} style={{flexDirection: 'row', width: '50%', marginVertical: 5, alignItems: 'center'}}>
                     <Image
-                      source={require('../assets/images/sylvanian/basic1.png')}
-                      style={{width: 30, height: 45, borderRadius: 50, resizeMode: 'contain', marginRight: 5}}
+                      source={info.image}
+                      style={{width: 30, height: 45, borderRadius: 50, resizeMode: 'contain', marginRight: 10}}
                     ></Image>
                     <View>
                       <StyleText style={{...style.fontColor}}>{info.name}</StyleText>
@@ -78,22 +84,23 @@ const MainPage = ({ navigation }) => {
               style={{flex: 2, justifyContent: 'center'}}
             >
             <Image
-              source={require('../assets/images/sylvanian/mainpage.png')}
+              source={require('../assets/images/wuga/maincharacter-wuga.png')}
               style={{ width: '80%', resizeMode: 'center', alignSelf: 'center', marginBottom: 20 }}
             ></Image>
           </View>
 
           <Pressable
             nativeID='questionBtn'
-            style={{ position: 'absolute', bottom: 50, alignSelf: 'center', width: '85%' }}
+            style={{ position: 'absolute', bottom: 30, alignSelf: 'center', width: '85%' }}
             onPress={() => {
               navigation.navigate('QuestComponent')
             }}
           >
-            <View style={{ backgroundColor: colors.green[1] }}>
+            <View style={{ backgroundColor: colors.brown[1] }}>
               <StyleText style={{ fontSize: 16, padding: 15, color: colors.defaultColor, textAlign: 'center'}}>오늘 내가 먹은 아침은?</StyleText>
             </View>
           </Pressable>
+        </ImageBackground>
       </ScreenContainer>
     </>
   );
