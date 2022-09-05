@@ -17,27 +17,27 @@ const MissionDetail = ({ route, navigation }) => {
             {
                 id: 1,
                 answer: 'nice!',
-                image: require('../../../assets/images/icon/my_filled.png'),
+                image: require('../../../assets/images/icon/my-wuga.png'),
                 name: 'minsun',
             }, {
                 id: 2,
                 answer: 'cool!',
-                image: require('../../../assets/images/icon/my.png'),
+                image: require('../../../assets/images/icon/my-wuga.png'),
                 name: 'minsun',
             }, {
                 id: 3,
                 answer: 'awesome!',
-                image: require('../../../assets/images/icon/my_filled.png'),
+                image: require('../../../assets/images/icon/my-wuga.png'),
                 name: 'minseok',
             }, {
                 id: 4,
                 answer: 'great!',
-                image: require('../../../assets/images/icon/my.png'),
+                image: require('../../../assets/images/icon/my-wuga.png'),
                 name: 'eunha',
             }, {
                 id: 5,
                 answer: 'dope!',
-                image: require('../../../assets/images/icon/my_filled.png'),
+                image: require('../../../assets/images/icon/my-wuga.png'),
                 name: 'minseok',
             },
         ]);

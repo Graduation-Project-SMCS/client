@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Image,
+  StyleSheet,
   View,
 } from 'react-native';
 import { HomeScreen, CalendarScreen, MissionScreen, MyPageScreen } from '../pages';
@@ -19,18 +20,31 @@ export default function HomeNavigator({navigation}) {
             tabBarIcon: ({ focused }) => {
                 let iconName;
                 if (route.name === 'Home') {
-                iconName = focused ? require('../assets/images/icon/home_filled.png') : require('../assets/images/icon/home.png');
+                iconName = require('../assets/images/icon/home-wuga.png');
                 } else if (route.name === 'Calendar') {
-                iconName = focused ? require('../assets/images/icon/calendar_filled.png') : require('../assets/images/icon/calendar.png');
+                iconName = require('../assets/images/icon/calendar-wuga.png');
                 } else if (route.name === 'Mission') {
-                iconName = focused ? require('../assets/images/icon/mission_filled.png') : require('../assets/images/icon/mission.png');
+                iconName = require('../assets/images/icon/mission-wuga.png');
                 } else if (route.name === 'My') {
-                iconName = focused ? require('../assets/images/icon/my_filled.png') : require('../assets/images/icon/my.png');
+                iconName = require('../assets/images/icon/my-wuga.png');
                 }
 
-                return <Image source={iconName} style={{width: 25, height: 25}} />;
+                return (
+                  <>
+                  {
+                    focused ?
+                    <View style={{ backgroundColor: colors.brown[3], ...style.tabIconBg}}>
+                      <Image source={iconName} style={{width: 25, height: 25, resizeMode: 'contain'}} />
+                    </View> :
+                    <View style={{ backgroundColor: 'transparent', ...style.tabIconBg }}>
+                      <Image source={iconName} style={{width: 25, height: 25, resizeMode: 'contain'}} />
+                    </View>
+                  }
+                  </>
+                );
             },
-            tabBarActiveTintColor: colors.brown[1], tabBarInactiveTintColor: colors.defaultDarkColor, tabBarStyle: [{display: 'flex'}], headerShown: false
+            tabBarActiveTintColor: colors.brown[1], tabBarInactiveTintColor: colors.defaultDarkColor, tabBarStyle: [{display: 'flex'}], headerShown: false,
+            tabBarLabelStyle: [{ fontFamily: 'SongMyung-Regular', fontWeight: '600', marginBottom: 2.5}]
             })}
             >
             <Tab.Screen name="Home" children={() => <HomeScreen navigation={navigation}/>} />
@@ -40,3 +54,13 @@ export default function HomeNavigator({navigation}) {
         </Tab.Navigator>
     );
 };
+
+const style = StyleSheet.create({
+  tabIconBg: {
+    borderRadius: 20,
+    width: 30,
+    height: 30,
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
+})
