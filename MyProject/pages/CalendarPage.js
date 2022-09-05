@@ -77,37 +77,41 @@ const CalendarPage = () => {
           }}
         />
 
-        <View nativeID='day-question' style={{ marginTop: 5, height: 250 }}>
+        <View nativeID='day-question' style={{ marginTop: 5, height: 250, flexDirection: 'row', justifyContent: 'space-between' }}>
           <View nativeID='quest-box'
-            style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+            style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', width: '70%', marginTop: 15 }}
           >
-            <Image
+            <StyleText style={{ textAlign: 'left', fontSize: 12, fontWeight: '800', alignSelf: 'flex-start' }}># {nowDay}</StyleText>
+            <ImageBackground
               source={require('../assets/images/wuga/questbg-wuga.png')}
               resizeMode={"contain"}
-              style={{height: 100}}
-            /> 
-            <View nativeID='quest-num' style={{position: 'absolute'}}>
-              <StyleText nativeID='quest' style={{ fontSize: 18, color: colors.defaultDarkColor, textAlign: 'center' }}>{'질문'}</StyleText>
-            </View>
+              style={{width: '100%', height: 100, justifyContent: 'center', alignItems: 'center'}}
+            > 
+              <View nativeID='quest-num' style={{position: 'absolute'}}>
+                <StyleText nativeID='quest' style={{ fontSize: 18, color: colors.defaultDarkColor, textAlign: 'center' }}>{'질문'}</StyleText>
+              </View>
+            </ImageBackground>
           </View>
-          <SafeAreaView flex={1}>
-            <ScrollView nativeID='family-answers' showsVerticalScrollIndicator={false} >
-              {
-                familyInfo.length > 0 ?
-                familyInfo.map((e, idx) => {
-                  return (
-                    <View key={idx} style={{ marginVertical: 10 }}>
-                      <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                        <Image source={e.picture} style={{width: 25, height: 25, marginLeft: 5, marginRight: 15}} />
-                        <StyleText style={{ textAlign: 'left', color: colors.defaultDarkColor, fontSize: 12 }}>{e.answer}</StyleText>
+          <View style={{ width: '40%', margin: 5 }}>
+            <SafeAreaView flex={1}>
+              <ScrollView nativeID='family-answers' showsVerticalScrollIndicator={false}>
+                {
+                  familyInfo.length > 0 ?
+                  familyInfo.map((e, idx) => {
+                    return (
+                      <View key={idx} style={{ marginVertical: 5 }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+                          <Image source={e.picture} style={{width: 35, height: 35, marginLeft: 5, marginRight: 15, resizeMode: 'contain'}} />
+                          <StyleText style={{ textAlign: 'left', color: colors.defaultDarkColor, fontSize: 12 }}>{e.answer}</StyleText>
+                        </View>
                       </View>
-                    </View>
-                  )
-                }) :
-                <></>
-              }
-            </ScrollView>
-          </SafeAreaView>
+                    )
+                  }) :
+                  <></>
+                }
+              </ScrollView>
+            </SafeAreaView>
+          </View>
         </View>
     </ScreenContainer>
   );

@@ -129,7 +129,7 @@ const SurpriseQuiz = ({ modalVisible, setModalVisible }) => {
       />
     } else {
       return <View style={{ width: 150, height: 150, alignItems: 'center'}}>
-        <StyleText style={{ color: colors.brown[4], fontSize: 125, fontWeight: '900'}}>?</StyleText>
+        <StyleText style={{ color: colors.brown[4], fontSize: 120, fontWeight: '900', textAlign: 'center', justifyContent: 'center', }}>?</StyleText>
       </View>
     }
   }
@@ -169,7 +169,7 @@ const SurpriseQuiz = ({ modalVisible, setModalVisible }) => {
             <TouchableOpacity
               onPress={()=>navigation.navigate('Analyze', { image: imgUrl })}
               style={{...styles.btnSection, backgroundColor: colors.brown[3]}}
-              // disabled={imgUrl ? false : true}
+              disabled={imgUrl ? false : true}
             >
                 <StyleText style={{...styles.btnText, color: colors.defaultDarkColor }}>준비 완료!</StyleText>
             </TouchableOpacity>
