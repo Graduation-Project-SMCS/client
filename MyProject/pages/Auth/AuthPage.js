@@ -13,6 +13,16 @@ const AuthPage = ({navigation}) => {
             {},
             '/oauth2/authorization/google',
             "",
+        ).then(({ status }) => {
+            console.log(status);
+          });
+    };
+
+    const signInWithNaver = async () => {
+        await getAPI(
+            {},
+            '/oauth2/authorization/naver',
+            "",
         )
         .then(({ data, status }) => {
             console.log(data, status);
@@ -22,10 +32,10 @@ const AuthPage = ({navigation}) => {
         });
     };
 
-    const signInWithNaver = async () => {
+    const signInWithKakao = async () => {
         await getAPI(
             {},
-            '/oauth2/authorization/naver',
+            '/oauth2/authorization/kakao',
             "",
         )
         .then(({ data, status }) => {
@@ -53,7 +63,7 @@ const AuthPage = ({navigation}) => {
                         signInWithGoogle()
                     }
                 >
-                    <View style={{ backgroundColor: '#FFFFFF', borderWidth: 1, ...styles.socialLoginBtn }}>
+                    <View style={{ backgroundColor: '#FFFFFF', borderWidth: 0.5, ...styles.socialLoginBtn }}>
                         <Image
                             source={require('../../assets/images/icon/google.png')}
                             style={{ width: 24, height: 24 }}
@@ -80,7 +90,7 @@ const AuthPage = ({navigation}) => {
                 </Pressable>
                 <Pressable
                     onPress={() =>
-                        navigation.navigate('FamilyCode')
+                        signInWithKakao()
                     }
                 >
                     <View style={{ backgroundColor: '#F9E000', ...styles.socialLoginBtn }}>
@@ -95,17 +105,17 @@ const AuthPage = ({navigation}) => {
                 </Pressable>
                 <Pressable
                     onPress={() =>
-                        navigation.navigate('FamilyCode')
+                        navigation.navigate('User')
                     }
                 >
-                    <View style={{ backgroundColor: '#3B5998', ...styles.socialLoginBtn }}>
+                    <View style={{ backgroundColor: colors.brown[5], ...styles.socialLoginBtn }}>
                         <Image
-                            source={require('../../assets/images/icon/facebook.png')}
+                            source={require('../../assets/images/icon/email.png')}
                             style={{ width: 24, height: 24 }}
                         />
                         <Text
-                            style={{color: '#F0F0F0', ...styles.socialLoginText}}
-                        >페이스북으로 로그인</Text>
+                            style={styles.socialLoginText}
+                        >이메일로 로그인</Text>
                     </View>
                 </Pressable>
             </View>

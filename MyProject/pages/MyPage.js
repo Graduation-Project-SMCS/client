@@ -17,30 +17,30 @@ import StyleText from '../components/StyleText';
 
 const MyPage = () => {
   const {colors} = useTheme();
+  const getUserProfile = async () => {
+    // if(authContext.state.userSeq) {
+        await getAPI(
+            {
+            },
+            "/familycode", //바꿔야함
+            "",
+        )
+        .then(({ data, status}) => {
+          console.log(data, status);
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+    // }
+  };
+  // useEffect(() => {
 
-  useEffect(() => {
-    const getUserProfile = async () => {
-      // if(authContext.state.userSeq) {
-          await getAPI(
-              {
-              },
-              "/familycode", //바꿔야함
-              "",
-          )
-          .then(({ data, status }) => {
-            console.log(data, status);
-          })
-          .catch((e) => {
-              console.log(e);
-          });
-      // }
-    };
-    getUserProfile();
-  }, []);
+  //   getUserProfile();
+  // }, []);
 
   return (
     <ScreenContainer style={{ alignContent: 'center' }}>
-      <Pressable>
+      <Pressable onPress={()=>getUserProfile()}>
         <StyleText style={{ textAlign: 'right', color: colors.defaultDarkColor }}>로그아웃</StyleText>
       </Pressable>
       <View nativeID='user-profile' style={{ alignSelf: 'center', marginTop: 15 }}>

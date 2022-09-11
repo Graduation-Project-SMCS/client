@@ -8,7 +8,7 @@ const Stack = createStackNavigator();
 
 const AppNavigator = () => {
     // redux 사용해서 token 이용하여 자동 로그인 필요
-    const [isSignedIn, setIsSignedIn] = useState(true);
+    const [isSignedIn, setIsSignedIn] = useState(false);
 
     return (
         <Stack.Navigator screenOptions={{headerShown: false}}>
