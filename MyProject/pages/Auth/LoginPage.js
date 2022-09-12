@@ -1,16 +1,13 @@
 import { useTheme } from '@react-navigation/native';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Pressable, Text, View, StyleSheet, TextInput, Image, Alert } from 'react-native';
 import { postAPI } from '../../api';
 import HeaderNavigation from '../../components/HeaderNavigation';
 import ScreenContainer from '../../components/ScreenContainer';
 import StyleText from '../../components/StyleText';
 import DropDownPicker from 'react-native-dropdown-picker';
-import UserInfoContext from '../../components/UserInfoContext';
-import { Context } from '../../context';
-import { USER_INFO } from '../../context/actionTypes';
 
-const UserRegisterPage = ({navigation}) => {
+const LoginPage = ({navigation}) => {
     const {colors} = useTheme();
     const [email, setEmail] = useState('');
     const [member, setMember] = useState('');
@@ -24,13 +21,6 @@ const UserRegisterPage = ({navigation}) => {
       {label: '친척', value: 'other'},
     ]);
 
-    const {
-        state: {
-            userInfo,
-        },
-        dispatch,
-    } = useContext(Context);
-
     const signUp = async () => {
         await postAPI(
             {
@@ -42,22 +32,10 @@ const UserRegisterPage = ({navigation}) => {
             "/user",
             "",
         )
-        .then(({ data, status }) => {
+        .then(({ status }) => {
             if(status === 200 || status === 201 || status === 204) {
-                //data: id 반환
-                console.log(data, status);
-
-                dispatch({
-                    type: USER_INFO,
-                    payload: {
-                        email: email,
-                        member: member,
-                        name: name,
-                        id: data,
-                    },
-                });
-
-                navigation.navigate('FamilyCode');
+                console.log(status);
+                navigation.navigate('Home');
             }
         })
         .catch((e) => {
@@ -75,7 +53,7 @@ const UserRegisterPage = ({navigation}) => {
                 >
                     <StyleText
                         style={{ fontSize: 24, textAlign: 'center', color: colors.defaultDarkColor, fontWeight: '900' }}
-                    >회원가입</StyleText>
+                    >로그인</StyleText>
 
                     <View
                         style={{ marginTop: 30 }}
@@ -128,7 +106,6 @@ const UserRegisterPage = ({navigation}) => {
                                     listParentContainerStyle={{ backgroundColor: colors.brown[4], paddingLeft: 10}}
                                     listParentLabelStyle={{ color: colors.defaultColor }}
                                     dropDownContainerStyle={{ borderWidth: 0, borderRadius: 0}}
-                                    placeholder={"당신의 역할은?"}
                                 />
                             </View>
                         </View>
@@ -173,7 +150,7 @@ const UserRegisterPage = ({navigation}) => {
     )
 };
 
-export default UserRegisterPage;
+export default LoginPage;
 
 const styles = StyleSheet.create({
     inviteBtn: {

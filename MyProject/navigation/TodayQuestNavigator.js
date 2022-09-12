@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useTheme } from '@react-navigation/native';
 const Stack = createNativeStackNavigator();
 
-const TodayQuestNavigator = ({navigation}) => {
+const TodayQuestNavigator = ({navigation, answers}) => {
     const {colors} = useTheme();
 
     return (
@@ -14,7 +14,7 @@ const TodayQuestNavigator = ({navigation}) => {
             }}}
         >
             <Stack.Screen name="Quest"
-                children={() => <QuestScreen navigation={navigation}/>}
+                children={() => <QuestScreen navigation={navigation} answers={answers}/>}
             />
             <Stack.Screen name="Answer" component={AnswerScreen} />
         </Stack.Navigator>

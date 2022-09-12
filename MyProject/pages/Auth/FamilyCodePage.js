@@ -1,16 +1,67 @@
 import { useTheme } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Pressable, Text, View, StyleSheet, TextInput, Image } from 'react-native';
+import { getAPI, postAPI } from '../../api';
 import HeaderNavigation from '../../components/HeaderNavigation';
 import ScreenContainer from '../../components/ScreenContainer';
 import StyleText from '../../components/StyleText';
+import { Context } from '../../context';
 
-const FamilyCodePage = ({navigation}) => {
+const FamilyCodePage = ({navigation, setIsSignedIn}) => {
     const {colors} = useTheme();
     const [code, setCode] = useState('');
     const [hasCode, setHasCode] = useState(false);
+    const [info, setInfo] = useState({
+        email: '',
+        id: 0,
+        name: '',
+    })
+    const {
+        state: {
+            userInfo,
+        }
+    } = useContext(Context);
 
-    const makeCode = () => ((Math.random()).toString(36)).slice(2, 8);
+    useEffect(() => {
+        setInfo({
+            email: userInfo.email,
+            id: userInfo.id,
+            name: userInfo.name,
+        });
+    }, []);
+
+    const makeCode = async () => {
+        await getAPI(
+            info,
+            `/familycode/${userInfo.id}`,
+            "",
+        )
+        .then(({ data, status }) => {
+            console.log(data, status);
+            setCode(data);
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+    };
+
+    const confirmCode = async () => {
+        await postAPI(
+            {},
+            `/familycode/${userInfo.id}?familycode=${code}`,
+            "",
+        )
+        .then(({ data, status }) => {
+            if(status === 200 || status === 201 || status === 204) {
+                console.log(code, data, status);
+                setIsSignedIn(true);
+            }
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+    };
+
     const codeConditionConfirmed = (inviteCode) => inviteCode.length === 6;
 
     return (
@@ -70,7 +121,7 @@ const FamilyCodePage = ({navigation}) => {
                                 style={{ ...styles.codeBtn, width: '35%' }}
                                 disabled={codeConditionConfirmed(code) ? false : true}
                                 onPress={()=>{
-                                    console.log('pressed')
+                                    confirmCode();
                                 }}
                             >
                                 <StyleText
@@ -85,7 +136,7 @@ const FamilyCodePage = ({navigation}) => {
                                             ...styles.inviteText,
                                         }
                                     }
-                                >확인</StyleText>
+                                >가입완료!</StyleText>
                             </Pressable>
                         </View>
                     </View>
@@ -114,7 +165,6 @@ const styles = StyleSheet.create({
     },
     inviteText: {
         fontSize: 16,
-        fontWeight: '800',
         textAlign: 'center',
         padding: 15
     },

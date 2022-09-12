@@ -11,7 +11,7 @@ import { useTheme } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
-export default function HomeNavigator({navigation}) {
+export default function HomeNavigator({navigation, setIsSignedIn}) {
   const {colors} = useTheme();
 
   return (
@@ -50,7 +50,7 @@ export default function HomeNavigator({navigation}) {
             <Tab.Screen name="Home" children={() => <HomeScreen navigation={navigation}/>} />
             <Tab.Screen name="Calendar" component={CalendarScreen} />
             <Tab.Screen name="Mission" children={() => <MissionNavigator navigation={navigation}/>} />
-            <Tab.Screen name="My" component={MyPageScreen} />
+            <Tab.Screen name="My" children={()=><MyPageScreen setIsSignedIn={setIsSignedIn}/>} />
         </Tab.Navigator>
     );
 };

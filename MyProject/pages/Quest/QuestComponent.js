@@ -1,13 +1,25 @@
 import { useTheme } from '@react-navigation/native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, StyleSheet, View, ImageBackground } from 'react-native';
 import HeaderNavigation from '../../components/HeaderNavigation';
 import ScreenContainer from '../../components/ScreenContainer';
 import StyleText from '../../components/StyleText';
 import TodayQuestNavigator from '../../navigation/TodayQuestNavigator';
 
-const QuestComponent = ({ navigation }) => {
+const QuestComponent = ({ route, navigation }) => {
     const {colors} = useTheme();
+    const { questInfo } = route.params;
+    const [info, setInfo] = useState({
+        id: 0,
+        question: "",
+        date: "",
+        complete: false,
+        answers: []
+      });
+
+    useEffect(() => {
+        setInfo(questInfo);
+    }, []);
 
     return (
         <>
@@ -21,11 +33,16 @@ const QuestComponent = ({ navigation }) => {
                         style={{...styles.questionBox}}
                     >
                         <StyleText style={{ fontSize: 20, textAlign: 'center', paddingVertical: 45, color: colors.defaultDarkColor }}>
-                            오늘의 질문
+                            {info.question}
                         </StyleText>
                     </ImageBackground>
                 </View>
-                <TodayQuestNavigator navigation={navigation}/>
+                {
+                    info.answers.length > 0 ?
+                    <TodayQuestNavigator navigation={navigation} answers={info.answers}/> :
+                    <></>
+                }
+                
             </ScreenContainer>
         </>
     );

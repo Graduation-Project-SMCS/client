@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
     SafeAreaView,
     StyleSheet,
@@ -7,6 +7,7 @@ import {
     Image,
     Dimensions,
     Pressable,
+    Alert,
   } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import ScreenContainer from '../components/ScreenContainer';
@@ -14,33 +15,77 @@ import ComponentDivideLine from '../components/ComponentDivideLine';
 import { getAPI } from '../api';
 import { useTheme } from '@react-navigation/native';
 import StyleText from '../components/StyleText';
+import { Context } from '../context';
+import { USER_INFO } from '../context/actionTypes';
 
-const MyPage = () => {
+const MyPage = ({ setIsSignedIn }) => {
   const {colors} = useTheme();
-  const getUserProfile = async () => {
-    // if(authContext.state.userSeq) {
-        await getAPI(
-            {
-            },
-            "/familycode", //바꿔야함
-            "",
-        )
-        .then(({ data, status}) => {
-          console.log(data, status);
-        })
-        .catch((e) => {
-            console.log(e);
-        });
-    // }
-  };
-  // useEffect(() => {
+  const [info, setInfo] = useState({
+      email: '',
+      id: 0,
+      name: '',
+  })
+  const {
+      state: {
+          userInfo,
+      },
+      dispatch,
+  } = useContext(Context);
 
-  //   getUserProfile();
-  // }, []);
+  useEffect(() => {
+      setInfo({
+          email: userInfo.email,
+          id: userInfo.id,
+          name: userInfo.name,
+      });
+      const getUserProfile = async () => {
+          await getAPI(
+              info,
+              "/user",
+              "",
+          )
+          .then(({ data, status}) => {
+            console.log(data, status, info);
+          })
+          .catch((e) => {
+              console.log(e);
+              console.log(info)
+          });
+      };
+      getUserProfile();
+  }, []);
+
+  const Logout = () => {
+    Alert.alert(
+      "로그아웃",
+      "로그아웃 하시겠습니까?",
+      [
+        {
+          text: '아니오',
+          style: "cancel",
+        },
+        { 
+          text: "네",
+          onPress: () => {
+            dispatch({
+                type: USER_INFO,
+                payload: {
+                    email: '',
+                    member: '',
+                    name: '',
+                    id: 0,
+                },
+            });
+            setIsSignedIn(false);
+          },
+        }
+      ]
+    )
+  };
 
   return (
     <ScreenContainer style={{ alignContent: 'center' }}>
-      <Pressable onPress={()=>getUserProfile()}>
+      <Pressable onPress={()=>Logout()}>
         <StyleText style={{ textAlign: 'right', color: colors.defaultDarkColor }}>로그아웃</StyleText>
       </Pressable>
       <View nativeID='user-profile' style={{ alignSelf: 'center', marginTop: 15 }}>
