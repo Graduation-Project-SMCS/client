@@ -2,54 +2,25 @@ import React, { useEffect, useState } from 'react';
 import {Pressable, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 import CommentForm from '../../components/CommentForm';
 
-const Quest = ({ navigation }) => {
+const Quest = ({ navigation, answers }) => {
   const [commentInfo, setCommentInfo] = useState([]);
 
   useEffect(() => {
-      setCommentInfo([
-        {
-            id: 1,
-            answer: 'nice!',
-            image: require('../../assets/images/icon/my_filled.png'),
-            name: 'minsun',
-        }, {
-            id: 2,
-            answer: 'cool!',
-            image: require('../../assets/images/icon/my.png'),
-            name: 'minsun',
-        }, {
-            id: 3,
-            answer: 'awesome!',
-            image: require('../../assets/images/icon/my_filled.png'),
-            name: 'minseok',
-        }, {
-            id: 4,
-            answer: 'great!',
-            image: require('../../assets/images/icon/my.png'),
-            name: 'eunha',
-        }, {
-            id: 5,
-            answer: 'dope!',
-            image: require('../../assets/images/icon/my_filled.png'),
-            name: 'minseok',
-        }, {
-          id: 5,
-          answer: 'dope!',
-          image: require('../../assets/images/icon/my_filled.png'),
-          name: 'minseok',
-        }, {
-          id: 5,
-          answer: 'dope!',
-          image: require('../../assets/images/icon/my_filled.png'),
-          name: 'minseok',
-        }, {
-          id: 5,
-          answer: 'dope!',
-          image: require('../../assets/images/icon/my_filled.png'),
-          name: 'minseok',
-        },
-      ]);
+    console.log("this is answer", answers);
+    setCommentInfo(answers);
   }, []);
+
+  const setRandomImage = (index) => {
+    if (index % 2 === 0) {
+      return require('../../assets/images/wuga/characters/bunny.png');
+    } else if (index % 3 === 0) {
+      return require('../../assets/images/wuga/characters/dino.png');
+    } else if (index % 5 === 0) {
+      return require('../../assets/images/wuga/characters/ele.png');
+    } else {
+      return require('../../assets/images/wuga/characters/icebunny.png');
+    }
+  };
 
 
     return (
@@ -59,19 +30,21 @@ const Quest = ({ navigation }) => {
             {
                 commentInfo.length > 0 ?
                 commentInfo.map((e, idx) => {
-                    return (
-                        <Pressable
-                          key={idx}
-                          onPress={()=>navigation.navigate('Answer', {
-                            answer: e.answer,
-                            image: e.image,
-                            name: e.name,
-                            idx: idx,
-                          })}
-                        >
-                          <CommentForm e={e} idx={idx} />
-                        </Pressable>
-                    )
+                  const info = {
+                    answer: e.answer ? e.answer : '',
+                    image: setRandomImage(idx),
+                    name: e.name ? e.name : 'none',
+                    idx: e.id,
+                  };
+
+                  return (
+                      <Pressable
+                        key={idx}
+                        onPress={()=>navigation.navigate('Answer', info)}
+                      >
+                        <CommentForm e={info} idx={idx} />
+                      </Pressable>
+                  );
                 }) :
                 <></>
             }

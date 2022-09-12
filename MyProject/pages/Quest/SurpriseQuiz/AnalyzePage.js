@@ -1,9 +1,13 @@
+import { useNavigation, useTheme } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Text, StyleSheet, Image, View, ActivityIndicator, Pressable } from 'react-native';
+import { Text, StyleSheet, Image, View, ActivityIndicator, Pressable, ImageBackground } from 'react-native';
 import { poseAPI } from '../../../api';
+import BackBtn from '../../../components/BackBtn';
 import ScreenContainer from '../../../components/ScreenContainer';
+import StyleText from '../../../components/StyleText';
 
 const QuestAnalyze = ({ route, navigation }) => {
+    const {colors} = useTheme();
     const { image } = route.params;
     const [analyzeRes, setAnalyzeRes] = useState('실패!');
     const [isAnalyzeFinished, setIsAnalyzeFinished] = useState(false);
@@ -32,37 +36,38 @@ const QuestAnalyze = ({ route, navigation }) => {
     };
 
     return (
-        <ScreenContainer>
-            <View style={{ justifyContent: 'center', alignItems: 'center', height: '50%' }}>
-                { isAnalyzeFinished ?
-                    <></> :
-                    <Text style={{ fontSize: 16, color: 'green', fontWeight: '700' }}>
-                        미션 분석 중...
-                    </Text>
-                }
-                <Image
-                    nativeID='dataImage'
-                    source={{ uri: image }}
-                    style={styles.images}
-                />
-                { !isAnalyzeFinished && <ActivityIndicator size={"large"} color="olive" /> }
-            </View>
-            
-            { isAnalyzeFinished
-                && 
-                <View style={{ justifyContent: 'center', alignItems: 'center'  }}>
-                    <Text style={{...styles.analyzeRes}}>{ analyzeRes }</Text>
-                </View>
-            }
-            <Pressable
-                onPress={()=>navigation.popToTop()}
-                style={{...styles.backBtn}}
+        <View style={{ backgroundColor: colors.backgroundColor, flex: 1, alignItems: 'center' }}>
+            <ImageBackground
+                source={require('../../../assets/images/wuga/background-wuga.png')}
+                resizeMode={"contain"}
+                style={{width: '100%', height: '98%'}}
             >
-                <View style={{...styles.backBtn}}>
-                    <Text style={{...styles.backBtnText}}>뒤로</Text>
+                <View style={{ padding: 5 }}>
+                    <View style={{ justifyContent: 'center', alignItems: 'center', height: '50%' }}>
+                        { isAnalyzeFinished ?
+                            <></> :
+                            <StyleText style={{ fontSize: 16, color: colors.defaultDarkColor, fontWeight: '700' }}>
+                                미션 분석 중...
+                            </StyleText>
+                        }
+                        <Image
+                            nativeID='dataImage'
+                            source={{ uri: image }}
+                            style={styles.images}
+                        />
+                        { !isAnalyzeFinished && <ActivityIndicator size={"large"} color={colors.brown[3]} /> }
+                    </View>
+                    
+                    { isAnalyzeFinished
+                        && 
+                        <View style={{ justifyContent: 'center', alignItems: 'center'  }}>
+                            <StyleText style={{...styles.analyzeRes, color: colors.brown[2]}}>{ analyzeRes }</StyleText>
+                        </View>
+                    }
                 </View>
-            </Pressable>
-        </ScreenContainer>
+                <BackBtn navigation={navigation} style={{right: 25}}/>
+            </ImageBackground>
+        </View>
     );
 };
 
@@ -70,27 +75,14 @@ export default QuestAnalyze;
 
 const styles = StyleSheet.create({
     images: {
-      width: 175,
-      height: 175,
-      marginVertical: 20
+      width: 200,
+      height: 200,
+      marginVertical: 20,
+      resizeMode: 'contain'
     },
     analyzeRes: {
-        fontSize: 36,
+        fontSize: 32,
         fontWeight: '900',
-        color: 'olive',
         marginTop: 30
     },
-    backBtn: {
-        position: 'absolute',
-        right: 15,
-        bottom: 15,
-        backgroundColor: 'olive',
-        borderRadius: 10
-    },
-    backBtnText: {
-        fontSize: 12,
-        color: 'white',
-        paddingHorizontal: 10,
-        paddingVertical: 7.5
-    }
   });

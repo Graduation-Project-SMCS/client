@@ -1,63 +1,95 @@
+import { useTheme } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
     View,
     Text,
     Image,
     Pressable,
+    ImageBackground,
   } from 'react-native';
+import { getAPI } from '../api';
 import ScreenContainer from '../components/ScreenContainer';
+import StyleText from '../components/StyleText';
 
 const MainPage = ({ navigation }) => {
   const [familyInfo, setFamilyInfo] = useState([]);
+  const [todayQuest, setTodayQuest] = useState({
+    question: '',
+  });
+  const {colors} = useTheme();
 
   useEffect(() => {
     setFamilyInfo([
       {
         name: 'minsun',
         role: 'me',
+        image: require('../assets/images/wuga/characters/bunny.png'),
       }, {
         name: 'minseok',
         role: 'bro',
+        image: require('../assets/images/wuga/characters/dino.png'),
       }, {
         name: 'eunha',
         role: 'mom',
+        image: require('../assets/images/wuga/characters/ele.png'),
       },      {
-        name: 'minsun',
-        role: 'me',
-      }, {
-        name: 'minseok',
-        role: 'bro',
+        name: 'minsu',
+        role: 'sis',
+        image: require('../assets/images/wuga/characters/icebunny.png'),
       },
-    ])
+    ]);
+
+    const getTodayQuestion = async () => {
+        await getAPI(
+            {},
+            '/question/1',
+            "",
+        )
+        .then(({ data, status }) => {
+            console.log(data, status);
+            setTodayQuest({
+              ...todayQuest,
+              ...data,
+            });
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+    };
+    getTodayQuestion();
+
   }, []);
+
+  const style = {
+    fontColor: { color: colors.defaultDarkColor }
+  };
   
 
   return (
     <>
-      <ScreenContainer style={{ flexDirection: 'column'}}>
-          <View
+      <ScreenContainer>
+        <View
             nativeID='topInfo'
-            style={{ justifyContent: 'space-between', flexDirection: 'row', marginBottom: 20 }}
+            style={{ justifyContent: 'space-between', flexDirection: 'row' }}
           >
-            {/* point 정보 들어오면 바꾸기 */}
-            <Text style={{ fontSize: 20 }}>{0} Points</Text> 
-            {/* shop 아이콘은 일단 넣지 않겠음 */}
-          </View>
-
-          {/* family info api 들어오면 다시 */}
-          <View style={{ justifyContent: 'space-between', flexDirection: 'row', flexWrap: 'wrap', height: 90 }}>
+            <Image
+              source={require('../assets/images/wuga/logo-wuga.png')}
+              style={{ width: 125, height: 50, justifyContent: 'flex-start', resizeMode: 'contain' }}
+            />
+        </View>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', height: 40, width: '100%', alignItems: 'center', marginTop: 20, justifyContent: 'center' }}>
           {
             familyInfo.length > 0 ?
               familyInfo.map((info, idx) => {
                 return (
-                  <View key={idx} style={{flexDirection: 'row', width: '50%', marginVertical: 5}}>
+                  <View key={idx} style={{flexDirection: 'row', width: '45%', marginVertical: 5, alignItems: 'center'}}>
                     <Image
-                      source={require('../assets/images/dummy.png')}
-                      style={{width: 25, height: 25, borderRadius: 50, resizeMode: 'contain'}}
+                      source={info.image}
+                      style={{width: 30, height: 45, borderRadius: 50, resizeMode: 'contain', marginRight: 10}}
                     ></Image>
                     <View>
-                      <Text>{info.name}</Text>
-                      <Text>{info.role}</Text>
+                      <StyleText style={{...style.fontColor}}>{info.name}</StyleText>
+                      <StyleText style={{...style.fontColor}}>{info.role}</StyleText>
                     </View>
                   </View>
                 )
@@ -67,24 +99,28 @@ const MainPage = ({ navigation }) => {
           </View>
 
           <View nativeID='familyPic'
-              style={{flex: 2, justifyContent: 'center'}}
+              style={{flex: 1, justifyContent: 'center'}}
             >
             <Image
-              source={require('../assets/images/galleryImages.png')}
-              style={{ width: '80%', resizeMode: 'center', alignSelf: 'center', marginBottom: 20 }}
+              source={require('../assets/images/wuga/maincharacter-wuga.png')}
+              style={{ width: '80%', resizeMode: 'center', alignSelf: 'center' }}
             ></Image>
           </View>
 
           <Pressable
             nativeID='questionBtn'
-            style={{ position: 'absolute', bottom: 30, alignSelf: 'center', width: '85%' }}
+            style={{ position: 'absolute', bottom: 30, alignSelf: 'center', width: '100%' }}
             onPress={() => {
-              navigation.navigate('QuestComponent')
+              navigation.navigate('QuestComponent', { questInfo: todayQuest });
             }}
           >
-            <View style={{ backgroundColor: 'green' }}>
-              <Text style={{ fontSize: 18, padding: 20, color: 'white', textAlign: 'center'}}>오늘 내가 먹은 아침은?</Text>
-            </View>
+            <ImageBackground
+              source={require('../assets/images/wuga/questbg-wuga.png')}
+              resizeMode={"contain"}
+              style={{width: '100%', height: 100, alignItems: 'center', justifyContent: 'center'}}
+            >
+              <StyleText style={{ fontSize: 16, padding: 15, color: colors.brown[1], textAlign: 'center'}}>{todayQuest.question}</StyleText>
+            </ImageBackground>
           </Pressable>
       </ScreenContainer>
     </>

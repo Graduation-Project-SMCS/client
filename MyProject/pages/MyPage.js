@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
     SafeAreaView,
     StyleSheet,
@@ -6,55 +6,105 @@ import {
     Text,
     Image,
     Dimensions,
+    Pressable,
+    Alert,
   } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import ScreenContainer from '../components/ScreenContainer';
 import ComponentDivideLine from '../components/ComponentDivideLine';
 import { getAPI } from '../api';
+import { useTheme } from '@react-navigation/native';
+import StyleText from '../components/StyleText';
+import { Context } from '../context';
+import { USER_INFO } from '../context/actionTypes';
 
-const MyPage = () => {
+const MyPage = ({ setIsSignedIn }) => {
+  const {colors} = useTheme();
+  const [info, setInfo] = useState({
+      email: '',
+      id: 0,
+      name: '',
+  })
+  const {
+      state: {
+          userInfo,
+      },
+      dispatch,
+  } = useContext(Context);
+
   useEffect(() => {
-    const getUserProfile = async () => {
-      // if(authContext.state.userSeq) {
+      setInfo({
+          email: userInfo.email,
+          id: userInfo.id,
+          name: userInfo.name,
+      });
+      const getUserProfile = async () => {
           await getAPI(
-              {
-              },
-              "/familycode", //바꿔야함
+              info,
+              "/user",
               "",
           )
-          .then(({ data, status }) => {
-            console.log(data, status);
+          .then(({ data, status}) => {
+            console.log(data, status, info);
           })
           .catch((e) => {
               console.log(e);
+              console.log(info)
           });
-      // }
-    };
-    getUserProfile();
+      };
+      getUserProfile();
   }, []);
+
+  const Logout = () => {
+    Alert.alert(
+      "로그아웃",
+      "로그아웃 하시겠습니까?",
+      [
+        {
+          text: '아니오',
+          style: "cancel",
+        },
+        { 
+          text: "네",
+          onPress: () => {
+            dispatch({
+                type: USER_INFO,
+                payload: {
+                    email: '',
+                    member: '',
+                    name: '',
+                    id: 0,
+                },
+            });
+            setIsSignedIn(false);
+          },
+        }
+      ]
+    )
+  };
 
   return (
     <ScreenContainer style={{ alignContent: 'center' }}>
-      <View>
-        <Text style={{ textAlign: 'right' }}>Logout</Text>
-      </View>
+      <Pressable onPress={()=>Logout()}>
+        <StyleText style={{ textAlign: 'right', color: colors.defaultDarkColor }}>로그아웃</StyleText>
+      </Pressable>
       <View nativeID='user-profile' style={{ alignSelf: 'center', marginTop: 15 }}>
         <Image
-          source={require('../assets/images/dummy.png')}
-          style={{width: 125, height: 125, borderRadius: 50, resizeMode: 'contain', marginBottom: 15 }}
+          source={require('../assets/images/wuga/character2-wuga.png')}
+          style={{width: 150, height: 150, borderRadius: 50, resizeMode: 'contain', marginBottom: 5 }}
         ></Image>
         {/* 이름 다시 */}
-        <Text style={{ textAlign: 'center', fontSize: 20}}>{}myname</Text>
+        <StyleText style={{ textAlign: 'center', fontSize: 20, color: colors.defaultDarkColor}}>{}myname</StyleText>
       </View>
 
       <ComponentDivideLine />
 
       <View nativeID='user-family'>
-        <Text style={{ fontSize: 16 }}>나의 Family</Text>
+        <StyleText style={{ fontSize: 14, color: colors.defaultDarkColor }}>나의 가족들</StyleText>
         {/* 가족 구성원 api 들어오면 다시 */}
-        <View style={{ marginTop: 10 }}>
-          <Text style={styles.familyText}>❤️     가장 가까운 ...    [{}]</Text>
-          <Text style={styles.familyText}>🙏     친해지길 바라 ... [{}]    ☎️</Text>
+        <View style={{ marginTop: 10, color: colors.defaultDarkColor }}>
+          <StyleText style={{...styles.familyText, color: colors.defaultDarkColor}}>❤️     가장 가까운 ...    [{}]</StyleText>
+          <StyleText style={{...styles.familyText, color: colors.defaultDarkColor}}>🙏     친해지길 바라 ... [{}]    ☎️</StyleText>
         </View>
       </View>
 
@@ -62,12 +112,10 @@ const MyPage = () => {
       
       <View nativeID='setting'>
         <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginVertical: 10 }}>
-          <Text style={{ fontSize: 22 }}>내 정보 수정</Text>
-          <Text style={{ fontSize: 22, marginRight: 15, fontWeight: '700' }}>{'>'}</Text>
+          <StyleText style={{ fontSize: 14, color: colors.defaultDarkColor }}>내 정보 수정</StyleText>
         </View>
         <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginVertical: 10 }}>
-          <Text style={{ fontSize: 22 }}>우리 가족 정보 수정</Text>
-          <Text style={{ fontSize: 22, marginRight: 15, fontWeight: '700' }}>{'>'}</Text>
+          <StyleText style={{ fontSize: 14, color: colors.defaultDarkColor }}>우리 가족 정보 수정</StyleText>
         </View>
       </View>
     </ScreenContainer>
@@ -121,7 +169,7 @@ const styles = StyleSheet.create({
     fontWeight:'bold'
   },
   familyText: {
-    fontSize: 20,
+    fontSize: 16,
     textAlign: 'left',
     lineHeight: 36
   }

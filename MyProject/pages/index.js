@@ -9,4 +9,6 @@ export { default as MissionAnalyzeScreen } from "./Quest/SurpriseQuiz/AnalyzePag
 export { default as SurpriseMissionScreen } from "./Quest/SurpriseQuiz/SurpriseQuiz";
 export { default as MissionDetailScreen } from "./Quest/SurpriseQuiz/DetailPage";
 export { default as AuthScreen } from "./Auth/AuthPage";
+export { default as LoginScreen } from "./Auth/LoginPage";
 export { default as FamilyCodeScreen } from "./Auth/FamilyCodePage";
+export { default as UserRegisterScreen } from "./Auth/UserRegisterPage";

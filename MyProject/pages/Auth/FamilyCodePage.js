@@ -1,13 +1,67 @@
-import React, { useState } from 'react';
+import { useTheme } from '@react-navigation/native';
+import React, { useContext, useEffect, useState } from 'react';
 import { Pressable, Text, View, StyleSheet, TextInput, Image } from 'react-native';
+import { getAPI, postAPI } from '../../api';
 import HeaderNavigation from '../../components/HeaderNavigation';
 import ScreenContainer from '../../components/ScreenContainer';
+import StyleText from '../../components/StyleText';
+import { Context } from '../../context';
 
-const FamilyCodePage = ({navigation}) => {
+const FamilyCodePage = ({navigation, setIsSignedIn}) => {
+    const {colors} = useTheme();
     const [code, setCode] = useState('');
     const [hasCode, setHasCode] = useState(false);
+    const [info, setInfo] = useState({
+        email: '',
+        id: 0,
+        name: '',
+    })
+    const {
+        state: {
+            userInfo,
+        }
+    } = useContext(Context);
 
-    const makeCode = () => ((Math.random()).toString(36)).slice(2, 8);
+    useEffect(() => {
+        setInfo({
+            email: userInfo.email,
+            id: userInfo.id,
+            name: userInfo.name,
+        });
+    }, []);
+
+    const makeCode = async () => {
+        await getAPI(
+            info,
+            `/familycode/${userInfo.id}`,
+            "",
+        )
+        .then(({ data, status }) => {
+            console.log(data, status);
+            setCode(data);
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+    };
+
+    const confirmCode = async () => {
+        await postAPI(
+            {},
+            `/familycode/${userInfo.id}?familycode=${code}`,
+            "",
+        )
+        .then(({ data, status }) => {
+            if(status === 200 || status === 201 || status === 204) {
+                console.log(code, data, status);
+                setIsSignedIn(true);
+            }
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+    };
+
     const codeConditionConfirmed = (inviteCode) => inviteCode.length === 6;
 
     return (
@@ -18,44 +72,44 @@ const FamilyCodePage = ({navigation}) => {
                     nativeID='family-code-title-zone'
                     style={{ marginVertical: 10 }}
                 >
-                    <Text
-                        style={{ fontSize: 24, textAlign: 'center', color: 'gray', fontWeight: '700' }}
-                    >우리 가족 찾기</Text>
+                    <StyleText
+                        style={{ fontSize: 24, textAlign: 'center', color: colors.defaultDarkColor, fontWeight: '900' }}
+                    >우리 가족 찾기</StyleText>
 
                     <View
                         style={{ marginTop: 30 }}
                     >
                         <Pressable
-                            style={styles.inviteBtn}
+                            style={{...styles.inviteBtn, backgroundColor: colors.brown[4]}}
                             onPress={()=>{
                                 setCode(makeCode());
                             }}
                         >
-                            <Text
-                                style={styles.inviteText}
-                            >내가 초대하기</Text>
+                            <StyleText
+                                style={{...styles.inviteText, color: colors.defaultColor}}
+                            >내가 초대하기</StyleText>
                         </Pressable>
 
                         <Pressable
-                            style={styles.inviteBtn}
+                            style={{...styles.inviteBtn, backgroundColor: colors.brown[4]}}
                             onPress={()=>{
                                 setHasCode(true);
                                 setCode('');
                             }}
                         >
-                            <Text
-                                style={styles.inviteText}
-                            >{hasCode ? '🔽  코드를 입력하세요' : '초대 코드가 있어요!'}</Text>
+                            <StyleText
+                                style={{...styles.inviteText, color: colors.defaultColor}}
+                            >{hasCode ? '🔽  코드를 입력하세요' : '초대 코드가 있어요!'}</StyleText>
                         </Pressable>
 
                         <View
                             style={styles.codeConfirm}
                         >
                             <View
-                                style={{ ...styles.codeBtn }}
+                                style={{ ...styles.codeBtn, backgroundColor: colors.brown[2] }}
                             >
                                 <TextInput
-                                    style={styles.inviteText}
+                                    style={{...styles.inviteText, color: colors.defaultColor, fontFamily: 'SongMyung-Regular'}}
                                     maxLength={6}
                                     value={code}
                                     autoFocus={true}
@@ -64,43 +118,36 @@ const FamilyCodePage = ({navigation}) => {
                                 />
                             </View>
                             <Pressable
-                                style={{ ...styles.codeBtn, backgroundColor: 'gray', width: '35%' }}
+                                style={{ ...styles.codeBtn, width: '35%' }}
                                 disabled={codeConditionConfirmed(code) ? false : true}
                                 onPress={()=>{
-                                    console.log('pressed')
+                                    confirmCode();
                                 }}
                             >
-                                <Text
+                                <StyleText
                                     style={
                                         codeConditionConfirmed(code) ? {
-                                            color: 'white',
-                                            backgroundColor: 'navy',
+                                            color: colors.defaultColor,
+                                            backgroundColor: colors.brown[5],
                                             ...styles.inviteText,
                                         } : {
-                                            color: 'lightgray',
-                                            backgroundColor: 'gray',
+                                            color: colors.defaultColor,
+                                            backgroundColor: colors.defaultDarkColor,
                                             ...styles.inviteText,
                                         }
                                     }
-                                >확인</Text>
+                                >가입완료!</StyleText>
                             </Pressable>
                         </View>
                     </View>
-
-                    <View nativeID='family-code-image-zone'>
-                        <Image
-                            source={require('../../assets/images/icon/home.png')}
-                            style={{ position: 'absolute', top: 25, left: 35, width: 85, height: 85 }}
-                        />
-                        <Image
-                            source={require('../../assets/images/icon/my.png')}
-                            style={{ position: 'absolute', top: 65, right: 45, width: 100, height: 60, resizeMode: 'contain' }}
-                        />
-                        <Image
-                            source={require('../../assets/images/galleryImages.png')}
-                            style={{ position: 'absolute', top: 150, left: 20, width: 400, height: 60, resizeMode: 'cover' }}
-                        />
-                    </View>
+                </View>
+                <View nativeID='family-code-image-zone'
+                    style={{ justifyContent: 'center', alignItems: 'center' }}
+                >
+                    <Image
+                        source={require('../../assets/images/wuga/characters-wuga.png')}
+                        style={{ width: 300, height: 200, resizeMode: 'cover' }}
+                    />
                 </View>
             </ScreenContainer>
         </>
@@ -112,13 +159,12 @@ export default FamilyCodePage;
 const styles = StyleSheet.create({
     inviteBtn: {
         width: '85%',
-        backgroundColor: 'lightgray',
         alignSelf: 'center',
-        marginVertical: 15
+        marginVertical: 15,
+        borderRadius: 5
     },
     inviteText: {
-        fontSize: 20,
-        fontWeight: '800',
+        fontSize: 16,
         textAlign: 'center',
         padding: 15
     },
@@ -126,7 +172,6 @@ const styles = StyleSheet.create({
         width: '55%',
         alignSelf: 'center',
         borderRadius: 25,
-        backgroundColor: 'lightgreen'
     },
     codeConfirm: {
         marginVertical: 30,

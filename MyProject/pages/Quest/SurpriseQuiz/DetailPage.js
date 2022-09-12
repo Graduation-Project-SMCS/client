@@ -1,40 +1,43 @@
+import { useTheme } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 import CommentForm from '../../../components/CommentForm';
 import ComponentDivideLine from '../../../components/ComponentDivideLine';
 import HeaderNavigation from '../../../components/HeaderNavigation';
 import ScreenContainer from '../../../components/ScreenContainer';
+import StyleText from '../../../components/StyleText';
 
 const MissionDetail = ({ route, navigation }) => {
     const { idx, originImg, curImg } = route.params;
     const [commentInfo, setCommentInfo] = useState([]);
+    const {colors} = useTheme();
 
     useEffect(() => {
         setCommentInfo([
             {
                 id: 1,
                 answer: 'nice!',
-                image: require('../../../assets/images/icon/my_filled.png'),
+                image: require('../../../assets/images/icon/my-wuga.png'),
                 name: 'minsun',
             }, {
                 id: 2,
                 answer: 'cool!',
-                image: require('../../../assets/images/icon/my.png'),
+                image: require('../../../assets/images/icon/my-wuga.png'),
                 name: 'minsun',
             }, {
                 id: 3,
                 answer: 'awesome!',
-                image: require('../../../assets/images/icon/my_filled.png'),
+                image: require('../../../assets/images/icon/my-wuga.png'),
                 name: 'minseok',
             }, {
                 id: 4,
                 answer: 'great!',
-                image: require('../../../assets/images/icon/my.png'),
+                image: require('../../../assets/images/icon/my-wuga.png'),
                 name: 'eunha',
             }, {
                 id: 5,
                 answer: 'dope!',
-                image: require('../../../assets/images/icon/my_filled.png'),
+                image: require('../../../assets/images/icon/my-wuga.png'),
                 name: 'minseok',
             },
         ]);
@@ -43,50 +46,45 @@ const MissionDetail = ({ route, navigation }) => {
     return (
         <>
             <HeaderNavigation navigation={navigation}/>
-            <ScreenContainer>
+            <ScreenContainer style={{ marginTop: -10 }}>
                 <View nativeID='title'>
-                    <Text style={{ fontSize: 24, color: 'green', fontWeight: '800', textAlign: 'center', alignSelf: 'center' }}>깜짝 미션 #{idx}</Text>
+                    <StyleText style={{ fontSize: 20, color: colors.defaultDarkColor, fontWeight: '800', textAlign: 'center', alignSelf: 'center' }}>깜짝 미션 #{idx}</StyleText>
                 </View>
 
                 <View nativeID='imageInfo'
-                    style={{...styles.imageSection}}
+                    style={{...styles.imageSection, marginTop: 10}}
                 >
-                    <View style={{...styles.imageMargin}}>
-                        <Image
-                            source={originImg}
-                            style={{ width: 65, height: 65, resizeMode: 'contain' }}
-                        />
-                    </View>
-                    <View style={{...styles.imageMargin}}>
-                        <Image
-                            source={curImg}
-                            style={{ width: 120, height: 120, resizeMode: 'contain' }}
-                        />
-                    </View>
+                    <Image
+                        source={originImg}
+                        style={{ width: 100, height: 100, resizeMode: 'contain' }}
+                    />
+                    <Image
+                        source={curImg}
+                        style={{ width: 200, height: 200, resizeMode: 'contain' }}
+                    />
                 </View>
 
-                <View style={{...styles.imageSection, ...styles.imageMargin, justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{...styles.imageSection, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ marginHorizontal: 20 }}>
-                        <Text style={{...styles.infoText}}>유사도 {}%</Text>
+                        <StyleText style={{...styles.infoText, color: colors.defaultDarkColor}}>유사도 {}%</StyleText>
                     </View>
-                    <View style={{...styles.emojiSection}}>
+                    {/* 이 부분 공감 부분인데 다시 할 필요있음 */}
+                    {/* <View style={{...styles.emojiSection}}>
                         <ScrollView nativeID='emoji'
                             style={{...styles.emojiSectionScroll}}
                             horizontal={true}
                             showsVerticalScrollIndicator={false}
                             showsHorizontalScrollIndicator={false}
                         >
-                            {/* 만약 관련해서 0이면 아예 없애는 조건식 넣기 */}
-                            <Text style={{...styles.infoText, ...styles.emojiText}}>❤️ {}</Text>
-                            <Text style={{...styles.infoText, ...styles.emojiText}}>👍 {}</Text>
+                            <StyleText style={{...styles.infoText, ...styles.emojiText}}>❤️</StyleText>
+                            <StyleText style={{...styles.infoText, ...styles.emojiText}}>👍</StyleText>
                         </ScrollView>
-                    </View>
-
+                    </View> */}
                 </View>
 
                 <ComponentDivideLine />
 
-                <Text style={{...styles.infoText, ...styles.commentsTitle}}>Comments</Text>
+                <StyleText style={{...styles.infoText, ...styles.commentsTitle, color: colors.defaultDarkColor}}>Comments</StyleText>
                 <SafeAreaView flex={1} style={{...styles.commentsList}}>
                     <ScrollView nativeID='commentScroll' showsVerticalScrollIndicator={false} >
                     {
@@ -111,15 +109,11 @@ const styles = StyleSheet.create({
     imageSection: {
         justifyContent: 'center',
         flexDirection: 'row',
-        marginTop: 35,
-    },
-    imageMargin: {
-        marginHorizontal: 5,
+        marginHorizontal: 10,
     },
     infoText: {
-        fontSize: 20,
-        fontWeight: '700',
-        textAlign: 'center',
+        fontSize: 18,
+        fontWeight: '900',
     },
     emojiSection: {
         paddingHorizontal: 5,
