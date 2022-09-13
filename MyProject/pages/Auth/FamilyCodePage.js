@@ -115,6 +115,7 @@ const FamilyCodePage = ({navigation, setIsSignedIn}) => {
                                     autoFocus={true}
                                     onChangeText={(text)=>setCode(text)}
                                     autoCorrect={false}
+                                    onSubmitEditing={(event) => setCode( event.nativeEvent.text )}
                                 />
                             </View>
                             <Pressable

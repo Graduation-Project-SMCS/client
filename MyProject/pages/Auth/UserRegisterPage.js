@@ -15,6 +15,7 @@ const UserRegisterPage = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [member, setMember] = useState('');
     const [name, setName] = useState('');
+    const [password, setPassword] = useState('');
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState([
       {label: '아빠', value: 'father'},
@@ -37,9 +38,10 @@ const UserRegisterPage = ({navigation}) => {
                 email: email,
                 member: member,
                 name: name,
+                password: password,
                 role: 'GUEST'
             },
-            "/user",
+            "/signup",
             "",
         )
         .then(({ data, status }) => {
@@ -91,6 +93,23 @@ const UserRegisterPage = ({navigation}) => {
                                     autoFocus={true}
                                     onChangeText={(text)=>setEmail(text)}
                                     autoCorrect={false}
+                                />
+                            </View>
+                        </View>
+
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginVertical: 10}}>
+                            <View style={{ width: '10%'}}>
+                                <StyleText style={{ textAlign: 'center' }}>비밀번호</StyleText>
+                            </View>
+                            <View style={{ backgroundColor: colors.brown[4], width: '80%', marginLeft: 15}}>
+                                <TextInput
+                                    style={{...styles.inviteText, color: colors.defaultColor, fontFamily: 'SongMyung-Regular'}}
+                                    value={password}
+                                    autoFocus={false}
+                                    onChangeText={(text)=>setPassword(text)}
+                                    autoCorrect={false}
+                                    secureTextEntry={true}
+                                    placeholder={"8자리 이상을 입력하세요"}
                                 />
                             </View>
                         </View>
@@ -159,14 +178,6 @@ const UserRegisterPage = ({navigation}) => {
                             </Pressable>
                         </View>
                     </View>
-                </View>
-                <View nativeID='family-code-image-zone'
-                    style={{ justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}
-                >
-                    <Image
-                        source={require('../../assets/images/wuga/characters-wuga.png')}
-                        style={{ width: 300, height: 200, resizeMode: 'contain' }}
-                    />
                 </View>
             </ScreenContainer>
         </>

@@ -13,7 +13,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import ScreenContainer from '../components/ScreenContainer';
 import ComponentDivideLine from '../components/ComponentDivideLine';
 import { getAPI } from '../api';
-import { useTheme } from '@react-navigation/native';
+import { useIsFocused, useTheme } from '@react-navigation/native';
 import StyleText from '../components/StyleText';
 import { Context } from '../context';
 import { USER_INFO } from '../context/actionTypes';
@@ -32,6 +32,8 @@ const MyPage = ({ setIsSignedIn }) => {
       dispatch,
   } = useContext(Context);
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
       setInfo({
           email: userInfo.email,
@@ -41,7 +43,7 @@ const MyPage = ({ setIsSignedIn }) => {
       const getUserProfile = async () => {
           await getAPI(
               info,
-              "/user",
+              `/user/${userInfo.id}`,
               "",
           )
           .then(({ data, status}) => {
@@ -53,17 +55,13 @@ const MyPage = ({ setIsSignedIn }) => {
           });
       };
       getUserProfile();
-  }, []);
+  }, [isFocused]);
 
   const Logout = () => {
     Alert.alert(
       "로그아웃",
       "로그아웃 하시겠습니까?",
       [
-        {
-          text: '아니오',
-          style: "cancel",
-        },
         { 
           text: "네",
           onPress: () => {
@@ -78,7 +76,11 @@ const MyPage = ({ setIsSignedIn }) => {
             });
             setIsSignedIn(false);
           },
-        }
+        },
+        {
+          text: '아니오',
+          style: "cancel",
+        },
       ]
     )
   };

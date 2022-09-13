@@ -105,7 +105,7 @@ const AuthPage = ({navigation}) => {
                 </Pressable>
                 <Pressable
                     onPress={() =>
-                        navigation.navigate('User')
+                        navigation.navigate('Login')
                     }
                 >
                     <View style={{ backgroundColor: colors.brown[5], ...styles.socialLoginBtn }}>

@@ -22,7 +22,6 @@ const Quest = ({ navigation, answers }) => {
     }
   };
 
-
     return (
       <>
         <SafeAreaView flex={1} style={{...styles.commentsList}}>
