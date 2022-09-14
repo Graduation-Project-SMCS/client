@@ -28,19 +28,20 @@ const LoginPage = ({navigation, setIsSignedIn}) => {
         )
         .then(({ data, status }) => {
             if(status === 200 || status === 201 || status === 204) {
-                console.log(data, status);
-                if(data > 0) {
+                console.log(typeof data, status);
+                if(typeof data === 'object') {
                     dispatch({
                         type: USER_INFO,
                         payload: {
-                            email: email,
-                            id: data,
+                            email: data.email,
+                            id: data.id,
+                            name: data.name,
+                            member: data.member,
                         },
                     });
-                    console.log(userInfo)
                     setIsSignedIn(true);
                 }
-                else if(data === 0) {
+                else {
                     Alert.alert(
                         "아이디 오류",
                         "아이디나 비밀번호가 틀립니다.",

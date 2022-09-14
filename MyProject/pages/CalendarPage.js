@@ -81,7 +81,7 @@ const CalendarPage = () => {
           <View nativeID='quest-box'
             style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', width: '70%', marginTop: 15 }}
           >
-            <StyleText style={{ textAlign: 'left', fontSize: 12, fontWeight: '800', alignSelf: 'flex-start' }}># {nowDay}</StyleText>
+            <StyleText style={{ textAlign: 'left', fontSize: 14, alignSelf: 'flex-start' }}># {nowDay}</StyleText>
             <ImageBackground
               source={require('../assets/images/wuga/questbg-wuga.png')}
               resizeMode={"contain"}

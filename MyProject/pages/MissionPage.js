@@ -10,6 +10,7 @@ import {
   Pressable,
   Modal,
 } from 'react-native';
+import { getAPI } from '../api';
 import ScreenContainer from '../components/ScreenContainer';
 import StyleText from '../components/StyleText';
 import MissionModalComponent from './Quest/SurpriseQuiz/MissionModalComponent';
@@ -21,6 +22,20 @@ const Mission = ({navigation}) => {
   const {colors} = useTheme();
 
   useEffect(() => {
+    const getMissions = async () => {
+      await getAPI(
+          {},
+          `/missions`,
+          "",
+      )
+      .then(({ data, status}) => {
+        console.log(data, status,);
+      })
+      .catch((e) => {
+          console.log(e);
+      });
+  };
+  getMissions();
     setMissions([
       {
         id: 1,

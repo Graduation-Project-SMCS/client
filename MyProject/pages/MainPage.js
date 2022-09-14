@@ -40,10 +40,11 @@ const MainPage = ({ navigation }) => {
             });
         })
         .catch((e) => {
-            setTodayQuest({
-              id: -1,
-              question: '오늘의 질문이 아직 없습니다.',
-            })
+          console.log(e);
+          setTodayQuest({
+            id: -1,
+            question: '오늘의 질문이 아직 없습니다.',
+          });
         });
     };
     getTodayQuestion();
@@ -66,7 +67,7 @@ const MainPage = ({ navigation }) => {
     };
     
     getFamilyInfo();
-  }, [useIsFocused()]);
+  }, []);
 
   const style = {
     fontColor: { color: colors.defaultDarkColor }

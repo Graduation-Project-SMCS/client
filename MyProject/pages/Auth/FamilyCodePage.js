@@ -15,6 +15,7 @@ const FamilyCodePage = ({navigation, setIsSignedIn}) => {
         email: '',
         id: 0,
         name: '',
+        member: '',
     })
     const {
         state: {
@@ -27,6 +28,7 @@ const FamilyCodePage = ({navigation, setIsSignedIn}) => {
             email: userInfo.email,
             id: userInfo.id,
             name: userInfo.name,
+            member: userInfo.member,
         });
     }, []);
 
@@ -111,11 +113,10 @@ const FamilyCodePage = ({navigation, setIsSignedIn}) => {
                                 <TextInput
                                     style={{...styles.inviteText, color: colors.defaultColor, fontFamily: 'SongMyung-Regular'}}
                                     maxLength={6}
-                                    value={code}
+                                    value={code.toString()}
                                     autoFocus={true}
-                                    onChangeText={(text)=>setCode(text)}
                                     autoCorrect={false}
-                                    onSubmitEditing={(event) => setCode( event.nativeEvent.text )}
+                                    onChange={(text)=>setCode(text)}
                                 />
                             </View>
                             <Pressable

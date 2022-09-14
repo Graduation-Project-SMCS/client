@@ -17,6 +17,7 @@ import { useIsFocused, useTheme } from '@react-navigation/native';
 import StyleText from '../components/StyleText';
 import { Context } from '../context';
 import { USER_INFO } from '../context/actionTypes';
+import EditModalComponent from './Auth/EditModalComponent';
 
 const MyPage = ({ setIsSignedIn }) => {
   const {colors} = useTheme();
@@ -24,7 +25,12 @@ const MyPage = ({ setIsSignedIn }) => {
       email: '',
       id: 0,
       name: '',
-  })
+  });
+  const [userName, setUserName] = useState('아직 이름이 없습니다!');
+  const [userCode, setUserCode] = useState('아직 코드가 없습니다!');
+  const [userMember, setUserMember] = useState('당신의 역할은?');
+  const [editModalVisible, setEditModalVisible] = useState(false);
+
   const {
       state: {
           userInfo,
@@ -47,11 +53,15 @@ const MyPage = ({ setIsSignedIn }) => {
               "",
           )
           .then(({ data, status}) => {
-            console.log(data, status, info);
+            if((status === 200 || status === 201 || status === 204) && Object.keys(data).length > 0) {
+              setUserName(userInfo.name);
+              setUserCode(data.family_id.familycode);
+              setUserMember(data.member);
+            }
           })
           .catch((e) => {
               console.log(e);
-              console.log(info)
+              console.log(info);
           });
       };
       getUserProfile();
@@ -85,28 +95,39 @@ const MyPage = ({ setIsSignedIn }) => {
     )
   };
 
+  const setMemberNaming = (member) => {
+    if(member === 'father') return '아빵💕';
+    else if(member === 'mother') return '엄망💘';
+    else if(member === 'son') return '아들래미💝';
+    else if(member === 'daughter') return '딸래미💗';
+    else if(member === 'other') return '가족💖';
+    else return '';
+  };
+
   return (
     <ScreenContainer style={{ alignContent: 'center' }}>
-      <Pressable onPress={()=>Logout()}>
-        <StyleText style={{ textAlign: 'right', color: colors.defaultDarkColor }}>로그아웃</StyleText>
-      </Pressable>
       <View nativeID='user-profile' style={{ alignSelf: 'center', marginTop: 15 }}>
         <Image
           source={require('../assets/images/wuga/character2-wuga.png')}
           style={{width: 150, height: 150, borderRadius: 50, resizeMode: 'contain', marginBottom: 5 }}
         ></Image>
-        {/* 이름 다시 */}
-        <StyleText style={{ textAlign: 'center', fontSize: 20, color: colors.defaultDarkColor}}>{}myname</StyleText>
+        <StyleText style={{ textAlign: 'center', fontSize: 20, color: colors.defaultDarkColor}}>{userName}</StyleText>
       </View>
 
       <ComponentDivideLine />
 
       <View nativeID='user-family'>
-        <StyleText style={{ fontSize: 14, color: colors.defaultDarkColor }}>나의 가족들</StyleText>
-        {/* 가족 구성원 api 들어오면 다시 */}
-        <View style={{ marginTop: 10, color: colors.defaultDarkColor }}>
-          <StyleText style={{...styles.familyText, color: colors.defaultDarkColor}}>❤️     가장 가까운 ...    [{}]</StyleText>
-          <StyleText style={{...styles.familyText, color: colors.defaultDarkColor}}>🙏     친해지길 바라 ... [{}]    ☎️</StyleText>
+        <StyleText style={{ fontSize: 14, color: colors.defaultDarkColor, marginBottom: 15 }}>나와 가족 정보</StyleText>
+        <View>
+          <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center'}}>
+            <StyleText style={{...styles.familyText, color: colors.defaultDarkColor}}>우리 가족 코드는 : {userCode}</StyleText>
+            <Pressable
+              style={{ backgroundColor: colors.defaultDarkColor, marginLeft: 15}}
+            >
+              <StyleText style={{ color: colors.defaultColor, padding: 5}}>복사하기</StyleText>
+            </Pressable>
+          </View>
+          <StyleText style={{...styles.familyText, color: colors.defaultDarkColor}}>나는 가족에서 : {setMemberNaming(userMember)}</StyleText>
         </View>
       </View>
 
@@ -114,12 +135,27 @@ const MyPage = ({ setIsSignedIn }) => {
       
       <View nativeID='setting'>
         <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginVertical: 10 }}>
-          <StyleText style={{ fontSize: 14, color: colors.defaultDarkColor }}>내 정보 수정</StyleText>
+          <Pressable
+            onPress={()=>setEditModalVisible(true)}
+          >
+            <StyleText style={{ fontSize: 14, color: colors.defaultDarkColor }}>프로필 수정</StyleText>
+          </Pressable>
         </View>
         <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginVertical: 10 }}>
-          <StyleText style={{ fontSize: 14, color: colors.defaultDarkColor }}>우리 가족 정보 수정</StyleText>
+          <Pressable
+              onPress={()=>Logout()}
+            >
+            <StyleText style={{ fontSize: 14, color: colors.defaultDarkColor }}>로그아웃</StyleText>
+          </Pressable>
         </View>
       </View>
+      {
+        editModalVisible &&
+        <EditModalComponent
+          modalVisible={editModalVisible}
+          setModalVisible={setEditModalVisible}
+        />
+      }
     </ScreenContainer>
   );
 };
