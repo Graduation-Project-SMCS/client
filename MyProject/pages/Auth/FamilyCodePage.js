@@ -34,7 +34,7 @@ const FamilyCodePage = ({navigation, setIsSignedIn}) => {
 
     const makeCode = async () => {
         await getAPI(
-            info,
+            {},
             `/familycode/${userInfo.id}`,
             "",
         )
@@ -43,7 +43,7 @@ const FamilyCodePage = ({navigation, setIsSignedIn}) => {
             setCode(data);
         })
         .catch((e) => {
-            console.log(e);
+            console.log(e, userInfo.id);
         });
     };
 
@@ -116,7 +116,7 @@ const FamilyCodePage = ({navigation, setIsSignedIn}) => {
                                     value={code.toString()}
                                     autoFocus={true}
                                     autoCorrect={false}
-                                    onChange={(text)=>setCode(text)}
+                                    onChangeText={(text)=>setCode(text.toString())}
                                 />
                             </View>
                             <Pressable

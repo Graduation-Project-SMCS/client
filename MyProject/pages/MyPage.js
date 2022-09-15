@@ -17,7 +17,7 @@ import { useIsFocused, useTheme } from '@react-navigation/native';
 import StyleText from '../components/StyleText';
 import { Context } from '../context';
 import { USER_INFO } from '../context/actionTypes';
-import EditModalComponent from './Auth/EditModalComponent';
+import EditModalComponent from './EditModalComponent';
 
 const MyPage = ({ setIsSignedIn }) => {
   const {colors} = useTheme();
@@ -31,6 +31,8 @@ const MyPage = ({ setIsSignedIn }) => {
   const [userMember, setUserMember] = useState('당신의 역할은?');
   const [editModalVisible, setEditModalVisible] = useState(false);
 
+  const [heights, setHeight] = useState(0);
+
   const {
       state: {
           userInfo,
@@ -39,6 +41,25 @@ const MyPage = ({ setIsSignedIn }) => {
   } = useContext(Context);
 
   const isFocused = useIsFocused();
+  const getUserProfile = async () => {
+      await getAPI(
+          info,
+          `/user/${userInfo.id}`,
+          "",
+      )
+      .then(({ data, status }) => {
+        if((status === 200 || status === 201 || status === 204) && Object.keys(data).length > 0) {
+          console.log(data);
+          setUserName(data.name);
+          setUserCode(data.family_id.familycode);
+          setUserMember(data.member);
+        }
+      })
+      .catch((e) => {
+          console.log(e);
+          console.log(info);
+      });
+  };
 
   useEffect(() => {
       setInfo({
@@ -46,24 +67,7 @@ const MyPage = ({ setIsSignedIn }) => {
           id: userInfo.id,
           name: userInfo.name,
       });
-      const getUserProfile = async () => {
-          await getAPI(
-              info,
-              `/user/${userInfo.id}`,
-              "",
-          )
-          .then(({ data, status}) => {
-            if((status === 200 || status === 201 || status === 204) && Object.keys(data).length > 0) {
-              setUserName(userInfo.name);
-              setUserCode(data.family_id.familycode);
-              setUserMember(data.member);
-            }
-          })
-          .catch((e) => {
-              console.log(e);
-              console.log(info);
-          });
-      };
+
       getUserProfile();
   }, [isFocused]);
 
@@ -105,7 +109,17 @@ const MyPage = ({ setIsSignedIn }) => {
   };
 
   return (
-    <ScreenContainer style={{ alignContent: 'center' }}>
+    <SafeAreaView style={{
+        flex: 1,
+        backgroundColor: colors.backgroundColor,
+        alignContent: 'center',
+        paddingTop: 25,
+        paddingHorizontal: 20,
+        // height: heights,
+    }} onLayout={(event) => {
+        var {height} = event.nativeEvent.layout;
+        setHeight(heights);
+    }}>
       <View nativeID='user-profile' style={{ alignSelf: 'center', marginTop: 15 }}>
         <Image
           source={require('../assets/images/wuga/character2-wuga.png')}
@@ -154,9 +168,11 @@ const MyPage = ({ setIsSignedIn }) => {
         <EditModalComponent
           modalVisible={editModalVisible}
           setModalVisible={setEditModalVisible}
+          userInfo={{email: userInfo.email, member: userMember, name: userName, id: userInfo.id}}
+          getUserProfile={getUserProfile}
         />
       }
-    </ScreenContainer>
+    </SafeAreaView>
   );
 };
 

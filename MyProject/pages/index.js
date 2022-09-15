@@ -12,3 +12,4 @@ export { default as AuthScreen } from "./Auth/AuthPage";
 export { default as LoginScreen } from "./Auth/LoginPage";
 export { default as FamilyCodeScreen } from "./Auth/FamilyCodePage";
 export { default as UserRegisterScreen } from "./Auth/UserRegisterPage";
+export { default as EditModalComponent } from './EditModalComponent';
