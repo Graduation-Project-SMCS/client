@@ -157,14 +157,14 @@ const UserRegisterPage = ({navigation}) => {
                         >
                             <Pressable
                                 style={{ width: '30%', marginRight: 15 }}
-                                disabled={(email && member && name) ? false : true}
+                                disabled={(email && member && name && password.length >= 8) ? false : true}
                                 onPress={()=>{
                                     signUp()
                                 }}
                             >
                                 <StyleText
                                     style={
-                                        (email && member && name) ? {
+                                        (email && member && name && password.length >= 8) ? {
                                             color: colors.defaultColor,
                                             backgroundColor: colors.brown[5],
                                             ...styles.confirmText,

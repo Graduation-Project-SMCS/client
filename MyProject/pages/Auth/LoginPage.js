@@ -113,14 +113,14 @@ const LoginPage = ({navigation, setIsSignedIn}) => {
                         >
                             <Pressable
                                 style={{ width: '30%', marginRight: 15 }}
-                                disabled={(email && password) ? false : true}
+                                disabled={(email && password.length >= 8) ? false : true}
                                 onPress={()=>{
                                     login()
                                 }}
                             >
                                 <StyleText
                                     style={
-                                        (email && password) ? {
+                                        (email && password.length >= 8) ? {
                                             color: colors.defaultColor,
                                             backgroundColor: colors.brown[5],
                                             ...styles.confirmText,

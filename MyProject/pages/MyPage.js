@@ -18,6 +18,7 @@ import StyleText from '../components/StyleText';
 import { Context } from '../context';
 import { USER_INFO } from '../context/actionTypes';
 import EditModalComponent from './EditModalComponent';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 const MyPage = ({ setIsSignedIn }) => {
   const {colors} = useTheme();
@@ -133,6 +134,11 @@ const MyPage = ({ setIsSignedIn }) => {
     else return '';
   };
 
+  const copyCode = async () => {
+    Clipboard.setString(userCode);
+    Alert.alert("", "코드가 복사되었습니다.");
+  };
+
   return (
     <SafeAreaView style={{
         flex: 1,
@@ -162,6 +168,7 @@ const MyPage = ({ setIsSignedIn }) => {
             <StyleText style={{...styles.familyText, color: colors.defaultDarkColor}}>우리 가족 코드는 : {userCode}</StyleText>
             <Pressable
               style={{ backgroundColor: colors.defaultDarkColor, marginLeft: 15}}
+              onPress={()=>copyCode()}
             >
               <StyleText style={{ color: colors.defaultColor, padding: 5}}>복사하기</StyleText>
             </Pressable>

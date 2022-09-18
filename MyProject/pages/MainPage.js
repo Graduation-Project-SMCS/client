@@ -158,7 +158,7 @@ const MainPage = ({ navigation }) => {
 
           <Image
             source={require('../assets/images/wuga/maincharacter-wuga.png')}
-            style={{ width: '90%', height: 350, resizeMode: 'contain', alignSelf: 'center' }}
+            style={{ width: '90%', height: 300, resizeMode: 'contain', alignSelf: 'center' }}
           ></Image>
 
           <Pressable
