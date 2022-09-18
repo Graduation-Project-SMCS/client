@@ -49,6 +49,7 @@ const EditModalComponent = ({ modalVisible, setModalVisible, userInfo, getUserPr
         setEmail(userInfo.email);
         setMember(userInfo.member);
         setName(userInfo.name);
+        setImage(userInfo.profile_img);
     }, []);
 
     const editUserProfile = async () => {
@@ -56,7 +57,7 @@ const EditModalComponent = ({ modalVisible, setModalVisible, userInfo, getUserPr
             {
                 member: member,
                 name: name,
-                //profile
+                profile_img: image.id,
             },
             `/user/${userInfo.id}`,
             "",
@@ -91,6 +92,7 @@ const EditModalComponent = ({ modalVisible, setModalVisible, userInfo, getUserPr
                     <StyleText style={{ fontSize: 22, color: colors.defaultDarkColor, textAlign: 'center' }}>내 정보 수정</StyleText>
                         <Image source={image.image} style={{...styles.selectedImage}}/>
                         <FlatList data={defaultCharacterList} horizontal
+                            listKey='01'
                             renderItem={({item, index}) => {
                                 return (
                                     <TouchableOpacity onPress={() => {
@@ -113,7 +115,7 @@ const EditModalComponent = ({ modalVisible, setModalVisible, userInfo, getUserPr
                                 idx.toString();
                             }}
                             key={(item, idx) => {
-                                idx.toString();
+                                (item.id).toString();
                             }}
                             nestedScrollEnabled
                         />

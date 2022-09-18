@@ -29,7 +29,31 @@ const MyPage = ({ setIsSignedIn }) => {
   const [userName, setUserName] = useState('아직 이름이 없습니다!');
   const [userCode, setUserCode] = useState('아직 코드가 없습니다!');
   const [userMember, setUserMember] = useState('당신의 역할은?');
+  const [userImage, setUserImage] = useState({
+    id: -1,
+    name: 'null',
+    image: require('../assets/images/wuga/character2-wuga.png'),
+  });
   const [editModalVisible, setEditModalVisible] = useState(false);
+  const [defaultCharacterList, setDefaultCharacterList] = useState([
+      {
+          id: 1,
+          name: 'ele',
+          image: require('../assets/images/wuga/characters/ele.png'),
+      }, {
+          id: 2,
+          name: 'dino',
+          image: require('../assets/images/wuga/characters/dino.png'),
+      }, {
+          id: 3,
+          name: 'bunny',
+          image: require('../assets/images/wuga/characters/bunny.png'),
+      }, {
+          id: 4,
+          name: 'icebunny',
+          image: require('../assets/images/wuga/characters/icebunny.png'),
+      },
+  ]);
 
   const [heights, setHeight] = useState(0);
 
@@ -53,6 +77,7 @@ const MyPage = ({ setIsSignedIn }) => {
           setUserName(data.name);
           setUserCode(data.family_id.familycode);
           setUserMember(data.member);
+          if(data.profile_img) setUserImage(defaultCharacterList[parseInt(data.profile_img)-1]);
         }
       })
       .catch((e) => {
@@ -122,7 +147,7 @@ const MyPage = ({ setIsSignedIn }) => {
     }}>
       <View nativeID='user-profile' style={{ alignSelf: 'center', marginTop: 15 }}>
         <Image
-          source={require('../assets/images/wuga/character2-wuga.png')}
+          source={userImage.image}
           style={{width: 150, height: 150, borderRadius: 50, resizeMode: 'contain', marginBottom: 5 }}
         ></Image>
         <StyleText style={{ textAlign: 'center', fontSize: 20, color: colors.defaultDarkColor}}>{userName}</StyleText>
@@ -168,7 +193,7 @@ const MyPage = ({ setIsSignedIn }) => {
         <EditModalComponent
           modalVisible={editModalVisible}
           setModalVisible={setEditModalVisible}
-          userInfo={{email: userInfo.email, member: userMember, name: userName, id: userInfo.id}}
+          userInfo={{email: userInfo.email, member: userMember, name: userName, id: userInfo.id, profile_img: userImage}}
           getUserProfile={getUserProfile}
         />
       }

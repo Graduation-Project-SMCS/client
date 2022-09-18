@@ -19,6 +19,30 @@ const MainPage = ({ navigation }) => {
     question: '',
   });
   const {colors} = useTheme();
+  const [defaultImage, setDefaultImage] = useState({
+    id: -1,
+    name: 'null',
+    image: require('../assets/images/wuga/character2-wuga.png'),
+  });
+  const [defaultCharacterList, setDefaultCharacterList] = useState([
+      {
+          id: 1,
+          name: 'ele',
+          image: require('../assets/images/wuga/characters/ele.png'),
+      }, {
+          id: 2,
+          name: 'dino',
+          image: require('../assets/images/wuga/characters/dino.png'),
+      }, {
+          id: 3,
+          name: 'bunny',
+          image: require('../assets/images/wuga/characters/bunny.png'),
+      }, {
+          id: 4,
+          name: 'icebunny',
+          image: require('../assets/images/wuga/characters/icebunny.png'),
+      },
+  ]);
 
   const {
       state: {
@@ -56,7 +80,7 @@ const MainPage = ({ navigation }) => {
         "",
       )
       .then(({ data, status }) => {
-          // console.log(data);
+          console.log(data);
           if(status === 200 || status === 201 || status === 204) {
             setFamilyInfo(data);
           }
@@ -67,7 +91,7 @@ const MainPage = ({ navigation }) => {
     };
     
     getFamilyInfo();
-  }, []);
+  }, [useIsFocused()]);
 
   const style = {
     fontColor: { color: colors.defaultDarkColor }
@@ -108,6 +132,9 @@ const MainPage = ({ navigation }) => {
               style={{ width: 125, height: 50, justifyContent: 'flex-start', resizeMode: 'contain' }}
             />
         </View>
+        <View>
+          <Text>{}</Text>
+        </View>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', width: '100%', alignItems: 'center', marginTop: 30, justifyContent: 'space-between' }}>
           {
             familyInfo.length > 0 ?
@@ -115,7 +142,7 @@ const MainPage = ({ navigation }) => {
                 return (
                   <View key={idx} style={{flexDirection: 'row', width: '45%', marginVertical: 5, alignItems: 'center'}}>
                     <Image
-                      source={setRandomImage(info.member)}
+                      source={info.profile_img ? defaultCharacterList[parseInt(info.profile_img)-1].image : defaultImage.image}
                       style={{width: 30, height: 45, borderRadius: 50, resizeMode: 'contain', marginRight: 10}}
                     ></Image>
                     <View>

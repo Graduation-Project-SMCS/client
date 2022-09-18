@@ -34,7 +34,11 @@ const FamilyCodePage = ({navigation, setIsSignedIn}) => {
 
     const makeCode = async () => {
         await getAPI(
-            {},
+            {
+                email: userInfo.email,
+                name: userInfo.name,
+                member: userInfo.member,
+            },
             `/familycode/${userInfo.id}`,
             "",
         )

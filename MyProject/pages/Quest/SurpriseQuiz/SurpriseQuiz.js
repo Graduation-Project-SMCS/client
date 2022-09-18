@@ -149,8 +149,8 @@ const SurpriseQuiz = ({ modalVisible, setModalVisible }) => {
           </Pressable>
           <View>
             <StyleText
-              style={{textAlign:'center',fontSize: 18, paddingBottom:10, lineHeight: 32, color: colors.defaultDarkColor}}
-            >깜짝 퀴즈!{'\n'}주어진 사진과 같은 포즈를 잡아보세요</StyleText>
+              style={{textAlign:'center',fontSize: 18, paddingVertical: 10, lineHeight: 32, color: colors.defaultDarkColor}}
+            >주어진 사진과 같은 포즈를 취해{'\n'} 미션을 완료하세요</StyleText>
           </View>
           <View style={styles.ImageSections}>
               {renderOriginImg()}
