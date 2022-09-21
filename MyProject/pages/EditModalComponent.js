@@ -92,7 +92,6 @@ const EditModalComponent = ({ modalVisible, setModalVisible, userInfo, getUserPr
                     <StyleText style={{ fontSize: 22, color: colors.defaultDarkColor, textAlign: 'center' }}>내 정보 수정</StyleText>
                         <Image source={image.image} style={{...styles.selectedImage}}/>
                         <FlatList data={defaultCharacterList} horizontal
-                            listKey='01'
                             renderItem={({item, index}) => {
                                 return (
                                     <TouchableOpacity onPress={() => {
@@ -112,10 +111,10 @@ const EditModalComponent = ({ modalVisible, setModalVisible, userInfo, getUserPr
                                 );
                             }}
                             keyExtractor={(item, idx) => {
-                                idx.toString();
+                                return item.id;
                             }}
                             key={(item, idx) => {
-                                (item.id).toString();
+                                return item.id;
                             }}
                             nestedScrollEnabled
                         />

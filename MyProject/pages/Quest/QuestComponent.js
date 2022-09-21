@@ -1,9 +1,11 @@
 import { useTheme } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
-import { Text, StyleSheet, View, ImageBackground } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { Text, StyleSheet, View, ImageBackground, TextInput, Pressable } from 'react-native';
+import { getAPI, postAPI } from '../../api';
 import HeaderNavigation from '../../components/HeaderNavigation';
 import ScreenContainer from '../../components/ScreenContainer';
 import StyleText from '../../components/StyleText';
+import { Context } from '../../context';
 import TodayQuestNavigator from '../../navigation/TodayQuestNavigator';
 
 const QuestComponent = ({ route, navigation }) => {
@@ -14,11 +16,56 @@ const QuestComponent = ({ route, navigation }) => {
         question: "",
         date: "",
         complete: false,
-        answers: []
       });
+    const [answers, setAnswers] = useState([]);
+
+    const {
+        state: {
+            userInfo,
+        }
+    } = useContext(Context);
+    const [userAnswer, setUserAnswer] = useState('');
+
+    const getAnswers = async (date) => {
+        await getAPI(
+            {},
+            `/answers/1/1`,
+            "",
+        )
+        .then(({ data, status }) => {
+            console.log(data);
+            if(status === 200 || status === 201 || status === 204) {
+                setAnswers(data);
+            }
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+    };
+    
+    const setAnswer = async () => {
+        await postAPI(
+            {
+               emoji: '0',
+               answers: userAnswer, 
+            },
+            `/answer/1/${userInfo.id}`,
+            "",
+        )
+        .then(({ data, status }) => {
+            if(status === 200 || status === 201 || status === 204) {
+                console.log(data, status);
+                getAnswers(questInfo.date);
+            }
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+    };
 
     useEffect(() => {
         setInfo(questInfo);
+        getAnswers(questInfo.date);
     }, []);
 
     return (
@@ -37,12 +84,30 @@ const QuestComponent = ({ route, navigation }) => {
                         </StyleText>
                     </ImageBackground>
                 </View>
+                
+                <View style={{ width: '100%', marginTop: 15, alignItems: 'center', justifyContent: 'center', alignSelf: 'center', flexDirection: 'row'}}>
+                    <TextInput
+                        style={{...styles.inviteText, color: colors.defaultDarkColor, fontFamily: 'SongMyung-Regular'}}
+                        value={userAnswer}
+                        autoFocus={false}
+                        onChangeText={(text)=>setUserAnswer(text)}
+                        autoCorrect={false}
+                    />
+                    <Pressable
+                        onPress={()=>setAnswer()}
+                        style={{...styles.backBtnSection}}
+                    >
+                        <View style={{borderRadius: 10, backgroundColor: colors.brown[1]}}>
+                            <StyleText style={{...styles.backBtnText, color: colors.defaultColor}}>등록</StyleText>
+                        </View>
+                    </Pressable>
+                </View>
+
                 {
-                    info.answers.length > 0 ?
-                    <TodayQuestNavigator navigation={navigation} answers={info.answers}/> :
+                    answers.length > 0 ?
+                    <TodayQuestNavigator navigation={navigation} answers={answers}/> :
                     <></>
                 }
-                
             </ScreenContainer>
         </>
     );
@@ -51,9 +116,26 @@ const QuestComponent = ({ route, navigation }) => {
 export default QuestComponent;
 
 const styles = StyleSheet.create({
-  questionBox: {
-    width: '100%',
-    justifyContent: 'center',
-    alignSelf: 'center'
-  },
+    questionBox: {
+        width: '100%',
+        justifyContent: 'center',
+        alignSelf: 'center'
+    },
+    inviteText: {
+        textAlign: 'left',
+        paddingLeft: 25,
+        borderWidth: 1,
+        width: '80%',
+        marginHorizontal: 15
+    },
+    backBtnSection: {
+        borderRadius: 10,
+        width: '15%',
+        },
+    backBtnText: {
+        color: 'white',
+        paddingHorizontal: 10,
+        paddingVertical: 7.5,
+        textAlign: 'center'
+    },
 });

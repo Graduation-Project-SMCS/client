@@ -1,15 +1,16 @@
-import { useNavigation, useTheme } from '@react-navigation/native';
+import { useNavigation, useRoute, useTheme } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { Text, StyleSheet, Image, View, ActivityIndicator, Pressable, ImageBackground } from 'react-native';
 import { poseAPI } from '../../../api';
 import BackBtn from '../../../components/BackBtn';
-import ScreenContainer from '../../../components/ScreenContainer';
 import StyleText from '../../../components/StyleText';
 
-const QuestAnalyze = ({ route, navigation }) => {
+const QuestAnalyze = ({ modalVisible, setModalVisible }) => {
     const {colors} = useTheme();
+    const route = useRoute();
+    const navigation = useNavigation();
     const { image } = route.params;
-    const [analyzeRes, setAnalyzeRes] = useState('실패!');
+    const [analyzeRes, setAnalyzeRes] = useState('성공!');
     const [isAnalyzeFinished, setIsAnalyzeFinished] = useState(false);
 
     useEffect(() => {
@@ -43,25 +44,33 @@ const QuestAnalyze = ({ route, navigation }) => {
                 style={{width: '100%', height: '98%'}}
             >
                 <View style={{ padding: 5 }}>
-                    <View style={{ justifyContent: 'center', alignItems: 'center', height: '50%' }}>
-                        { isAnalyzeFinished ?
-                            <></> :
-                            <StyleText style={{ fontSize: 16, color: colors.defaultDarkColor, fontWeight: '700' }}>
-                                미션 분석 중...
-                            </StyleText>
-                        }
+                    <Pressable
+                        onPress={()=>setModalVisible(!modalVisible)}
+                    >
+                        <StyleText style={{...styles.modalX, color: colors.defaultDarkColor}}>X</StyleText>
+                    </Pressable>
+                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 45 }}>
                         <Image
                             nativeID='dataImage'
                             source={{ uri: image }}
                             style={styles.images}
                         />
-                        { !isAnalyzeFinished && <ActivityIndicator size={"large"} color={colors.brown[3]} /> }
+                        { isAnalyzeFinished ?
+                            <></> :
+                            <>
+                                <StyleText style={{ justifyContent: 'center', alignSelf: 'center', fontSize: 24, color: colors.defaultDarkColor, marginBottom: 25 }}>
+                                    미션 분석 중...
+                                </StyleText>
+                                <ActivityIndicator size={"large"} color={colors.brown[3]} /> 
+                            </>
+                        }
                     </View>
                     
                     { isAnalyzeFinished
                         && 
-                        <View style={{ justifyContent: 'center', alignItems: 'center'  }}>
+                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 5  }}>
                             <StyleText style={{...styles.analyzeRes, color: colors.brown[2]}}>{ analyzeRes }</StyleText>
+                            <StyleText style={{ fontSize: 22, color: colors.brown[4], marginTop: 30 }}>{ '유사도 : 63.5%' }</StyleText>
                         </View>
                     }
                 </View>
@@ -82,7 +91,13 @@ const styles = StyleSheet.create({
     },
     analyzeRes: {
         fontSize: 32,
-        fontWeight: '900',
-        marginTop: 30
     },
+    modalX: {
+        fontWeight: '800',
+        textAlign: 'center',
+        alignSelf: 'flex-end',
+        fontSize: 20,
+        marginTop: 25,
+        marginRight: 25
+    }
   });

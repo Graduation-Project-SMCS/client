@@ -23,94 +23,37 @@ const Mission = ({navigation}) => {
 
   useEffect(() => {
     const getMissions = async () => {
-      setMissions([]);
-      await getAPI(
-          {},
-          `/missions`,
-          "",
-      )
-      .then(({ data, status}) => {
-        console.log(data, status);
-        if(data.length > 0) {
-          setMissions([
-            {
-              id: data[0].id,
-              image: {uri: data[0].images[0]},
-              originImage: {uri: data[0].images[0]}
-            }
-          ]);
-        }
-      })
-      .catch((e) => {
-          console.log(e);
-      });
-  };
-  getMissions();
-    // setMissions([
-    //   {
-    //     id: 1,
-    //     image: require('../assets/images/wuga/characters-wuga.png'),
-    //     originImage: require('../assets/images/wuga/maincharacter-wuga.png'),
-    //   }, {
-    //     id: 2,
-    //     image: require('../assets/images/wuga/characters-wuga.png'),
-    //     originImage: require('../assets/images/wuga/maincharacter-wuga.png'),
-    //   }, {
-    //     id: 3,
-    //     image: require('../assets/images/wuga/characters-wuga.png'),
-    //     originImage: require('../assets/images/wuga/maincharacter-wuga.png'),
-    //   }, {
-    //     id: 4,
-    //     image: require('../assets/images/wuga/characters-wuga.png'),
-    //     originImage: require('../assets/images/wuga/maincharacter-wuga.png'),
-    //   }, {
-    //     id: 5,
-    //     image: require('../assets/images/wuga/characters-wuga.png'),
-    //     originImage: require('../assets/images/wuga/maincharacter-wuga.png'),
-    //   }, {
-    //     id: 6,
-    //     image: require('../assets/images/wuga/characters-wuga.png'),
-    //     originImage: require('../assets/images/wuga/maincharacter-wuga.png'),
-    //   }, {
-    //     id: 7,
-    //     image: require('../assets/images/wuga/characters-wuga.png'),
-    //     originImage: require('../assets/images/wuga/maincharacter-wuga.png'),
-    //   }, {
-    //     id: 8,
-    //     image: require('../assets/images/wuga/characters-wuga.png'),
-    //     originImage: require('../assets/images/wuga/maincharacter-wuga.png'),
-    //   }, {
-    //     id: 9,
-    //     image: require('../assets/images/wuga/characters-wuga.png'),
-    //     originImage: require('../assets/images/wuga/maincharacter-wuga.png'),
-    //   }, {
-    //     id: 10,
-    //     image: require('../assets/images/wuga/characters-wuga.png'),
-    //     originImage: require('../assets/images/wuga/maincharacter-wuga.png'),
-    //   }, {
-    //     id: 11,
-    //     image: require('../assets/images/wuga/characters-wuga.png'),
-    //     originImage: require('../assets/images/wuga/maincharacter-wuga.png'),
-    //   }, {
-    //     id: 12,
-    //     image: require('../assets/images/wuga/characters-wuga.png'),
-    //     originImage: require('../assets/images/wuga/maincharacter-wuga.png'),
-    //   },
-    // ])
+        setMissions([]);
+        await getAPI(
+            {},
+            `/missions`,
+            "",
+        )
+        .then(({ data, status}) => {
+          console.log(data, status);
+          if(data.length > 0) {
+            setMissions(data);
+          }
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+    };
+    getMissions();
   }, [useIsFocused()]);
 
   const missionGrid = ({ item, index }) => {
     return (
       <Pressable
-        onPress={()=>navigation.navigate('Detail', { idx: missions.length-index, originImg: item.originImage, curImg: item.image })}
+        onPress={()=>navigation.navigate('Detail', { idx: missions.length-index, originImg: item.mission, curImg: item.image })}
         style={{ width: '30%', margin: 5, alignSelf: 'center', borderWidth: 0.5, borderColor: colors.brown[4], }}
       >
         <Image
           style={{ width: '100%', height: 150, resizeMode: 'contain' }}
-          source={item.image} />
+          source={{uri: item.image}} />
           
         <View style={{ paddingHorizontal: 15, position: 'absolute' }}>
-          <StyleText style={{ textAlign: 'left', marginTop: 10, color: colors.defaultDarkColor, fontWeight: '800', fontSize: 14 }}>#{item.id}</StyleText>
+          <StyleText style={{ textAlign: 'left', marginTop: 10, color: colors.defaultDarkColor, fontWeight: '800', fontSize: 14 }}>#{missions.length-index}</StyleText>
         </View>
       </Pressable>
     )
@@ -129,7 +72,7 @@ const Mission = ({navigation}) => {
           /> 
         </Pressable>
       </View>
-      <SafeAreaView flex={1} style={{ justifyContent: 'center', alignItems: 'center'}}>
+      <SafeAreaView flex={1}>
         {
           missions.length > 0 ?
           <FlatList

@@ -11,6 +11,7 @@ import { getAPI } from '../api';
 import ScreenContainer from '../components/ScreenContainer';
 import StyleText from '../components/StyleText';
 import { Context } from '../context';
+import dayjs from 'dayjs';
 
 const MainPage = ({ navigation }) => {
   const [familyInfo, setFamilyInfo] = useState([]);
@@ -43,6 +44,7 @@ const MainPage = ({ navigation }) => {
           image: require('../assets/images/wuga/characters/icebunny.png'),
       },
   ]);
+  const todayDate = dayjs(new Date()).format("YYYY-MM-DD");
 
   const {
       state: {
@@ -54,10 +56,11 @@ const MainPage = ({ navigation }) => {
     const getTodayQuestion = async () => {
         await getAPI(
             {},
-            '/question/1',
+            `/question?date=${'2022-09-18'}`,
             "",
         )
         .then(({ data, status }) => {
+          console.log(data)
             setTodayQuest({
               ...todayQuest,
               ...data,

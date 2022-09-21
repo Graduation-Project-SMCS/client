@@ -55,12 +55,12 @@ const MissionDetail = ({ route, navigation }) => {
                     style={{...styles.imageSection, marginTop: 10}}
                 >
                     <Image
-                        source={originImg}
-                        style={{ width: 100, height: 100, resizeMode: 'contain' }}
+                        source={{uri: originImg}}
+                        style={{ width: 100, height: 100, resizeMode: 'contain', marginRight: 5 }}
                     />
                     <Image
-                        source={curImg}
-                        style={{ width: 200, height: 200, resizeMode: 'contain' }}
+                        source={{uri: curImg}}
+                        style={{ width: 200, height: 200, resizeMode: 'contain', marginLeft: 5 }}
                     />
                 </View>
 

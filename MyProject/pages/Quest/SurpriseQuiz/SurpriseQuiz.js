@@ -113,6 +113,13 @@ const SurpriseQuiz = ({ modalVisible, setModalVisible }) => {
     });
   }
 
+  const lImageWeb = () => {
+    let path = 'https://image.kmib.co.kr/online_image/2019/0916/201909160001_23110924097767_1.jpg';
+    setImgUrl(path);
+    setFilePath(path);
+    setFileUri(path);
+  }
+
   const renderOriginImg = () => {
     //포즈 데모 api 들어오면 바꿀 예정
     return <Image source={originImage.req}
@@ -166,6 +173,10 @@ const SurpriseQuiz = ({ modalVisible, setModalVisible }) => {
               <StyleText style={{...styles.btnText, color: colors.defaultDarkColor }}>사진 가져오기</StyleText>
             </TouchableOpacity>
 
+            <TouchableOpacity onPress={lImageWeb} style={{...styles.btnSection, backgroundColor: colors.brown[3]}}>
+              <StyleText style={{...styles.btnText, color: colors.defaultDarkColor }}>웹에서 가져오기</StyleText>
+            </TouchableOpacity>
+
             <TouchableOpacity
               onPress={()=>navigation.navigate('Analyze', { image: imgUrl })}
               style={{...styles.btnSection, backgroundColor: colors.brown[3]}}
@@ -186,7 +197,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginVertical: 15
+    marginBottom: 20
   },
   images: {
     width: 150,
@@ -200,15 +211,14 @@ const styles = StyleSheet.create({
   },
   btnSection: {
     width: 225,
-    height: 50,
+    height: 40,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 5,
-    marginBottom: 20
+    marginBottom: 15
   },
   btnText: {
     textAlign: 'center',
-    fontSize: 16,
   },
   modalX: {
       fontWeight: '800',
