@@ -1,7 +1,8 @@
 import { useTheme } from '@react-navigation/native';
 import React, { useContext, useEffect, useState } from 'react';
-import { Text, StyleSheet, View, ImageBackground, TextInput, Pressable } from 'react-native';
+import { Text, StyleSheet, View, ImageBackground, TextInput, Pressable, SafeAreaView, ScrollView } from 'react-native';
 import { getAPI, postAPI } from '../../api';
+import CommentForm from '../../components/CommentForm';
 import HeaderNavigation from '../../components/HeaderNavigation';
 import ScreenContainer from '../../components/ScreenContainer';
 import StyleText from '../../components/StyleText';
@@ -18,6 +19,7 @@ const QuestComponent = ({ route, navigation }) => {
         complete: false,
       });
     const [answers, setAnswers] = useState([]);
+    const [isAlreadyWritten, setIsAlreadyWritten] = useState(false);
 
     const {
         state: {
@@ -33,8 +35,8 @@ const QuestComponent = ({ route, navigation }) => {
             "",
         )
         .then(({ data, status }) => {
-            console.log(data, info.id, userInfo.id);
-            if(status === 200 || status === 201 || status === 204) {
+            console.log(data, status, info.id, userInfo.id);
+            if(data.length > 0) {
                 setAnswers(data);
             }
         })
@@ -46,7 +48,7 @@ const QuestComponent = ({ route, navigation }) => {
     const setAnswer = async () => {
         await postAPI(
             {
-               emoji: '0',
+               emoji: '0,0,0',
                answer: userAnswer, 
             },
             `/answer/${info.id}/${userInfo.id}`,
@@ -56,6 +58,8 @@ const QuestComponent = ({ route, navigation }) => {
             if(status === 200 || status === 201 || status === 204) {
                 console.log(data, status);
                 getAnswers();
+                setUserAnswer('');
+                setIsAlreadyWritten(true);
             }
         })
         .catch((e) => {
@@ -72,7 +76,12 @@ const QuestComponent = ({ route, navigation }) => {
                 "",
             )
             .then(({ data, status }) => {
-                console.log(data, info.id, userInfo.id);
+                console.log('this is ', data);
+                if(data.length > 0) {
+                    for(let i=0;i<data.length;i++) {
+                        if(data[i].user_name === userInfo.name) setIsAlreadyWritten(true);
+                    }
+                }
                 if(status === 200 || status === 201 || status === 204) {
                     setAnswers(data);
                 }
@@ -101,7 +110,12 @@ const QuestComponent = ({ route, navigation }) => {
                     </ImageBackground>
                 </View>
                 
-                <View style={{ width: '100%', marginTop: 15, alignItems: 'center', justifyContent: 'center', alignSelf: 'center', flexDirection: 'row'}}>
+                <View
+                    style={{ width: '100%', marginTop: 15, alignItems: 'center',
+                    justifyContent: 'center', alignSelf: 'center', flexDirection: 'row',
+                    display: isAlreadyWritten ? 'none' : 'flex'
+                    }}
+                >
                     <TextInput
                         style={{...styles.inviteText, color: colors.defaultDarkColor, fontFamily: 'SongMyung-Regular'}}
                         value={userAnswer}
@@ -121,7 +135,31 @@ const QuestComponent = ({ route, navigation }) => {
 
                 {
                     answers.length > 0 ?
-                    <TodayQuestNavigator navigation={navigation} answers={answers}/> :
+                    <SafeAreaView flex={1} style={{...styles.commentsList, backgroundColor: colors.backgroundColor}}>
+                        <ScrollView nativeID='commentScroll' showsVerticalScrollIndicator={false} >
+                        {
+                            answers.length > 0 ?
+                            answers.map((e, idx) => {
+                            const info = {
+                                answer: e.answer ? e.answer : '',
+                                image: e.user_profile,
+                                name: e.user_name ? e.user_name : 'none',
+                                idx: questInfo.id,
+                                emoji: e.emoji
+                            };
+            
+                            return (
+                                <Pressable
+                                    key={idx}
+                                >
+                                    <CommentForm e={info} idx={idx} getAnswers={getAnswers}/>
+                                </Pressable>
+                            );
+                            }) :
+                            <></>
+                        }
+                        </ScrollView>
+                    </SafeAreaView> :
                     <></>
                 }
             </ScreenContainer>
@@ -153,5 +191,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 7.5,
         textAlign: 'center'
+    },
+    commentsList: {
+        margin: 15,
     },
 });

@@ -86,9 +86,9 @@ const EditModalComponent = ({ modalVisible, setModalVisible, userInfo, getUserPr
                 <ImageBackground
                     source={require('../assets/images/wuga/background-wuga.png')}
                     resizeMode={"contain"}
-                    style={{width: '100%', height: '98%'}}
+                    style={{width: '100%', height: '100%'}}
                 >
-                <View style={{ paddingTop: 65, justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{ paddingTop: 50, justifyContent: 'center', alignItems: 'center' }}>
                     <StyleText style={{ fontSize: 22, color: colors.defaultDarkColor, textAlign: 'center' }}>내 정보 수정</StyleText>
                         <Image source={image.image} style={{...styles.selectedImage}}/>
                         <FlatList data={defaultCharacterList} horizontal
@@ -158,8 +158,8 @@ const EditModalComponent = ({ modalVisible, setModalVisible, userInfo, getUserPr
                             </View>
 
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginVertical: 10}}>
-                                <View style={{ width: '12%'}}>
-                                    <StyleText style={{ textAlign: 'center' }}>이메일</StyleText>
+                                <View style={{ width: '14%'}}>
+                                    <StyleText style={{ textAlign: 'center' }}>아이디</StyleText>
                                 </View>
                                 <View style={{ backgroundColor: colors.brown[2], width: '75%', marginLeft: 15}}>
                                     <TextInput
@@ -237,12 +237,12 @@ const styles = StyleSheet.create({
         width: '12%',
         alignSelf: 'flex-end',
         marginRight: 40,
-        marginTop: 10
+        marginTop: 5
     },
     backBtnText: {
         fontSize: 12,
         color: 'white',
-        paddingHorizontal: 10,
+        paddingHorizontal: 8,
         paddingVertical: 7.5,
         textAlign: 'center'
     },

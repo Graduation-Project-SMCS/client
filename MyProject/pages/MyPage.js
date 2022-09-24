@@ -74,7 +74,7 @@ const MyPage = ({ setIsSignedIn }) => {
       )
       .then(({ data, status }) => {
         if((status === 200 || status === 201 || status === 204) && Object.keys(data).length > 0) {
-          console.log(data);
+          // console.log(data);
           setUserName(data.name);
           setUserCode(data.family_id.familycode);
           setUserMember(data.member);

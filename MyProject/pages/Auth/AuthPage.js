@@ -115,7 +115,7 @@ const AuthPage = ({navigation}) => {
                         />
                         <Text
                             style={styles.socialLoginText}
-                        >이메일로 로그인</Text>
+                        >아이디로 로그인</Text>
                     </View>
                 </Pressable>
             </View>

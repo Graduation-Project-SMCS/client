@@ -58,6 +58,16 @@ const LoginPage = ({navigation, setIsSignedIn}) => {
         .catch((e) => {
             console.log(e);
             console.log(email, password)
+            Alert.alert(
+                "아이디 오류",
+                "아이디나 비밀번호가 틀립니다.",
+                [
+                  {
+                    text: '확인',
+                    style: "cancel",
+                  },
+                ]
+              )
         });
     };
 
@@ -78,7 +88,7 @@ const LoginPage = ({navigation, setIsSignedIn}) => {
                     >
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginVertical: 10}}>
                             <View style={{ width: '10%'}}>
-                                <StyleText style={{ textAlign: 'center' }}>이메일</StyleText>
+                                <StyleText style={{ textAlign: 'center' }}>아이디</StyleText>
                             </View>
                             <View style={{ backgroundColor: colors.brown[4], width: '80%', marginLeft: 15}}>
                                 <TextInput

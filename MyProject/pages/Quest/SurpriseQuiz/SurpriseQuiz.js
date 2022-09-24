@@ -23,6 +23,7 @@ const SurpriseQuiz = ({ modalVisible, setModalVisible }) => {
     req: require('../../../assets/images/wuga/character1-wuga.png'),
   });
   const [imgUrl, setImgUrl] = useState();
+  // const [response, setResponse] = useState(null);
   const navigation = useNavigation();
 
   const requestCameraPermission = async () => {
@@ -73,6 +74,7 @@ const SurpriseQuiz = ({ modalVisible, setModalVisible }) => {
           width: 450,
           height: 800,
         }).then(image => {
+          console.log(image)
           setImgUrl(image.path);
           setFilePath(image);
           setFileUri(image.path);
@@ -103,15 +105,41 @@ const SurpriseQuiz = ({ modalVisible, setModalVisible }) => {
         ImageCropPicker.openCropper({
           path: res.uri,
           width: 450,
-          height: 800
-        }).then(image => {
+          height: 800,
+          mediaType: 'photo',
+          includeBase64: Platform.OS === 'android',
+        }).then(async image => {
+          if (res.didCancel) return;
           setImgUrl(image.path);
           setFilePath(image);
           setFileUri(image.path);
+          // setResponse(res);
+          await imageUpload(res);
         });
       }
     });
   }
+  const [loading, setLoading] = useState(false);
+  const imageUpload = async (response) => {
+    setLoading(true);
+    let imageUrl = null;
+    if (response) {
+        const asset = response.assets[0];
+        const reference = storage().ref(`/profile/${asset.fileName}`); // 업로드할 경로 지정
+        if (Platform.OS === "android") { // 안드로이드
+            // 파일 업로드
+            await reference.putString(asset.base64, "base64", {
+                contentType: asset.type
+            });
+        } else { // iOS
+            // 파일 업로드
+            await reference.putFile(asset.uri);
+        }
+        imageUrl = response ? await reference.getDownloadURL() : null;
+    }
+    console.log("imageUrl", imageUrl);
+    // imageUrl 사용 로직 ...
+  };
 
   const lImageWeb = () => {
     let path = 'https://image.kmib.co.kr/online_image/2019/0916/201909160001_23110924097767_1.jpg';

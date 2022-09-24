@@ -30,7 +30,7 @@ const Mission = ({navigation}) => {
             "",
         )
         .then(({ data, status}) => {
-          console.log(data, status);
+          // console.log(data, status);
           if(data.length > 0) {
             setMissions(data);
           }

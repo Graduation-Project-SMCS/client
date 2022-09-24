@@ -66,7 +66,7 @@ const CalendarPage = () => {
           "",
       )
       .then(({ data, status }) => {
-        console.log(data)
+        // console.log(data)
           setTodayQuest({
             ...data,
           });
@@ -89,7 +89,7 @@ const CalendarPage = () => {
           "",
       )
       .then(({ data, status }) => {
-          console.log(data, userInfo.id);
+          // console.log(data, userInfo.id);
           if(status === 200 || status === 201 || status === 204) {
               setFamilyInfo(data);
           }
@@ -147,7 +147,7 @@ const CalendarPage = () => {
               </View>
             </ImageBackground>
           </View>
-          <View style={{ width: '40%', marginLeft: 25, marginTop: 35 }}>
+          <View style={{ width: '40%', marginLeft: 25, marginVertical: 35 }}>
             <SafeAreaView flex={1}>
               <ScrollView nativeID='family-answers' showsVerticalScrollIndicator={false}>
                 {

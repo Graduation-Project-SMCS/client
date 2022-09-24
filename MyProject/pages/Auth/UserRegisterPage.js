@@ -84,7 +84,7 @@ const UserRegisterPage = ({navigation}) => {
                     >
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginVertical: 10}}>
                             <View style={{ width: '10%'}}>
-                                <StyleText style={{ textAlign: 'center' }}>이메일</StyleText>
+                                <StyleText style={{ textAlign: 'center' }}>아이디</StyleText>
                             </View>
                             <View style={{ backgroundColor: colors.brown[4], width: '80%', marginLeft: 15}}>
                                 <TextInput

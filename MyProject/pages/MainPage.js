@@ -60,7 +60,7 @@ const MainPage = ({ navigation }) => {
             "",
         )
         .then(({ data, status }) => {
-          console.log(data)
+          // console.log(data)
             setTodayQuest({
               ...data,
             });
@@ -82,7 +82,7 @@ const MainPage = ({ navigation }) => {
         "",
       )
       .then(({ data, status }) => {
-          console.log(data);
+          // console.log(data);
           if(status === 200 || status === 201 || status === 204) {
             setFamilyInfo(data);
           }
@@ -120,7 +120,7 @@ const MainPage = ({ navigation }) => {
               style={{ width: 125, height: 50, justifyContent: 'flex-start', resizeMode: 'contain' }}
             />
         </View>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', width: '100%', alignItems: 'center', marginTop: 30, justifyContent: 'space-between' }}>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', width: '100%', alignItems: 'center', marginTop: 30, height: 100, justifyContent: 'space-between' }}>
             {
               familyInfo.length > 0 ?
                 familyInfo.map((info, idx) => {

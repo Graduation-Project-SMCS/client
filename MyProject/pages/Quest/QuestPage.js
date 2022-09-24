@@ -6,7 +6,6 @@ const Quest = ({ navigation, answers }) => {
   const [commentInfo, setCommentInfo] = useState([]);
 
   useEffect(() => {
-    console.log("this is answer", answers);
     setCommentInfo(answers);
   }, []);
 
