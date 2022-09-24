@@ -56,13 +56,12 @@ const MainPage = ({ navigation }) => {
     const getTodayQuestion = async () => {
         await getAPI(
             {},
-            `/question?date=${'2022-09-18'}`,
+            `/question/${todayDate}`,
             "",
         )
         .then(({ data, status }) => {
           console.log(data)
             setTodayQuest({
-              ...todayQuest,
               ...data,
             });
         })
@@ -100,20 +99,6 @@ const MainPage = ({ navigation }) => {
     fontColor: { color: colors.defaultDarkColor }
   };
 
-  const setRandomImage = (member) => {
-    if (member === 'father') {
-      return require('../assets/images/wuga/characters/dino.png');
-    } else if (member === 'mother') {
-      return require('../assets/images/wuga/characters/ele.png');
-    } else if(member === 'son') {
-      return require('../assets/images/wuga/characters/icebunny.png');
-    } else if(member === 'daughter') {
-      return require('../assets/images/wuga/characters/bunny.png');
-    } else {
-      return require('../assets/images/wuga/characters-wuga.png');
-    }
-  };
-
   const setMemberNaming = (member) => {
     if(member === 'father') return '아빠';
     else if(member === 'mother') return '엄마';
@@ -135,28 +120,25 @@ const MainPage = ({ navigation }) => {
               style={{ width: 125, height: 50, justifyContent: 'flex-start', resizeMode: 'contain' }}
             />
         </View>
-        <View>
-          <Text>{}</Text>
-        </View>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', width: '100%', alignItems: 'center', marginTop: 30, justifyContent: 'space-between' }}>
-          {
-            familyInfo.length > 0 ?
-              familyInfo.map((info, idx) => {
-                return (
-                  <View key={idx} style={{flexDirection: 'row', width: '45%', marginVertical: 5, alignItems: 'center'}}>
-                    <Image
-                      source={info.profile_img ? defaultCharacterList[parseInt(info.profile_img)-1].image : defaultImage.image}
-                      style={{width: 30, height: 45, borderRadius: 50, resizeMode: 'contain', marginRight: 10}}
-                    ></Image>
-                    <View>
-                      <StyleText style={{...style.fontColor}}>{info.name ? info.name : ''}</StyleText>
-                      <StyleText style={{...style.fontColor, marginTop: 5}}>{setMemberNaming(info.member)}</StyleText>
+            {
+              familyInfo.length > 0 ?
+                familyInfo.map((info, idx) => {
+                  return (
+                    <View key={idx} style={{flexDirection: 'row', width: '45%', marginVertical: 5, alignItems: 'center'}}>
+                      <Image
+                        source={info.profile_img ? defaultCharacterList[parseInt(info.profile_img)-1].image : defaultImage.image}
+                        style={{width: 30, height: 45, borderRadius: 50, resizeMode: 'contain', marginRight: 10}}
+                      ></Image>
+                      <View>
+                        <StyleText style={{...style.fontColor}}>{info.name ? info.name : ''}</StyleText>
+                        <StyleText style={{...style.fontColor, marginTop: 5}}>{setMemberNaming(info.member)}</StyleText>
+                      </View>
                     </View>
-                  </View>
-                )
-              }) :
-              <></>
-          }
+                  )
+                }) :
+                <></>
+            }
           </View>
 
           <Image

@@ -18,6 +18,7 @@ const QuestAnalyze = ({ modalVisible, setModalVisible }) => {
     }, []);
 
     const compareImages = async () => {
+        console.log(image)
         await poseAPI(
             image
         )

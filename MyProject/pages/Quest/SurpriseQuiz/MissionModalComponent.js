@@ -1,13 +1,8 @@
-import { useTheme } from '@react-navigation/native';
 import React from 'react';
-import { View, Pressable, StyleSheet, Text, ImageBackground, Image } from 'react-native';
-import ScreenContainer from '../../../components/ScreenContainer';
-import StyleText from '../../../components/StyleText';
+import { View, StyleSheet } from 'react-native';
 import MissionModalNavigator from '../../../navigation/MissionModalNavigator';
 
 const MissionModalComponent = ({ modalVisible, setModalVisible, navigation }) => {
-    const {colors} = useTheme();
-
     return (
         <View style={{ ...styles.modalView }}>
             <MissionModalNavigator navigation={navigation} modalVisible={modalVisible} setModalVisible={setModalVisible}/>

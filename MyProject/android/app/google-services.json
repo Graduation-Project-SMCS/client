@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "553367604709",
+    "project_id": "wuga-mission",
+    "storage_bucket": "wuga-mission.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:553367604709:android:3401d7d5626f558b0bb30c",
+        "android_client_info": {
+          "package_name": "com.myproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "553367604709-kn7addqrv3frtnp794ej4h0n2d5815n1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhJkMwjw9D2GiERX4xk5KTWxUg64-rwcE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "553367604709-kn7addqrv3frtnp794ej4h0n2d5815n1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -173,9 +173,9 @@ const SurpriseQuiz = ({ modalVisible, setModalVisible }) => {
               <StyleText style={{...styles.btnText, color: colors.defaultDarkColor }}>사진 가져오기</StyleText>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={lImageWeb} style={{...styles.btnSection, backgroundColor: colors.brown[3]}}>
+            {/* <TouchableOpacity onPress={lImageWeb} style={{...styles.btnSection, backgroundColor: colors.brown[3]}}>
               <StyleText style={{...styles.btnText, color: colors.defaultDarkColor }}>웹에서 가져오기</StyleText>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             <TouchableOpacity
               onPress={()=>navigation.navigate('Analyze', { image: imgUrl })}

@@ -26,14 +26,14 @@ const QuestComponent = ({ route, navigation }) => {
     } = useContext(Context);
     const [userAnswer, setUserAnswer] = useState('');
 
-    const getAnswers = async (date) => {
+    const getAnswers = async () => {
         await getAPI(
             {},
-            `/answers/1/1`,
+            `/question/answers/${info.id}/${userInfo.id}`,
             "",
         )
         .then(({ data, status }) => {
-            console.log(data);
+            console.log(data, info.id, userInfo.id);
             if(status === 200 || status === 201 || status === 204) {
                 setAnswers(data);
             }
@@ -47,15 +47,15 @@ const QuestComponent = ({ route, navigation }) => {
         await postAPI(
             {
                emoji: '0',
-               answers: userAnswer, 
+               answer: userAnswer, 
             },
-            `/answer/1/${userInfo.id}`,
+            `/answer/${info.id}/${userInfo.id}`,
             "",
         )
         .then(({ data, status }) => {
             if(status === 200 || status === 201 || status === 204) {
                 console.log(data, status);
-                getAnswers(questInfo.date);
+                getAnswers();
             }
         })
         .catch((e) => {
@@ -65,7 +65,23 @@ const QuestComponent = ({ route, navigation }) => {
 
     useEffect(() => {
         setInfo(questInfo);
-        getAnswers(questInfo.date);
+        const getAnswers = async () => {
+            await getAPI(
+                {},
+                `/question/answers/${questInfo.id}/${userInfo.id}`,
+                "",
+            )
+            .then(({ data, status }) => {
+                console.log(data, info.id, userInfo.id);
+                if(status === 200 || status === 201 || status === 204) {
+                    setAnswers(data);
+                }
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+        };
+        getAnswers();
     }, []);
 
     return (
