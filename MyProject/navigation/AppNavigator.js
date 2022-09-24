@@ -14,10 +14,6 @@ const AppNavigator = () => {
         }
     } = useContext(Context);
 
-    useEffect(() => {
-        console.log(userInfo);
-    }, []);
-
     const [isSignedIn, setIsSignedIn] = useState(false);
 
     return (

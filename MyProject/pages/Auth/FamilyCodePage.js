@@ -1,11 +1,12 @@
 import { useTheme } from '@react-navigation/native';
 import React, { useContext, useEffect, useState } from 'react';
-import { Pressable, Text, View, StyleSheet, TextInput, Image } from 'react-native';
+import { Pressable, Text, View, StyleSheet, TextInput, Image, Alert } from 'react-native';
 import { getAPI, postAPI } from '../../api';
 import HeaderNavigation from '../../components/HeaderNavigation';
 import ScreenContainer from '../../components/ScreenContainer';
 import StyleText from '../../components/StyleText';
 import { Context } from '../../context';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 const FamilyCodePage = ({navigation, setIsSignedIn}) => {
     const {colors} = useTheme();
@@ -15,6 +16,7 @@ const FamilyCodePage = ({navigation, setIsSignedIn}) => {
         email: '',
         id: 0,
         name: '',
+        member: '',
     })
     const {
         state: {
@@ -27,12 +29,17 @@ const FamilyCodePage = ({navigation, setIsSignedIn}) => {
             email: userInfo.email,
             id: userInfo.id,
             name: userInfo.name,
+            member: userInfo.member,
         });
     }, []);
 
     const makeCode = async () => {
         await getAPI(
-            info,
+            {
+                email: userInfo.email,
+                name: userInfo.name,
+                member: userInfo.member,
+            },
             `/familycode/${userInfo.id}`,
             "",
         )
@@ -41,7 +48,7 @@ const FamilyCodePage = ({navigation, setIsSignedIn}) => {
             setCode(data);
         })
         .catch((e) => {
-            console.log(e);
+            console.log(e, userInfo.id);
         });
     };
 
@@ -64,6 +71,17 @@ const FamilyCodePage = ({navigation, setIsSignedIn}) => {
 
     const codeConditionConfirmed = (inviteCode) => inviteCode.length === 6;
 
+    const getCode = async () => {
+        const text = await Clipboard.getString();
+        console.log(text);
+        setCode(text);
+    };
+
+    const copyCode = () => {
+        Clipboard.setString(code);
+        Alert.alert("", "코드가 복사되었습니다.");
+    };
+
     return (
         <>
             <HeaderNavigation navigation={navigation} />
@@ -82,24 +100,22 @@ const FamilyCodePage = ({navigation, setIsSignedIn}) => {
                         <Pressable
                             style={{...styles.inviteBtn, backgroundColor: colors.brown[4]}}
                             onPress={()=>{
-                                setCode(makeCode());
+                                if(code.length === 6) copyCode();
+                                else setCode(makeCode());
                             }}
                         >
                             <StyleText
                                 style={{...styles.inviteText, color: colors.defaultColor}}
-                            >내가 초대하기</StyleText>
+                            >{code.length === 6 ? '코드 복사하기' : '내가 초대하기'}</StyleText>
                         </Pressable>
 
                         <Pressable
                             style={{...styles.inviteBtn, backgroundColor: colors.brown[4]}}
-                            onPress={()=>{
-                                setHasCode(true);
-                                setCode('');
-                            }}
+                            onPress={()=>getCode()}
                         >
                             <StyleText
                                 style={{...styles.inviteText, color: colors.defaultColor}}
-                            >{hasCode ? '🔽  코드를 입력하세요' : '초대 코드가 있어요!'}</StyleText>
+                            >{'초대 코드가 있어요!'}</StyleText>
                         </Pressable>
 
                         <View
@@ -111,10 +127,10 @@ const FamilyCodePage = ({navigation, setIsSignedIn}) => {
                                 <TextInput
                                     style={{...styles.inviteText, color: colors.defaultColor, fontFamily: 'SongMyung-Regular'}}
                                     maxLength={6}
-                                    value={code}
+                                    value={code.toString()}
                                     autoFocus={true}
-                                    onChangeText={(text)=>setCode(text)}
                                     autoCorrect={false}
+                                    onChangeText={(text)=>setCode(text.toString())}
                                 />
                             </View>
                             <Pressable

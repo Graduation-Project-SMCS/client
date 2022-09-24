@@ -12,17 +12,17 @@ enableScreens(false);
 const App = () => {
   const [userEmail, setUserEmail] = useState('');
   const [userName, setUserName] = useState('');
-  const [userRole, setUserRole] = useState('');
+  const [userMember, setUserMember] = useState('');
   const [userId, setUserId] = useState(0);
 
   const userInfo = {
     email: userEmail,
     name: userName,
-    role: userRole,
+    member: userMember,
     id: userId,
     setUserEmail,
     setUserName,
-    setUserRole,
+    setUserMember,
     setUserId,
   };
 

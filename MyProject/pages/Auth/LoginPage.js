@@ -1,45 +1,73 @@
 import { useTheme } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Pressable, Text, View, StyleSheet, TextInput, Image, Alert } from 'react-native';
-import { postAPI } from '../../api';
+import { getAPI } from '../../api';
 import HeaderNavigation from '../../components/HeaderNavigation';
 import ScreenContainer from '../../components/ScreenContainer';
 import StyleText from '../../components/StyleText';
-import DropDownPicker from 'react-native-dropdown-picker';
+import { Context } from '../../context';
+import { USER_INFO } from '../../context/actionTypes';
 
-const LoginPage = ({navigation}) => {
+const LoginPage = ({navigation, setIsSignedIn}) => {
     const {colors} = useTheme();
     const [email, setEmail] = useState('');
-    const [member, setMember] = useState('');
-    const [name, setName] = useState('');
-    const [open, setOpen] = useState(false);
-    const [items, setItems] = useState([
-      {label: '아빠', value: 'father'},
-      {label: '엄마', value: 'mother'},
-      {label: '아들', value: 'son'},
-      {label: '딸', value: 'daughter'},
-      {label: '친척', value: 'other'},
-    ]);
+    const [password, setPassword] = useState('');
+    const {
+        state: {
+            userInfo,
+        },
+        dispatch,
+    } = useContext(Context);
 
-    const signUp = async () => {
-        await postAPI(
+    const login = async () => {
+        await getAPI(
             {
-                email: email,
-                member: member,
-                name: name,
-                role: 'GUEST'
             },
-            "/user",
+            `/login?email=${email}&password=${password}`,
             "",
         )
-        .then(({ status }) => {
+        .then(({ data, status }) => {
             if(status === 200 || status === 201 || status === 204) {
-                console.log(status);
-                navigation.navigate('Home');
+                console.log(typeof data, status);
+                if(typeof data === 'object') {
+                    dispatch({
+                        type: USER_INFO,
+                        payload: {
+                            email: data.email,
+                            id: data.id,
+                            name: data.name,
+                            member: data.member,
+                        },
+                    });
+                    setIsSignedIn(true);
+                }
+                else {
+                    Alert.alert(
+                        "아이디 오류",
+                        "아이디나 비밀번호가 틀립니다.",
+                        [
+                          {
+                            text: '확인',
+                            style: "cancel",
+                          },
+                        ]
+                      )
+                }
             }
         })
         .catch((e) => {
             console.log(e);
+            console.log(email, password)
+            Alert.alert(
+                "아이디 오류",
+                "아이디나 비밀번호가 틀립니다.",
+                [
+                  {
+                    text: '확인',
+                    style: "cancel",
+                  },
+                ]
+              )
         });
     };
 
@@ -60,7 +88,7 @@ const LoginPage = ({navigation}) => {
                     >
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginVertical: 10}}>
                             <View style={{ width: '10%'}}>
-                                <StyleText style={{ textAlign: 'center' }}>이메일</StyleText>
+                                <StyleText style={{ textAlign: 'center' }}>아이디</StyleText>
                             </View>
                             <View style={{ backgroundColor: colors.brown[4], width: '80%', marginLeft: 15}}>
                                 <TextInput
@@ -75,37 +103,17 @@ const LoginPage = ({navigation}) => {
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginVertical: 10}}>
                             <View style={{ width: '10%'}}>
-                                <StyleText style={{ textAlign: 'center' }}>이름</StyleText>
+                                <StyleText style={{ textAlign: 'center' }}>비밀번호</StyleText>
                             </View>
                             <View style={{ backgroundColor: colors.brown[4], width: '80%', marginLeft: 15}}>
                                 <TextInput
                                     style={{...styles.inviteText, color: colors.defaultColor, fontFamily: 'SongMyung-Regular'}}
-                                    value={name}
+                                    value={password}
                                     autoFocus={false}
-                                    onChangeText={(text)=>setName(text)}
+                                    onChangeText={(text)=>setPassword(text)}
                                     autoCorrect={false}
-                                />
-                            </View>
-                        </View>
-
-                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginVertical: 10, zIndex: 2000}}>
-                            <View style={{ width: '10%'}}>
-                                <StyleText style={{ textAlign: 'center' }}>역할</StyleText>
-                            </View>
-                            <View style={{ width: '80%', marginLeft: 15}}>
-                                <DropDownPicker
-                                    open={open}
-                                    value={member}
-                                    items={items}
-                                    setOpen={setOpen}
-                                    setValue={setMember}
-                                    setItems={setItems}
-                                    disableBorderRadius={true}
-                                    style={{ backgroundColor: colors.brown[4], borderWidth: 0, borderRadius: 0, paddingLeft: 10}}
-                                    textStyle={{ fontFamily: 'SongMyung-Regular', fontSize: 16, color: colors.defaultColor }}
-                                    listParentContainerStyle={{ backgroundColor: colors.brown[4], paddingLeft: 10}}
-                                    listParentLabelStyle={{ color: colors.defaultColor }}
-                                    dropDownContainerStyle={{ borderWidth: 0, borderRadius: 0}}
+                                    secureTextEntry={true}
+                                    placeholder={"8자리 이상을 입력하세요"}
                                 />
                             </View>
                         </View>
@@ -115,14 +123,14 @@ const LoginPage = ({navigation}) => {
                         >
                             <Pressable
                                 style={{ width: '30%', marginRight: 15 }}
-                                disabled={(email && member && name) ? false : true}
+                                disabled={(email && password.length >= 8) ? false : true}
                                 onPress={()=>{
-                                    signUp()
+                                    login()
                                 }}
                             >
                                 <StyleText
                                     style={
-                                        (email && member && name) ? {
+                                        (email && password.length >= 8) ? {
                                             color: colors.defaultColor,
                                             backgroundColor: colors.brown[5],
                                             ...styles.confirmText,
@@ -132,7 +140,22 @@ const LoginPage = ({navigation}) => {
                                             ...styles.confirmText,
                                         }
                                     }
-                                >확인</StyleText>
+                                >로그인</StyleText>
+                            </Pressable>
+
+                            <Pressable
+                                style={{ width: '30%', marginRight: 15 }}
+                                onPress={()=>
+                                    navigation.navigate('User')
+                                }
+                            >
+                                <StyleText
+                                    style={{
+                                        color: colors.defaultColor,
+                                        backgroundColor: colors.brown[4],
+                                        ...styles.confirmText,
+                                    }}
+                                >회원가입</StyleText>
                             </Pressable>
                         </View>
                     </View>
@@ -141,8 +164,8 @@ const LoginPage = ({navigation}) => {
                     style={{ justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}
                 >
                     <Image
-                        source={require('../../assets/images/wuga/characters-wuga.png')}
-                        style={{ width: 300, height: 200, resizeMode: 'contain' }}
+                        source={require('../../assets/images/wuga/maincharacter-wuga.png')}
+                        style={{ width: 300, height: 300, resizeMode: 'contain' }}
                     />
                 </View>
             </ScreenContainer>

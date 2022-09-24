@@ -6,22 +6,8 @@ const Quest = ({ navigation, answers }) => {
   const [commentInfo, setCommentInfo] = useState([]);
 
   useEffect(() => {
-    console.log("this is answer", answers);
     setCommentInfo(answers);
   }, []);
-
-  const setRandomImage = (index) => {
-    if (index % 2 === 0) {
-      return require('../../assets/images/wuga/characters/bunny.png');
-    } else if (index % 3 === 0) {
-      return require('../../assets/images/wuga/characters/dino.png');
-    } else if (index % 5 === 0) {
-      return require('../../assets/images/wuga/characters/ele.png');
-    } else {
-      return require('../../assets/images/wuga/characters/icebunny.png');
-    }
-  };
-
 
     return (
       <>
@@ -32,8 +18,8 @@ const Quest = ({ navigation, answers }) => {
                 commentInfo.map((e, idx) => {
                   const info = {
                     answer: e.answer ? e.answer : '',
-                    image: setRandomImage(idx),
-                    name: e.name ? e.name : 'none',
+                    image: e.user_profile,
+                    name: e.user_name ? e.user_name : 'none',
                     idx: e.id,
                   };
 

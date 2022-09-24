@@ -23,6 +23,7 @@ const SurpriseQuiz = ({ modalVisible, setModalVisible }) => {
     req: require('../../../assets/images/wuga/character1-wuga.png'),
   });
   const [imgUrl, setImgUrl] = useState();
+  // const [response, setResponse] = useState(null);
   const navigation = useNavigation();
 
   const requestCameraPermission = async () => {
@@ -73,6 +74,7 @@ const SurpriseQuiz = ({ modalVisible, setModalVisible }) => {
           width: 450,
           height: 800,
         }).then(image => {
+          console.log(image)
           setImgUrl(image.path);
           setFilePath(image);
           setFileUri(image.path);
@@ -103,14 +105,47 @@ const SurpriseQuiz = ({ modalVisible, setModalVisible }) => {
         ImageCropPicker.openCropper({
           path: res.uri,
           width: 450,
-          height: 800
-        }).then(image => {
+          height: 800,
+          mediaType: 'photo',
+          includeBase64: Platform.OS === 'android',
+        }).then(async image => {
+          if (res.didCancel) return;
           setImgUrl(image.path);
           setFilePath(image);
           setFileUri(image.path);
+          // setResponse(res);
+          await imageUpload(res);
         });
       }
     });
+  }
+  const [loading, setLoading] = useState(false);
+  const imageUpload = async (response) => {
+    setLoading(true);
+    let imageUrl = null;
+    if (response) {
+        const asset = response.assets[0];
+        const reference = storage().ref(`/profile/${asset.fileName}`); // 업로드할 경로 지정
+        if (Platform.OS === "android") { // 안드로이드
+            // 파일 업로드
+            await reference.putString(asset.base64, "base64", {
+                contentType: asset.type
+            });
+        } else { // iOS
+            // 파일 업로드
+            await reference.putFile(asset.uri);
+        }
+        imageUrl = response ? await reference.getDownloadURL() : null;
+    }
+    console.log("imageUrl", imageUrl);
+    // imageUrl 사용 로직 ...
+  };
+
+  const lImageWeb = () => {
+    let path = 'https://image.kmib.co.kr/online_image/2019/0916/201909160001_23110924097767_1.jpg';
+    setImgUrl(path);
+    setFilePath(path);
+    setFileUri(path);
   }
 
   const renderOriginImg = () => {
@@ -149,8 +184,8 @@ const SurpriseQuiz = ({ modalVisible, setModalVisible }) => {
           </Pressable>
           <View>
             <StyleText
-              style={{textAlign:'center',fontSize: 16, paddingBottom:10, lineHeight: 34, color: colors.defaultDarkColor, fontWeight: '700'}}
-            >깜짝 퀴즈!{'\n'}주어진 사진과 같은 포즈를 잡아보세요</StyleText>
+              style={{textAlign:'center',fontSize: 18, paddingVertical: 10, lineHeight: 32, color: colors.defaultDarkColor}}
+            >주어진 사진과 같은 포즈를 취해{'\n'} 미션을 완료하세요</StyleText>
           </View>
           <View style={styles.ImageSections}>
               {renderOriginImg()}
@@ -165,6 +200,10 @@ const SurpriseQuiz = ({ modalVisible, setModalVisible }) => {
             <TouchableOpacity onPress={lImageLibrary} style={{...styles.btnSection, backgroundColor: colors.brown[3]}}>
               <StyleText style={{...styles.btnText, color: colors.defaultDarkColor }}>사진 가져오기</StyleText>
             </TouchableOpacity>
+
+            {/* <TouchableOpacity onPress={lImageWeb} style={{...styles.btnSection, backgroundColor: colors.brown[3]}}>
+              <StyleText style={{...styles.btnText, color: colors.defaultDarkColor }}>웹에서 가져오기</StyleText>
+            </TouchableOpacity> */}
 
             <TouchableOpacity
               onPress={()=>navigation.navigate('Analyze', { image: imgUrl })}
@@ -186,7 +225,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginVertical: 15
+    marginBottom: 20
   },
   images: {
     width: 150,
@@ -200,16 +239,14 @@ const styles = StyleSheet.create({
   },
   btnSection: {
     width: 225,
-    height: 50,
+    height: 40,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 5,
-    marginBottom: 20
+    marginBottom: 15
   },
   btnText: {
     textAlign: 'center',
-    fontSize: 14,
-    fontWeight: '800'
   },
   modalX: {
       fontWeight: '800',

@@ -21,7 +21,7 @@ const HeaderNavigation = props => {
                     activeOpacity={0.8}
                     style={{ flexDirection: 'row', alignItems: 'center' }}
                 >
-                    <StyleText style={{ fontSize: 22, color: colors.brown[1], fontWeight: '900' }}>◀</StyleText>
+                    <StyleText style={{ fontSize: 22, color: colors.brown[1], fontWeight: '900' }}>🔙</StyleText>
                     <StyleText style={{ fontSize: 14, color: colors.brown[1], fontWeight: '700', paddingTop: 4}}>  뒤로</StyleText>
                 </TouchableOpacity>
             </View>

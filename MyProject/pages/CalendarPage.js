@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
     Image,
     View,
@@ -10,8 +10,10 @@ import {
 import { Calendar } from 'react-native-calendars';
 import ScreenContainer from '../components/ScreenContainer';
 import dayjs from 'dayjs';
-import { useTheme } from '@react-navigation/native';
+import { useIsFocused, useTheme } from '@react-navigation/native';
 import StyleText from '../components/StyleText';
+import { Context } from '../context';
+import { getAPI } from '../api';
 
 const CalendarPage = () => {
   const {colors} = useTheme();
@@ -23,32 +25,83 @@ const CalendarPage = () => {
 
   const [nowDay, setNowDay] = useState(today);
   const [familyInfo, setFamilyInfo] = useState([]);
-
-  useEffect(() => {
-    setFamilyInfo([
+  const {
+      state: {
+          userInfo,
+      }
+  } = useContext(Context);
+  const [todayQuest, setTodayQuest] = useState({
+    id: 0,
+    question: '',
+  });
+  const [defaultImage, setDefaultImage] = useState({
+    id: -1,
+    name: 'null',
+    image: require('../assets/images/wuga/character2-wuga.png'),
+  });
+  const [defaultCharacterList, setDefaultCharacterList] = useState([
       {
-        name: 'minsun',
-        answer: 'me',
-        picture: require('../assets/images/wuga/character1-wuga.png'),
+          id: 1,
+          name: 'ele',
+          image: require('../assets/images/wuga/characters/ele.png'),
       }, {
-        name: 'minseok',
-        answer: 'bro',
-        picture: require('../assets/images/wuga/character1-wuga.png'),
+          id: 2,
+          name: 'dino',
+          image: require('../assets/images/wuga/characters/dino.png'),
       }, {
-        name: 'eunha',
-        answer: 'mom',
-        picture: require('../assets/images/wuga/character1-wuga.png'),
-      },      {
-        name: 'minsun',
-        answer: 'me',
-        picture: require('../assets/images/wuga/character1-wuga.png'),
+          id: 3,
+          name: 'bunny',
+          image: require('../assets/images/wuga/characters/bunny.png'),
       }, {
-        name: 'minseok',
-        answer: 'bro',
-        picture: require('../assets/images/wuga/character1-wuga.png'),
+          id: 4,
+          name: 'icebunny',
+          image: require('../assets/images/wuga/characters/icebunny.png'),
       },
-    ])
-  }, []);
+  ]);
+  const [todayDate, setTodayDate] = useState(dayjs(new Date()).format("YYYY-MM-DD"));
+  const getTodayQuestion = async (date) => {
+      await getAPI(
+          {},
+          `/question/${date}`,
+          "",
+      )
+      .then(({ data, status }) => {
+        // console.log(data)
+          setTodayQuest({
+            ...data,
+          });
+        getAnswers(data.id)
+      })
+      .catch((e) => {
+        console.log(e);
+        setTodayQuest({
+          id: -1,
+          question: '',
+        });
+        setFamilyInfo([]);
+      });
+  };
+
+  const getAnswers = async (id) => {
+      await getAPI(
+          {},
+          `/question/answers/${id}/${userInfo.id}`,
+          "",
+      )
+      .then(({ data, status }) => {
+          // console.log(data, userInfo.id);
+          if(status === 200 || status === 201 || status === 204) {
+              setFamilyInfo(data);
+          }
+      })
+      .catch((e) => {
+          console.log(e);
+      });
+  };
+  useEffect(() => {
+
+    getTodayQuestion(todayDate);
+  }, [useIsFocused()]);
 
   return (
     <ScreenContainer>
@@ -68,6 +121,8 @@ const CalendarPage = () => {
           onDayPress={day => {
             let formattedDay = dayjs(day.dateString).format('YYYY-MM-DD');
             setNowDay(formattedDay);
+            setTodayDate(formattedDay);
+            getTodayQuestion(formattedDay);
           }}
           monthFormat={'yyyy.MM'}
           renderArrow={direction => {
@@ -81,18 +136,18 @@ const CalendarPage = () => {
           <View nativeID='quest-box'
             style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', width: '70%', marginTop: 15 }}
           >
-            <StyleText style={{ textAlign: 'left', fontSize: 12, fontWeight: '800', alignSelf: 'flex-start' }}># {nowDay}</StyleText>
+            <StyleText style={{ textAlign: 'left', fontSize: 14, alignSelf: 'flex-start' }}># {nowDay}</StyleText>
             <ImageBackground
               source={require('../assets/images/wuga/questbg-wuga.png')}
               resizeMode={"contain"}
               style={{width: '100%', height: 100, justifyContent: 'center', alignItems: 'center'}}
             > 
               <View nativeID='quest-num' style={{position: 'absolute'}}>
-                <StyleText nativeID='quest' style={{ fontSize: 18, color: colors.defaultDarkColor, textAlign: 'center' }}>{'질문'}</StyleText>
+                <StyleText nativeID='quest' style={{ fontSize: 18, color: colors.defaultDarkColor, textAlign: 'center' }}>{todayQuest.question}</StyleText>
               </View>
             </ImageBackground>
           </View>
-          <View style={{ width: '40%', margin: 5 }}>
+          <View style={{ width: '40%', marginLeft: 25, marginVertical: 35 }}>
             <SafeAreaView flex={1}>
               <ScrollView nativeID='family-answers' showsVerticalScrollIndicator={false}>
                 {
@@ -101,7 +156,12 @@ const CalendarPage = () => {
                     return (
                       <View key={idx} style={{ marginVertical: 5 }}>
                         <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                          <Image source={e.picture} style={{width: 35, height: 35, marginLeft: 5, marginRight: 15, resizeMode: 'contain'}} />
+                          <View>
+                            <Image
+                              source={e.user_profile ? defaultCharacterList[parseInt(e.user_profile)-1].image : defaultImage.image}
+                              style={{width: 35, height: 35, marginLeft: 5, marginRight: 15, resizeMode: 'contain'}} />
+                            <StyleText style={{fontSize: 10, marginTop: 2}}>{e.user_name}</StyleText>
+                          </View>
                           <StyleText style={{ textAlign: 'left', color: colors.defaultDarkColor, fontSize: 12 }}>{e.answer}</StyleText>
                         </View>
                       </View>
