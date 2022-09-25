@@ -83,7 +83,7 @@ const MyPage = ({ setIsSignedIn }) => {
       })
       .catch((e) => {
           console.log(e);
-          console.log(info);
+          // console.log(info);
       });
   };
 
@@ -164,7 +164,7 @@ const MyPage = ({ setIsSignedIn }) => {
       <View nativeID='user-family'>
         <StyleText style={{ fontSize: 14, color: colors.defaultDarkColor, marginBottom: 15 }}>나와 가족 정보</StyleText>
         <View>
-          <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center'}}>
+          {/* <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center'}}>
             <StyleText style={{...styles.familyText, color: colors.defaultDarkColor}}>우리 가족 코드는 : {userCode}</StyleText>
             <Pressable
               style={{ backgroundColor: colors.defaultDarkColor, marginLeft: 15}}
@@ -172,7 +172,7 @@ const MyPage = ({ setIsSignedIn }) => {
             >
               <StyleText style={{ color: colors.defaultColor, padding: 5}}>복사하기</StyleText>
             </Pressable>
-          </View>
+          </View> */}
           <StyleText style={{...styles.familyText, color: colors.defaultDarkColor}}>나는 가족에서 : {setMemberNaming(userMember)}</StyleText>
         </View>
       </View>

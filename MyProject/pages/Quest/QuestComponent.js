@@ -48,8 +48,10 @@ const QuestComponent = ({ route, navigation }) => {
     const setAnswer = async () => {
         await postAPI(
             {
-               emoji: '0,0,0',
-               answer: userAnswer, 
+                emj_good: 0,
+                emj_heart: 0,
+                emj_smile: 0,
+                answer: userAnswer, 
             },
             `/answer/${info.id}/${userInfo.id}`,
             "",
@@ -140,19 +142,22 @@ const QuestComponent = ({ route, navigation }) => {
                         {
                             answers.length > 0 ?
                             answers.map((e, idx) => {
-                            const info = {
-                                answer: e.answer ? e.answer : '',
-                                image: e.user_profile,
-                                name: e.user_name ? e.user_name : 'none',
-                                idx: questInfo.id,
-                                emoji: e.emoji
-                            };
+                            // const info = {
+                            //     answer: e.answer ? e.answer : '',
+                            //     image: e.user_profile,
+                            //     name: e.user_name ? e.user_name : 'none',
+                            //     idx: questInfo.id,
+                            //     emj_good: e.emj_good,
+                            //     emj_heart: e.emj_heart,
+                            //     emj_smile: e.emj_smile,
+                            //     id: userInfo.id,
+                            // };
             
                             return (
                                 <Pressable
                                     key={idx}
                                 >
-                                    <CommentForm e={info} idx={idx} getAnswers={getAnswers}/>
+                                    <CommentForm e={e} idx={questInfo.id} getAnswers={getAnswers}/>
                                 </Pressable>
                             );
                             }) :

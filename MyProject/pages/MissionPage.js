@@ -94,6 +94,7 @@ const Mission = ({navigation}) => {
           modalVisible={surpriseQuizModalVisible}
           setModalVisible={setSurpriseQuizModalVisible}
           navigation={navigation}
+          now={missions.length+1} //현재 진도
         />
       }
     </ScreenContainer>

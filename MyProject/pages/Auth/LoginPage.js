@@ -87,7 +87,7 @@ const LoginPage = ({navigation, setIsSignedIn}) => {
                         style={{ marginTop: 30 }}
                     >
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginVertical: 10}}>
-                            <View style={{ width: '10%'}}>
+                            <View style={{ width: '17%'}}>
                                 <StyleText style={{ textAlign: 'center' }}>아이디</StyleText>
                             </View>
                             <View style={{ backgroundColor: colors.brown[4], width: '80%', marginLeft: 15}}>
@@ -102,7 +102,7 @@ const LoginPage = ({navigation, setIsSignedIn}) => {
                         </View>
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginVertical: 10}}>
-                            <View style={{ width: '10%'}}>
+                            <View style={{ width: '17%'}}>
                                 <StyleText style={{ textAlign: 'center' }}>비밀번호</StyleText>
                             </View>
                             <View style={{ backgroundColor: colors.brown[4], width: '80%', marginLeft: 15}}>

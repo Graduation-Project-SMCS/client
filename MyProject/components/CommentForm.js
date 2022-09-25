@@ -43,11 +43,10 @@ const CommentForm = (props) => {
     const [smile, setSmile] = useState(false);
 
     const splitEmojis = () => {
-        let splitted = e.emoji.split(',').map(Number);
         setEmojis({
-            good: splitted[0],
-            heart: splitted[1],
-            smile: splitted[2],
+            good: e.emj_good,
+            heart: e.emj_heart,
+            smile: e.emj_smile,
         });
     };
 
@@ -55,16 +54,34 @@ const CommentForm = (props) => {
         splitEmojis();
     }, [useIsFocused()]);
 
-    const editEmoji = async () => {
-        let g = 0, h = 0, s = 0;
-        // if(good)
-        // let body = emojis.good + ',' + emojis.heart + ',' + emojis.smile;
+    const editEmoji = async (type) => {
+        await Alert.alert(
+            "",
+            "추천하시겠습니까?",
+            [
+              { 
+                text: "추천",
+                onPress: () => {
+                  editUserEmoji(type, 1);
+                },
+              },
+              {
+                text: "비추천",
+                onPress: () => {
+                    console.log(typeof emojis[type]);
+                    if(emojis[type] > 0) editUserEmoji(type, 0);
+                    else Alert.alert("", "추천 수가 0일땐 추천할 수 없습니다.");
+                },
+              },
+            ]
+        );
+
+    };
+
+    const editUserEmoji = async (type, now) => {
         await putAPI(
-            {
-                emoji: body,
-                user_name: e.name,
-            },
-            `/answer/emoji/${e.idx}`,
+            {},
+            `/answer/emoji/${idx}/${e.id}?emoji=${type}&calc=${now}`,
             "",
         )
         .then(({ data, status }) => {
@@ -75,7 +92,7 @@ const CommentForm = (props) => {
             }
         })
         .catch((e) => {
-            console.log(e, body, e.idx);
+            console.log(e, idx);
             Alert.alert("서버 오류", "잠시 후 다시 시도해주세요.");
         });
     };
@@ -87,41 +104,44 @@ const CommentForm = (props) => {
                     <Image
                      source={e.image ? defaultCharacterList[parseInt(e.image)-1].image : defaultImage.image}
                      style={styles.profileImage} />
-                    <StyleText style={{...styles.profileName, color: colors.defaultDarkColor,}}>{e.name}</StyleText>
+                    <StyleText style={{...styles.profileName, color: colors.defaultDarkColor,}}>{e.user_name}</StyleText>
                 </View>
                 <View style={{ flexDirection: 'column' }}>
                     <StyleText style={{ textAlign: 'left', color: colors.defaultDarkColor }}>{e.answer}</StyleText>
 
                 </View>
             </View>
-            <View style={{ position: 'absolute', right: 0, bottom: 0}}>
+            <View style={{ position: 'absolute', right: 0, bottom: 10}}>
                 <View style={{ flexDirection: 'row', alignItems: 'flex-end'}}>
                     <Pressable
                         onPress={()=>{
-                            setGood(!good);
-                            editEmoji()
+                            editEmoji('good');
                         }}
                         style={{ marginHorizontal: 5 }}
                     >
-                        <StyleText>👍{}</StyleText>
+                        <View style={{ width: '100%'}}>
+                            <StyleText style={{ color: good ? colors.brown[3] : colors.defaultDarkColor}}>👍 {e.emj_good}</StyleText>
+                        </View>
                     </Pressable>
                     <Pressable
                         onPress={()=>{
-                            setHeart(!heart);
-                            editEmoji()
+                            editEmoji('heart');
                         }}
                         style={{ marginHorizontal: 5 }}
                     >
-                        <StyleText>❤️{e.emoji}</StyleText>
+                        <View style={{ width: '100%'}}>
+                            <StyleText style={{ color: heart ? colors.brown[3] : colors.defaultDarkColor}}>❤️ {e.emj_heart}</StyleText>
+                        </View>
                     </Pressable>
                     <Pressable
                         onPress={()=>{
-                            setSmile(!smile);
-                            editEmoji()
+                            editEmoji('smile');
                         }}
                         style={{ marginHorizontal: 5 }}
                     >
-                        <StyleText>😊{}</StyleText>
+                        <View style={{ width: '100%'}}>
+                            <StyleText style={{ color: smile ? colors.brown[3] : colors.defaultDarkColor}}>😊 {e.emj_smile}</StyleText>
+                        </View>
                     </Pressable>
                 </View>
             </View>

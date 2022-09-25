@@ -45,7 +45,6 @@ const EditModalComponent = ({ modalVisible, setModalVisible, userInfo, getUserPr
     ]);
 
     useEffect(() => {
-        //api 들어오면 조건부 렌더링으로 프사 설정
         setEmail(userInfo.email);
         setMember(userInfo.member);
         setName(userInfo.name);

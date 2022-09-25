@@ -9,7 +9,7 @@ const QuestAnalyze = ({ modalVisible, setModalVisible }) => {
     const {colors} = useTheme();
     const route = useRoute();
     const navigation = useNavigation();
-    const { image } = route.params;
+    const { image, originInfo } = route.params;
     const [analyzeRes, setAnalyzeRes] = useState('성공!');
     const [isAnalyzeFinished, setIsAnalyzeFinished] = useState(false);
 
