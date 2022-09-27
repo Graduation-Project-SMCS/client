@@ -5,7 +5,7 @@ import { putAPI } from '../api';
 import StyleText from './StyleText';
 
 const CommentForm = (props) => {
-    const {e, idx, getAnswers} = props;
+    const {e, idx, getAnswers, getComments, type, id} = props;
     const {colors} = useTheme();
     const [defaultImage, setDefaultImage] = useState({
         id: -1,
@@ -54,6 +54,10 @@ const CommentForm = (props) => {
         splitEmojis();
     }, [useIsFocused()]);
 
+    const setImage = () => {
+        return e.user_profile ? defaultCharacterList[parseInt(e.user_profile)-1].image : defaultImage.image;
+    };
+
     const editEmoji = async (type) => {
         await Alert.alert(
             "",
@@ -68,7 +72,6 @@ const CommentForm = (props) => {
               {
                 text: "비추천",
                 onPress: () => {
-                    console.log(typeof emojis[type]);
                     if(emojis[type] > 0) editUserEmoji(type, 0);
                     else Alert.alert("", "추천 수가 0일땐 추천할 수 없습니다.");
                 },
@@ -78,21 +81,24 @@ const CommentForm = (props) => {
 
     };
 
-    const editUserEmoji = async (type, now) => {
+    const editUserEmoji = async (t, now) => {
         await putAPI(
             {},
-            `/answer/emoji/${idx}/${e.id}?emoji=${type}&calc=${now}`,
+            `/${type}/emoji/${id}/${idx}?emoji=${t}&calc=${now}`,
             "",
         )
         .then(({ data, status }) => {
             if(status === 200 || status === 201 || status === 204) {
-                console.log(data);
-                getAnswers();
+                // console.log(data);
+                if(type === 'answer') getAnswers();
+                else getComments();
                 splitEmojis();
             }
         })
-        .catch((e) => {
-            console.log(e, idx);
+        .catch((error) => {
+            console.log(e);
+            console.log(error, idx, e.id, type, t, now);
+            console.log(`/${type}/emoji/${e.id}/${idx}?emoji=${t}&calc=${now}`)
             Alert.alert("서버 오류", "잠시 후 다시 시도해주세요.");
         });
     };
@@ -102,16 +108,15 @@ const CommentForm = (props) => {
             <View style={styles.formSection}>
                 <View style={styles.profileSection}>
                     <Image
-                     source={e.image ? defaultCharacterList[parseInt(e.image)-1].image : defaultImage.image}
+                     source={setImage()}
                      style={styles.profileImage} />
                     <StyleText style={{...styles.profileName, color: colors.defaultDarkColor,}}>{e.user_name}</StyleText>
                 </View>
                 <View style={{ flexDirection: 'column' }}>
-                    <StyleText style={{ textAlign: 'left', color: colors.defaultDarkColor }}>{e.answer}</StyleText>
-
+                    <StyleText style={{ textAlign: 'left', color: colors.defaultDarkColor }}>{type === 'answer' ? e.answer : e.comment}</StyleText>
                 </View>
             </View>
-            <View style={{ position: 'absolute', right: 0, bottom: 10}}>
+            <View style={{ position: 'absolute', right: 0, bottom: 10 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'flex-end'}}>
                     <Pressable
                         onPress={()=>{

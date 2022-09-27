@@ -14,7 +14,10 @@ const QuestAnalyze = ({ modalVisible, setModalVisible }) => {
     const [isAnalyzeFinished, setIsAnalyzeFinished] = useState(false);
 
     useEffect(() => {
-        compareImages();
+        // compareImages();
+        setTimeout(() => {
+            setIsAnalyzeFinished(true)
+        }, 3000);
     }, []);
 
     const compareImages = async () => {
