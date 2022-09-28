@@ -1,5 +1,5 @@
 import React from 'react';
-import { MissionScreen, SurpriseMissionScreen, MissionAnalyzeScreen, MissionDetailScreen } from '../pages';
+import { MissionScreen, MissionDetailScreen } from '../pages';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MissionModalNavigator from './MissionModalNavigator';
 const Stack = createNativeStackNavigator();

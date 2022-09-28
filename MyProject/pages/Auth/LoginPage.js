@@ -1,6 +1,6 @@
 import { useTheme } from '@react-navigation/native';
 import React, { useContext, useState } from 'react';
-import { Pressable, Text, View, StyleSheet, TextInput, Image, Alert } from 'react-native';
+import { Pressable, View, StyleSheet, TextInput, Image, Alert } from 'react-native';
 import { getAPI } from '../../api';
 import HeaderNavigation from '../../components/HeaderNavigation';
 import ScreenContainer from '../../components/ScreenContainer';
@@ -176,12 +176,6 @@ const LoginPage = ({navigation, setIsSignedIn}) => {
 export default LoginPage;
 
 const styles = StyleSheet.create({
-    inviteBtn: {
-        width: '85%',
-        alignSelf: 'center',
-        marginVertical: 15,
-        borderRadius: 5
-    },
     inviteText: {
         fontSize: 16,
         fontWeight: '600',

@@ -18,7 +18,6 @@ import { getAPI, poseAPI, postAPI, putAPI } from '../../../api';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import * as RNFS from 'react-native-fs';
-import concat from 'concat-stream';
 
 const SurpriseQuiz = ({ modalVisible, setModalVisible, now }) => {
   const {colors} = useTheme();
@@ -130,7 +129,6 @@ const SurpriseQuiz = ({ modalVisible, setModalVisible, now }) => {
           type: res.type,
           uri: Platform.OS === 'android' ? res.uri : res.uri.replace('file://', ''),
         });
-        // setImagePath(`${RNFS.DocumentDirectoryPath}/${new Date().toISOString()}.jpg`.replace(/:/g, '-'));
 
         if(Platform.OS === 'ios') {
             RNFS.copyAssetsFileIOS(response.assets[0].uri, imagePath, 0, 0)
@@ -267,13 +265,13 @@ const SurpriseQuiz = ({ modalVisible, setModalVisible, now }) => {
     // // data.append('images', JSON.stringify(i));
     // const concat = require("concat-stream")
 
-    const promise = new Promise((resolve) => {
-      const fd = new FormData();
-      fd.append("images", fileUri);
-      fd.append("mission", m);
-      fd.pipe(concat({ encoding: 'buffer' }, data => resolve({ data, headers: fd.getHeaders() })));
-    });
-    promise.then(({ data, headers }) => axios.put(`https://wuga-server.herokuapp.com/mission/${now+2}`, data, { headers }));
+    // const promise = new Promise((resolve) => {
+    //   const fd = new FormData();
+    //   fd.append("images", fileUri);
+    //   fd.append("mission", m);
+    //   fd.pipe(concat({ encoding: 'buffer' }, data => resolve({ data, headers: fd.getHeaders() })));
+    // });
+    // promise.then(({ data, headers }) => axios.put(`https://wuga-server.herokuapp.com/mission/${now+2}`, data, { headers }));
 
     // const json = JSON.stringify(m);
     // const blob = new Blob([json], {
@@ -360,8 +358,9 @@ const SurpriseQuiz = ({ modalVisible, setModalVisible, now }) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={()=>sendImageToServer()
-                // navigation.navigate('Analyze', { image: imgUrl, originInfo: originInfo })
+              onPress={()=>
+                // sendImageToServer()
+                navigation.navigate('Analyze', { image: imgUrl, originInfo: originInfo })
               }
               style={{...styles.btnSection, backgroundColor: colors.brown[3]}}
               disabled={imgUrl ? false : true}

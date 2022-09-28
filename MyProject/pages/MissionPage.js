@@ -2,13 +2,10 @@ import { useTheme } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView,
-  StyleSheet,
   View,
-  Text,
   Image,
   FlatList,
   Pressable,
-  Modal,
 } from 'react-native';
 import { getAPI } from '../api';
 import ScreenContainer from '../components/ScreenContainer';

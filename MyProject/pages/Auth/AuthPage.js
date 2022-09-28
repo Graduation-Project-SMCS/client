@@ -3,7 +3,6 @@ import React from 'react';
 import { Image, Text, View, StyleSheet, Pressable } from 'react-native';
 import { getAPI } from '../../api';
 import ScreenContainer from '../../components/ScreenContainer';
-import StyleText from '../../components/StyleText';
 
 const AuthPage = ({navigation}) => {
     const {colors} = useTheme();

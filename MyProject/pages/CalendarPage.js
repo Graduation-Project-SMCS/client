@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import {
     Image,
     View,
-    Text,
     ScrollView,
     SafeAreaView,
     ImageBackground,

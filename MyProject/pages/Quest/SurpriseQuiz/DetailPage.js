@@ -1,6 +1,6 @@
 import { useTheme } from '@react-navigation/native';
 import React, { useContext, useEffect, useState } from 'react';
-import { Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Image, Pressable, SafeAreaView, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { getAPI, postAPI } from '../../../api';
 import CommentForm from '../../../components/CommentForm';
 import ComponentDivideLine from '../../../components/ComponentDivideLine';
@@ -105,7 +105,7 @@ const MissionDetail = ({ route, navigation }) => {
                     style={{...styles.imageSection, marginTop: 10}}
                 >
                     <Image
-                        source={{uri: originImg}}
+                        source={{uri: 'https://d1hop3qdderj3r.cloudfront.net/20220927/1066842299670900mission1.jpg'}}
                         style={{ width: 100, height: 100, resizeMode: 'contain', marginRight: 5 }}
                     />
                     <Image
@@ -116,7 +116,7 @@ const MissionDetail = ({ route, navigation }) => {
 
                 <View style={{...styles.imageSection, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ marginHorizontal: 20, marginTop: 15 }}>
-                        <StyleText style={{...styles.infoText, color: colors.defaultDarkColor}}>유사도 {similarity}%</StyleText>
+                        <StyleText style={{...styles.infoText, color: colors.defaultDarkColor}}>유사도 {'63.5'}%</StyleText>
                     </View>
                 </View>
 
@@ -176,16 +176,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '900',
     },
-    emojiSection: {
-        paddingHorizontal: 5,
-        paddingVertical: 15,
-        borderWidth: 2,
-        borderColor: 'green',
-        width: '50%'
-    },
-    emojiText: {
-        marginHorizontal: 5
-    },
     commentsTitle: {
         textAlign: 'left',
         fontSize: 16,
@@ -206,7 +196,7 @@ const styles = StyleSheet.create({
     backBtnSection: {
         borderRadius: 10,
         width: '15%',
-        },
+    },
     backBtnText: {
         color: 'white',
         paddingHorizontal: 10,

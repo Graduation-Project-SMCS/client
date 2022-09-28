@@ -1,14 +1,13 @@
 import { useTheme } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import React, { useContext, useEffect, useState } from 'react';
-import { Text, StyleSheet, View, ImageBackground, TextInput, Pressable, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, View, ImageBackground, TextInput, Pressable, SafeAreaView, ScrollView } from 'react-native';
 import { getAPI, postAPI } from '../../api';
 import CommentForm from '../../components/CommentForm';
 import HeaderNavigation from '../../components/HeaderNavigation';
 import ScreenContainer from '../../components/ScreenContainer';
 import StyleText from '../../components/StyleText';
 import { Context } from '../../context';
-import TodayQuestNavigator from '../../navigation/TodayQuestNavigator';
 
 const QuestComponent = ({ route, navigation }) => {
     const {colors} = useTheme();
@@ -180,7 +179,7 @@ const styles = StyleSheet.create({
     backBtnSection: {
         borderRadius: 10,
         width: '15%',
-        },
+    },
     backBtnText: {
         color: 'white',
         paddingHorizontal: 10,
