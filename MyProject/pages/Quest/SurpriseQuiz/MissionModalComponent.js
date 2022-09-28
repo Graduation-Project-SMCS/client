@@ -2,10 +2,10 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import MissionModalNavigator from '../../../navigation/MissionModalNavigator';
 
-const MissionModalComponent = ({ modalVisible, setModalVisible, navigation }) => {
+const MissionModalComponent = ({ modalVisible, setModalVisible, navigation, now }) => {
     return (
         <View style={{ ...styles.modalView }}>
-            <MissionModalNavigator navigation={navigation} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
+            <MissionModalNavigator navigation={navigation} modalVisible={modalVisible} setModalVisible={setModalVisible} now={now}/>
         </View>
     );
 };

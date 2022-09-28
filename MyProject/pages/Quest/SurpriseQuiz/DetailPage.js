@@ -1,46 +1,96 @@
 import { useTheme } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { Image, Pressable, SafeAreaView, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { getAPI, postAPI } from '../../../api';
 import CommentForm from '../../../components/CommentForm';
 import ComponentDivideLine from '../../../components/ComponentDivideLine';
 import HeaderNavigation from '../../../components/HeaderNavigation';
 import ScreenContainer from '../../../components/ScreenContainer';
 import StyleText from '../../../components/StyleText';
+import { Context } from '../../../context';
 
 const MissionDetail = ({ route, navigation }) => {
-    const { idx, originImg, curImg } = route.params;
-    const [commentInfo, setCommentInfo] = useState([]);
+    const { idx, originImg, curImg, id, similarity } = route.params;
+    const [commentInfo, setCommentInfo] = useState({});
     const {colors} = useTheme();
+    const [isAlreadyWritten, setIsAlreadyWritten] = useState(false);
+
+    const {
+        state: {
+            userInfo,
+        }
+    } = useContext(Context);
+    const [userComment, setUserComment] = useState('');
+
+    const setComment = async () => {
+        await postAPI(
+            {
+                emj_good: 0,
+                emj_heart: 0,
+                emj_smile: 0,
+                comment: userComment, 
+            },
+            `/comment/${id}/${userInfo.id}`,
+            "",
+        )
+        .then(({ data, status }) => {
+            if(status === 200 || status === 201 || status === 204) {
+                console.log(data, status);
+                getComments();
+                setUserComment('');
+                setIsAlreadyWritten(true);
+            }
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+    };
+
+    const getComments = async () => {
+        await getAPI(
+            {},
+            `/mission/comments/${id}/${userInfo.id}`,
+            "",
+        )
+        .then(({ data, status }) => {
+            console.log('hi~hi this is ', data);
+            if(data.length > 0) {
+                for(let i=0;i<data.length;i++) {
+                    if(data[i].user_name === userInfo.name) setIsAlreadyWritten(true);
+                }
+            }
+            if(status === 200 || status === 201 || status === 204) {
+                setCommentInfo(data);
+            }
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+    };
 
     useEffect(() => {
-        setCommentInfo([
-            {
-                id: 1,
-                answer: 'nice!',
-                image: require('../../../assets/images/icon/my-wuga.png'),
-                name: 'minsun',
-            }, {
-                id: 2,
-                answer: 'cool!',
-                image: require('../../../assets/images/icon/my-wuga.png'),
-                name: 'minsun',
-            }, {
-                id: 3,
-                answer: 'awesome!',
-                image: require('../../../assets/images/icon/my-wuga.png'),
-                name: 'minseok',
-            }, {
-                id: 4,
-                answer: 'great!',
-                image: require('../../../assets/images/icon/my-wuga.png'),
-                name: 'eunha',
-            }, {
-                id: 5,
-                answer: 'dope!',
-                image: require('../../../assets/images/icon/my-wuga.png'),
-                name: 'minseok',
-            },
-        ]);
+        const getComments = async () => {
+            await getAPI(
+                {},
+                `/mission/comments/${id}/${userInfo.id}`,
+                "",
+            )
+            .then(({ data, status }) => {
+                console.log('hi~ this is ', data);
+                if(data.length > 0) {
+                    for(let i=0;i<data.length;i++) {
+                        if(data[i].user_name === userInfo.name) setIsAlreadyWritten(true);
+                    }
+                }
+                if(status === 200 || status === 201 || status === 204) {
+                    setCommentInfo(data);
+                }
+            })
+            .catch((e) => {
+                console.log(e, id, userInfo.id);
+            });
+        };
+        getComments();
     }, []);
 
     return (
@@ -55,7 +105,7 @@ const MissionDetail = ({ route, navigation }) => {
                     style={{...styles.imageSection, marginTop: 10}}
                 >
                     <Image
-                        source={{uri: originImg}}
+                        source={{uri: 'https://d1hop3qdderj3r.cloudfront.net/20220927/1066842299670900mission1.jpg'}}
                         style={{ width: 100, height: 100, resizeMode: 'contain', marginRight: 5 }}
                     />
                     <Image
@@ -65,33 +115,44 @@ const MissionDetail = ({ route, navigation }) => {
                 </View>
 
                 <View style={{...styles.imageSection, justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={{ marginHorizontal: 20 }}>
-                        <StyleText style={{...styles.infoText, color: colors.defaultDarkColor}}>유사도 {}%</StyleText>
+                    <View style={{ marginHorizontal: 20, marginTop: 15 }}>
+                        <StyleText style={{...styles.infoText, color: colors.defaultDarkColor}}>유사도 {'63.5'}%</StyleText>
                     </View>
-                    {/* 이 부분 공감 부분인데 다시 할 필요있음 */}
-                    {/* <View style={{...styles.emojiSection}}>
-                        <ScrollView nativeID='emoji'
-                            style={{...styles.emojiSectionScroll}}
-                            horizontal={true}
-                            showsVerticalScrollIndicator={false}
-                            showsHorizontalScrollIndicator={false}
-                        >
-                            <StyleText style={{...styles.infoText, ...styles.emojiText}}>❤️</StyleText>
-                            <StyleText style={{...styles.infoText, ...styles.emojiText}}>👍</StyleText>
-                        </ScrollView>
-                    </View> */}
                 </View>
 
                 <ComponentDivideLine />
 
                 <StyleText style={{...styles.infoText, ...styles.commentsTitle, color: colors.defaultDarkColor}}>Comments</StyleText>
+                <View
+                    style={{ width: '100%', marginTop: 15, alignItems: 'center',
+                    justifyContent: 'center', alignSelf: 'center', flexDirection: 'row',
+                    display: isAlreadyWritten ? 'none' : 'flex'
+                    }}
+                >
+                    <TextInput
+                        style={{...styles.inviteText, color: colors.defaultDarkColor, fontFamily: 'SongMyung-Regular'}}
+                        value={userComment}
+                        autoFocus={false}
+                        onChangeText={(text)=>setUserComment(text)}
+                        autoCorrect={false}
+                    />
+                    <Pressable
+                        onPress={()=>setComment()}
+                        style={{...styles.backBtnSection}}
+                    >
+                        <View style={{borderRadius: 10, backgroundColor: colors.brown[1]}}>
+                            <StyleText style={{...styles.backBtnText, color: colors.defaultColor}}>등록</StyleText>
+                        </View>
+                    </Pressable>
+                </View>
+                
                 <SafeAreaView flex={1} style={{...styles.commentsList}}>
                     <ScrollView nativeID='commentScroll' showsVerticalScrollIndicator={false} >
                     {
                         commentInfo.length > 0 ?
                         commentInfo.map((e, idx) => {
                             return (
-                                <CommentForm e={e} idx={idx} />
+                                <CommentForm e={e} idx={userInfo.id} key={idx} id={id} type={'comment'} getComments={getComments}/>
                             )
                         }) :
                         <></>
@@ -115,16 +176,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '900',
     },
-    emojiSection: {
-        paddingHorizontal: 5,
-        paddingVertical: 15,
-        borderWidth: 2,
-        borderColor: 'green',
-        width: '50%'
-    },
-    emojiText: {
-        marginHorizontal: 5
-    },
     commentsTitle: {
         textAlign: 'left',
         fontSize: 16,
@@ -134,5 +185,22 @@ const styles = StyleSheet.create({
     commentsList: {
         marginHorizontal: 15,
         marginTop: 15,
-    }
+    },
+    inviteText: {
+        textAlign: 'left',
+        paddingLeft: 25,
+        borderWidth: 1,
+        width: '80%',
+        marginHorizontal: 15
+    },
+    backBtnSection: {
+        borderRadius: 10,
+        width: '15%',
+    },
+    backBtnText: {
+        color: 'white',
+        paddingHorizontal: 10,
+        paddingVertical: 7.5,
+        textAlign: 'center'
+    },
 });

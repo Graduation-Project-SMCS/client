@@ -1,12 +1,11 @@
 import { useTheme } from '@react-navigation/native';
 import React, { useContext, useState } from 'react';
-import { Pressable, Text, View, StyleSheet, TextInput, Image, Alert } from 'react-native';
+import { Pressable, View, StyleSheet, TextInput } from 'react-native';
 import { postAPI } from '../../api';
 import HeaderNavigation from '../../components/HeaderNavigation';
 import ScreenContainer from '../../components/ScreenContainer';
 import StyleText from '../../components/StyleText';
 import DropDownPicker from 'react-native-dropdown-picker';
-import UserInfoContext from '../../components/UserInfoContext';
 import { Context } from '../../context';
 import { USER_INFO } from '../../context/actionTypes';
 
@@ -83,7 +82,7 @@ const UserRegisterPage = ({navigation}) => {
                         style={{ marginTop: 30 }}
                     >
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginVertical: 10}}>
-                            <View style={{ width: '10%'}}>
+                            <View style={{ width: '17%'}}>
                                 <StyleText style={{ textAlign: 'center' }}>아이디</StyleText>
                             </View>
                             <View style={{ backgroundColor: colors.brown[4], width: '80%', marginLeft: 15}}>
@@ -98,7 +97,7 @@ const UserRegisterPage = ({navigation}) => {
                         </View>
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginVertical: 10}}>
-                            <View style={{ width: '10%'}}>
+                            <View style={{ width: '17%'}}>
                                 <StyleText style={{ textAlign: 'center' }}>비밀번호</StyleText>
                             </View>
                             <View style={{ backgroundColor: colors.brown[4], width: '80%', marginLeft: 15}}>
@@ -115,7 +114,7 @@ const UserRegisterPage = ({navigation}) => {
                         </View>
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginVertical: 10}}>
-                            <View style={{ width: '10%'}}>
+                            <View style={{ width: '17%'}}>
                                 <StyleText style={{ textAlign: 'center' }}>이름</StyleText>
                             </View>
                             <View style={{ backgroundColor: colors.brown[4], width: '80%', marginLeft: 15}}>
@@ -130,7 +129,7 @@ const UserRegisterPage = ({navigation}) => {
                         </View>
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginVertical: 10, zIndex: 2000}}>
-                            <View style={{ width: '10%'}}>
+                            <View style={{ width: '17%'}}>
                                 <StyleText style={{ textAlign: 'center' }}>역할</StyleText>
                             </View>
                             <View style={{ width: '80%', marginLeft: 15}}>
@@ -187,12 +186,6 @@ const UserRegisterPage = ({navigation}) => {
 export default UserRegisterPage;
 
 const styles = StyleSheet.create({
-    inviteBtn: {
-        width: '85%',
-        alignSelf: 'center',
-        marginVertical: 15,
-        borderRadius: 5
-    },
     inviteText: {
         fontSize: 16,
         fontWeight: '600',

@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import {
     Image,
     View,
-    Text,
     ScrollView,
     SafeAreaView,
     ImageBackground,
@@ -143,7 +142,7 @@ const CalendarPage = () => {
               style={{width: '100%', height: 100, justifyContent: 'center', alignItems: 'center'}}
             > 
               <View nativeID='quest-num' style={{position: 'absolute'}}>
-                <StyleText nativeID='quest' style={{ fontSize: 18, color: colors.defaultDarkColor, textAlign: 'center' }}>{todayQuest.question}</StyleText>
+                <StyleText nativeID='quest' style={{ fontSize: 12, color: colors.defaultDarkColor, textAlign: 'center', paddingHorizontal: 5 }}>{todayQuest.question ? todayQuest.question : '질문 없는 날'}</StyleText>
               </View>
             </ImageBackground>
           </View>

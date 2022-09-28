@@ -1,13 +1,13 @@
 import { useTheme } from '@react-navigation/native';
+import dayjs from 'dayjs';
 import React, { useContext, useEffect, useState } from 'react';
-import { Text, StyleSheet, View, ImageBackground, TextInput, Pressable, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, View, ImageBackground, TextInput, Pressable, SafeAreaView, ScrollView } from 'react-native';
 import { getAPI, postAPI } from '../../api';
 import CommentForm from '../../components/CommentForm';
 import HeaderNavigation from '../../components/HeaderNavigation';
 import ScreenContainer from '../../components/ScreenContainer';
 import StyleText from '../../components/StyleText';
 import { Context } from '../../context';
-import TodayQuestNavigator from '../../navigation/TodayQuestNavigator';
 
 const QuestComponent = ({ route, navigation }) => {
     const {colors} = useTheme();
@@ -48,8 +48,10 @@ const QuestComponent = ({ route, navigation }) => {
     const setAnswer = async () => {
         await postAPI(
             {
-               emoji: '0,0,0',
-               answer: userAnswer, 
+                emj_good: 0,
+                emj_heart: 0,
+                emj_smile: 0,
+                answer: userAnswer, 
             },
             `/answer/${info.id}/${userInfo.id}`,
             "",
@@ -97,14 +99,14 @@ const QuestComponent = ({ route, navigation }) => {
         <>
             <HeaderNavigation navigation={navigation} />
             <ScreenContainer style={{ marginTop: -10 }}>
-                <StyleText style={{ color: colors.defaultDarkColor, fontSize: 22, textAlign: 'center', fontWeight: '700' }}>#{1}</StyleText>
+                <StyleText style={{ color: colors.defaultDarkColor, fontSize: 16, textAlign: 'center' }}>~ {dayjs(Date.now()).format("YYYY.MM.DD")} ~</StyleText>
                 <View>
                     <ImageBackground
                         source={require('../../assets/images/wuga/questbg-wuga.png')}
                         resizeMode={"contain"}
                         style={{...styles.questionBox}}
                     >
-                        <StyleText style={{ fontSize: 20, textAlign: 'center', paddingVertical: 45, color: colors.defaultDarkColor }}>
+                        <StyleText style={{ fontSize: 16, textAlign: 'center', paddingVertical: 45, paddingHorizontal: 15, color: colors.defaultDarkColor }}>
                             {info.question}
                         </StyleText>
                     </ImageBackground>
@@ -140,21 +142,13 @@ const QuestComponent = ({ route, navigation }) => {
                         {
                             answers.length > 0 ?
                             answers.map((e, idx) => {
-                            const info = {
-                                answer: e.answer ? e.answer : '',
-                                image: e.user_profile,
-                                name: e.user_name ? e.user_name : 'none',
-                                idx: questInfo.id,
-                                emoji: e.emoji
-                            };
-            
-                            return (
-                                <Pressable
-                                    key={idx}
-                                >
-                                    <CommentForm e={info} idx={idx} getAnswers={getAnswers}/>
-                                </Pressable>
-                            );
+                                return (
+                                    <Pressable
+                                        key={idx}
+                                    >
+                                        <CommentForm e={e} idx={userInfo.id} id={questInfo.id} getAnswers={getAnswers} type={'answer'} />
+                                    </Pressable>
+                                );
                             }) :
                             <></>
                         }
@@ -185,7 +179,7 @@ const styles = StyleSheet.create({
     backBtnSection: {
         borderRadius: 10,
         width: '15%',
-        },
+    },
     backBtnText: {
         color: 'white',
         paddingHorizontal: 10,

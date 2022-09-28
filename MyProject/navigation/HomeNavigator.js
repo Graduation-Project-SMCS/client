@@ -4,7 +4,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import { HomeScreen, CalendarScreen, MissionScreen, MyPageScreen } from '../pages';
+import { HomeScreen, CalendarScreen, MyPageScreen } from '../pages';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MissionNavigator from './MissionNavigator';
 import { useTheme } from '@react-navigation/native';

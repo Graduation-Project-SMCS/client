@@ -45,7 +45,6 @@ const EditModalComponent = ({ modalVisible, setModalVisible, userInfo, getUserPr
     ]);
 
     useEffect(() => {
-        //api 들어오면 조건부 렌더링으로 프사 설정
         setEmail(userInfo.email);
         setMember(userInfo.member);
         setName(userInfo.name);
@@ -205,7 +204,6 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end',
         fontSize: 20,
     },
-    //profile
     selectedImage: {
         width: 100,
         height: 100,
@@ -218,19 +216,6 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         textAlign: 'left',
         padding: 10,
-    },
-    confirmText: {
-        fontSize: 16,
-        textAlign: 'center',
-        padding: 15,
-    },
-    codeConfirm: {
-        marginVertical: 30,
-        justifyContent: 'flex-end',
-        width: '100%',
-        flexDirection: 'row',
-        alignSelf: 'center',
-        // zIndex: 1000
     },
     backBtnSection: {
         borderRadius: 10,

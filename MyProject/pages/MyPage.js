@@ -83,7 +83,7 @@ const MyPage = ({ setIsSignedIn }) => {
       })
       .catch((e) => {
           console.log(e);
-          console.log(info);
+          // console.log(info);
       });
   };
 
@@ -134,11 +134,6 @@ const MyPage = ({ setIsSignedIn }) => {
     else return '';
   };
 
-  const copyCode = async () => {
-    Clipboard.setString(userCode);
-    Alert.alert("", "코드가 복사되었습니다.");
-  };
-
   return (
     <SafeAreaView style={{
         flex: 1,
@@ -164,15 +159,6 @@ const MyPage = ({ setIsSignedIn }) => {
       <View nativeID='user-family'>
         <StyleText style={{ fontSize: 14, color: colors.defaultDarkColor, marginBottom: 15 }}>나와 가족 정보</StyleText>
         <View>
-          <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center'}}>
-            <StyleText style={{...styles.familyText, color: colors.defaultDarkColor}}>우리 가족 코드는 : {userCode}</StyleText>
-            <Pressable
-              style={{ backgroundColor: colors.defaultDarkColor, marginLeft: 15}}
-              onPress={()=>copyCode()}
-            >
-              <StyleText style={{ color: colors.defaultColor, padding: 5}}>복사하기</StyleText>
-            </Pressable>
-          </View>
           <StyleText style={{...styles.familyText, color: colors.defaultDarkColor}}>나는 가족에서 : {setMemberNaming(userMember)}</StyleText>
         </View>
       </View>
@@ -211,49 +197,6 @@ const MyPage = ({ setIsSignedIn }) => {
 export default MyPage;
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-
-  body: {
-    backgroundColor: Colors.white,
-    justifyContent: 'center',
-    height: Dimensions.get('screen').height - 250,
-    width: Dimensions.get('screen').width
-  },
-  ImageSections: {
-    display: 'flex',
-    flexDirection: 'row',
-    paddingHorizontal: 8,
-    paddingVertical: 50,
-    justifyContent: 'center'
-  },
-  images: {
-    width: 150,
-    height: 150,
-    borderColor: 'black',
-    borderWidth: 1,
-    marginHorizontal: 1.5
-  },
-  btnParentSection: {
-    alignItems: 'center',
-    marginTop: 10
-  },
-  btnSection: {
-    width: 225,
-    height: 50,
-    backgroundColor: '#DCDCDC',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 3,
-    marginBottom:10
-  },
-  btnText: {
-    textAlign: 'center',
-    color: 'gray',
-    fontSize: 14,
-    fontWeight:'bold'
-  },
   familyText: {
     fontSize: 16,
     textAlign: 'left',

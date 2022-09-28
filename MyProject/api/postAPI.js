@@ -8,7 +8,6 @@ const postAPI = async (data, end_url, token) => {
     // if (token) {
     //     config.headers["Authorization"] = `Bearer ${token}`;
     // }
-    console.log(data)
     return await axios.post("https://wuga-server.herokuapp.com" + end_url, data, config);
 };
 

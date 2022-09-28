@@ -159,7 +159,7 @@ const MainPage = ({ navigation }) => {
               resizeMode={"contain"}
               style={{width: '100%', height: 100, alignItems: 'center', justifyContent: 'center'}}
             >
-              <StyleText style={{ fontSize: 16, padding: 15, color: colors.brown[1], textAlign: 'center'}}>{todayQuest.question}</StyleText>
+              <StyleText style={{ padding: 15, color: colors.brown[1], textAlign: 'center', marginHorizontal: 5}}>{todayQuest.question}</StyleText>
             </ImageBackground>
           </Pressable>
       </ScreenContainer>

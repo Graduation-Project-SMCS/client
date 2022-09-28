@@ -2,13 +2,10 @@ import { useTheme } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView,
-  StyleSheet,
   View,
-  Text,
   Image,
   FlatList,
   Pressable,
-  Modal,
 } from 'react-native';
 import { getAPI } from '../api';
 import ScreenContainer from '../components/ScreenContainer';
@@ -30,7 +27,7 @@ const Mission = ({navigation}) => {
             "",
         )
         .then(({ data, status}) => {
-          // console.log(data, status);
+          console.log(data, status);
           if(data.length > 0) {
             setMissions(data);
           }
@@ -45,12 +42,17 @@ const Mission = ({navigation}) => {
   const missionGrid = ({ item, index }) => {
     return (
       <Pressable
-        onPress={()=>navigation.navigate('Detail', { idx: missions.length-index, originImg: item.mission, curImg: item.image })}
+        onPress={()=>navigation.navigate('Detail', { idx: missions.length-index, originImg: item.mission,
+                                                  // curImg: item.image,
+                                                  curImg: 'file:///storage/emulated/0/Android/data/com.myproject/files/Pictures/80120eac-b3f3-4a22-9305-6fd982ef4342.jpg',
+                                                  id: item.id, similarity: item.similarity })}
         style={{ width: '30%', margin: 5, alignSelf: 'center', borderWidth: 0.5, borderColor: colors.brown[4], }}
       >
         <Image
           style={{ width: '100%', height: 150, resizeMode: 'contain' }}
-          source={{uri: item.image}} />
+          // source={{uri: item.image}}
+          source={{uri: 'file:///storage/emulated/0/Android/data/com.myproject/files/Pictures/80120eac-b3f3-4a22-9305-6fd982ef4342.jpg'}}
+          />
           
         <View style={{ paddingHorizontal: 15, position: 'absolute' }}>
           <StyleText style={{ textAlign: 'left', marginTop: 10, color: colors.defaultDarkColor, fontWeight: '800', fontSize: 14 }}>#{missions.length-index}</StyleText>
@@ -94,6 +96,7 @@ const Mission = ({navigation}) => {
           modalVisible={surpriseQuizModalVisible}
           setModalVisible={setSurpriseQuizModalVisible}
           navigation={navigation}
+          now={missions.length+1} //현재 진도
         />
       }
     </ScreenContainer>

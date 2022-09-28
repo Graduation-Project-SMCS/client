@@ -1,6 +1,6 @@
 import { useTheme } from '@react-navigation/native';
-import React, { useContext, useEffect, useState } from 'react';
-import { Pressable, Text, View, StyleSheet, TextInput, Image, Alert } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { Pressable, View, StyleSheet, TextInput, Image, Alert } from 'react-native';
 import { getAPI, postAPI } from '../../api';
 import HeaderNavigation from '../../components/HeaderNavigation';
 import ScreenContainer from '../../components/ScreenContainer';
@@ -11,27 +11,11 @@ import Clipboard from '@react-native-clipboard/clipboard';
 const FamilyCodePage = ({navigation, setIsSignedIn}) => {
     const {colors} = useTheme();
     const [code, setCode] = useState('');
-    const [hasCode, setHasCode] = useState(false);
-    const [info, setInfo] = useState({
-        email: '',
-        id: 0,
-        name: '',
-        member: '',
-    })
     const {
         state: {
             userInfo,
         }
     } = useContext(Context);
-
-    useEffect(() => {
-        setInfo({
-            email: userInfo.email,
-            id: userInfo.id,
-            name: userInfo.name,
-            member: userInfo.member,
-        });
-    }, []);
 
     const makeCode = async () => {
         await getAPI(

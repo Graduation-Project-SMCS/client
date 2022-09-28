@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {Pressable, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import {Pressable, SafeAreaView, ScrollView, StyleSheet} from 'react-native';
 import CommentForm from '../../components/CommentForm';
 
 const Quest = ({ navigation, answers }) => {
